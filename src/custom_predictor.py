@@ -11,9 +11,16 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 class CustomPredictor:
     """
     Custom prediction formula combining:
-    - Tree 1: Rule Matching (weight=0.5)
+    - Tree 1: Rule Matching (weight=0.45)
     - Tree 2: Graph Features (weight=0.3)
-    - Tree 3: Session Features (weight=0.2)
+    - Tree 3: Enhanced Session Features (weight=0.25)
+    
+    Enhanced session features include:
+    - Session duration and click position
+    - Previous products context
+    - Time features (hour of day)
+    - Location features (user latitude)
+    - Behavioral features (category view count)
     """
     
     def __init__(self, rules: List[Dict[str, Any]], 
@@ -40,11 +47,11 @@ class CustomPredictor:
         # Create rule lookup by consequents
         self.rule_lookup = self._create_rule_lookup()
         
-        # Weights for ensemble
+        # Weights for ensemble (adjusted for enhanced session features)
         self.weights = {
-            'rule_matching': 0.5,
+            'rule_matching': 0.45,
             'graph_features': 0.3,
-            'session_features': 0.2
+            'session_features': 0.25
         }
         
         self.threshold = 0.5
@@ -179,8 +186,28 @@ class CustomPredictor:
         prev_count = len(record.get('previous_products', []))
         f_prev = min(prev_count / 10.0, 1.0)
         
-        # Weighted combination
-        score = 0.5 * f_duration + 0.3 * f_position + 0.2 * f_prev
+        # NEW: Hour of day (normalize to [0,1] where 12 is peak)
+        hour = record.get('hour_of_day', 12)
+        f_hour = 1 - abs(hour - 12) / 12.0  # Peak at noon, lowest at midnight
+        
+        # NEW: User latitude (normalize assuming Thailand lat range ~6-20)
+        user_lat = record.get('user_lat', 13.0)  # Bangkok latitude as default
+        f_lat = (user_lat - 6.0) / (20.0 - 6.0)  # Normalize to [0,1]
+        f_lat = max(0.0, min(1.0, f_lat))  # Clamp to [0,1]
+        
+        # NEW: Category view count (more views = higher interest potential)
+        category_views = record.get('category_view_count', 0)
+        f_category_views = min(category_views / 10.0, 1.0)  # Normalize, cap at 10
+        
+        # Weighted combination (adjusted weights for new features)
+        score = (
+            0.3 * f_duration +      # Session duration
+            0.2 * f_position +       # Click position
+            0.15 * f_prev +          # Previous products count
+            0.15 * f_hour +          # Hour of day
+            0.1 * f_lat +            # User latitude
+            0.1 * f_category_views   # Category view count
+        )
         
         return min(score, 1.0)
     
