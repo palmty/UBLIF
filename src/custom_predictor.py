@@ -11,16 +11,16 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 class CustomPredictor:
     """
     Custom prediction formula combining:
-    - Tree 1: Rule Matching (weight=0.45)
-    - Tree 2: Graph Features (weight=0.3)
-    - Tree 3: Enhanced Session Features (weight=0.25)
+    - Tree 1: Rule Matching (weight=0.30)
+    - Tree 2: Graph Features (weight=0.30)
+    - Tree 3: Enhanced Session Features with Negative Scoring (weight=0.40)
     
-    Enhanced session features include:
-    - Session duration and click position
-    - Previous products context
-    - Time features (hour of day)
-    - Location features (user latitude)
-    - Behavioral features (category view count)
+    Enhanced session features with penalty system:
+    - Session duration and click position (positive factors)
+    - Time features with penalty (off-peak hours = negative)
+    - Location features with penalty (outside target zone = negative)
+    - Behavioral features (category views = positive)
+    - Score range: [-1, 1] allowing penalties for suboptimal conditions
     """
     
     def __init__(self, rules: List[Dict[str, Any]], 
@@ -47,14 +47,14 @@ class CustomPredictor:
         # Create rule lookup by consequents
         self.rule_lookup = self._create_rule_lookup()
         
-        # Weights for ensemble (adjusted for enhanced session features)
+        # Weights for ensemble (re-balanced to reduce rule dominance)
         self.weights = {
-            'rule_matching': 0.45,
-            'graph_features': 0.3,
-            'session_features': 0.25
+            'rule_matching': 0.30,      # ลดลง (เพื่อให้ Rule ไม่ชี้นำทั้งหมด)
+            'graph_features': 0.30,
+            'session_features': 0.40    # เพิ่มขึ้น (เพราะเราใส่ Logic ละเอียดแล้ว)
         }
         
-        self.threshold = 0.5
+        self.threshold = 0.60  # Decision threshold
     
     def _create_rule_lookup(self) -> Dict[str, List[Dict[str, Any]]]:
         """Create lookup dictionary for rules by consequent"""
@@ -162,16 +162,17 @@ class CustomPredictor:
     
     def calculate_session_features_score(self, record: Dict[str, Any]) -> float:
         """
-        Calculate Tree 3: Session Features score
+        Calculate Tree 3: Session Features score with Negative Scoring
         
         Args:
             record: Record to score
             
         Returns:
-            Session features score [0, 1]
+            Session features score [-1, 1] with penalty system
         """
         session_stats = self.stats.get('session_stats', {})
         
+        # 4. Session Duration & Depth: (0 ถึง 1)
         # Normalize session duration
         max_duration = max(session_stats.get('max_duration', 1), 1)
         duration = record.get('session_duration_minutes', 0)
@@ -186,30 +187,36 @@ class CustomPredictor:
         prev_count = len(record.get('previous_products', []))
         f_prev = min(prev_count / 10.0, 1.0)
         
-        # NEW: Hour of day (normalize to [0,1] where 12 is peak)
+        # 1. Hour: ให้คะแนนเป็นช่วง (-0.5 ถึง 0.5)
+        # เที่ยงวัน = +0.5, เที่ยงคืน = -0.5
         hour = record.get('hour_of_day', 12)
-        f_hour = 1 - abs(hour - 12) / 12.0  # Peak at noon, lowest at midnight
+        dist_from_noon = abs(hour - 12)
+        f_hour = (1 - (dist_from_noon / 12.0)) - 0.5 
         
-        # NEW: User latitude (normalize assuming Thailand lat range ~6-20)
-        user_lat = record.get('user_lat', 13.0)  # Bangkok latitude as default
-        f_lat = (user_lat - 6.0) / (20.0 - 6.0)  # Normalize to [0,1]
-        f_lat = max(0.0, min(1.0, f_lat))  # Clamp to [0,1]
+        # 2. Location: ให้คะแนนเป็นช่วง (-0.5 ถึง 0.5)
+        user_lat = record.get('user_lat', 13.0)
+        # สมมติ Target Zone คือภาคกลาง/อีสาน (Lat 13-16)
+        if 13.0 <= user_lat <= 16.0:
+            f_lat = 0.5  # อยู่ในพื้นที่เป้าหมาย = บวก
+        else:
+            f_lat = -0.5 # อยู่นอกพื้นที่ = ลบ
         
-        # NEW: Category view count (more views = higher interest potential)
+        # 3. Category Views: ยิ่งดูเยอะยิ่งบวก (0 ถึง 1)
         category_views = record.get('category_view_count', 0)
-        f_category_views = min(category_views / 10.0, 1.0)  # Normalize, cap at 10
+        f_category_views = min(category_views / 5.0, 1.0) # แค่ 5 ครั้งก็ max แล้ว
         
-        # Weighted combination (adjusted weights for new features)
+        # --- รวมคะแนนแบบใหม่ ---
         score = (
-            0.3 * f_duration +      # Session duration
-            0.2 * f_position +       # Click position
-            0.15 * f_prev +          # Previous products count
-            0.15 * f_hour +          # Hour of day
-            0.1 * f_lat +            # User latitude
-            0.1 * f_category_views   # Category view count
+            0.25 * f_duration +      # ถ้าดูนาน ช่วยดึงคะแนนขึ้น
+            0.15 * f_position +
+            0.10 * f_prev +
+            0.20 * f_hour +          # มีสิทธิ์ติดลบ
+            0.15 * f_lat +           # มีสิทธิ์ติดลบ
+            0.15 * f_category_views
         )
         
-        return min(score, 1.0)
+        # Clip ผลลัพธ์ให้อยู่ในช่วง -1 ถึง 1
+        return max(-1.0, min(1.0, score))
     
     def predict_single(self, record: Dict[str, Any]) -> Tuple[int, float]:
         """
