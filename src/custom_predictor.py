@@ -54,7 +54,7 @@ class CustomPredictor:
             'session_features': 0.40    # เพิ่มขึ้น (เพราะเราใส่ Logic ละเอียดแล้ว)
         }
         
-        self.threshold = 0.60  # Decision threshold
+        self.threshold = 0.40  # Decision threshold
     
     def _create_rule_lookup(self) -> Dict[str, List[Dict[str, Any]]]:
         """Create lookup dictionary for rules by consequent"""
@@ -249,15 +249,15 @@ class CustomPredictor:
             self.weights['session_features'] * f3
         )
         
-        # --- C. SHIFT BIAS (สำคัญมาก!) ---
-        # ลบออก 0.3 เพื่อให้ค่าเฉลี่ยขยับไปทางซ้าย (ลดความเฟ้อ)
-        adjusted_score = combined_score - 0.3
+        # ลบ Bias ออก หรือลดลงเหลือแค่นิดเดียว
+        # adjusted_score = combined_score - 0.3  <-- ลบบรรทัดนี้ทิ้ง หรือเปลี่ยนเป็น -0.1
         
-        # Sigmoid activation
-        prob = 1 / (1 + np.exp(-adjusted_score * 5))  # Scale by 5 for steeper sigmoid
+        # Sigmoid
+        prob = 1 / (1 + np.exp(-combined_score * 5)) # ใช้ combined_score เพียวๆ เลย
         
-        # Threshold
-        prediction = 1 if prob > self.threshold else 0
+        # ปรับ Threshold ให้รับกับกราฟ
+        # แนะนำให้ลองที่ 0.40 ดูครับ (จากเดิมที่กราฟกองอยู่แถวๆ นั้น)
+        prediction = 1 if prob > 0.40 else 0 
         
         return prediction, prob
     
