@@ -172,6 +172,14 @@ class CustomPredictor:
         """
         session_stats = self.stats.get('session_stats', {})
         
+        # --- A. BOUNCE PENALTY (ลงโทษคนดูน้อย) ---
+        # ถ้าดูน้อยกว่า 3 ชิ้น หรือ อยู่น้อยกว่า 1 นาที -> ให้ติดลบหนักๆ
+        session_depth = record.get('session_depth', 1)
+        duration = record.get('session_duration_minutes', 0)
+        
+        if session_depth <= 2 or duration < 1.0:
+            return -0.8  # ตัดคะแนนทันที! (เกือบเต็ม -1)
+        
         # 4. Session Duration & Depth: (0 ถึง 1)
         # Normalize session duration
         max_duration = max(session_stats.get('max_duration', 1), 1)
@@ -201,9 +209,10 @@ class CustomPredictor:
         else:
             f_lat = -0.5 # อยู่นอกพื้นที่ = ลบ
         
-        # 3. Category Views: ยิ่งดูเยอะยิ่งบวก (0 ถึง 1)
+        # --- B. SCALING (ปรับให้ค่าบวกยากขึ้น) ---
+        # 3. Category Views: ต้องดูซ้ำ 3 ครั้งขึ้นไปถึงจะได้คะแนนเต็ม
         category_views = record.get('category_view_count', 0)
-        f_category_views = min(category_views / 5.0, 1.0) # แค่ 5 ครั้งก็ max แล้ว
+        f_category_views = min(max(0, category_views - 1) / 4.0, 1.0) 
         
         # --- รวมคะแนนแบบใหม่ ---
         score = (
@@ -240,8 +249,12 @@ class CustomPredictor:
             self.weights['session_features'] * f3
         )
         
+        # --- C. SHIFT BIAS (สำคัญมาก!) ---
+        # ลบออก 0.3 เพื่อให้ค่าเฉลี่ยขยับไปทางซ้าย (ลดความเฟ้อ)
+        adjusted_score = combined_score - 0.3
+        
         # Sigmoid activation
-        prob = 1 / (1 + np.exp(-combined_score * 5))  # Scale by 5 for steeper sigmoid
+        prob = 1 / (1 + np.exp(-adjusted_score * 5))  # Scale by 5 for steeper sigmoid
         
         # Threshold
         prediction = 1 if prob > self.threshold else 0
