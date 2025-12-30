@@ -1,0 +1,255 @@
+# ==================== UBIF VALIDATION ====================
+ubif_filters:
+  enabled: true
+  strict_mode: true # true = reject invalid, false = flag only
+  processing:
+    stream_clean_first: true
+
+  # 1. Standard Compliance (ตามภาพ)
+  standards:
+    - name: "ISO_8601"
+      description: "Datetime format standard"
+      field: "customValue.datetime"
+      pattern: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,9})?(Z|[+-]\d{2}:\d{2})?$'
+      required: false
+
+    - name: "W3C584"
+      description: "Location coordinate standard"
+      fields:
+        - "customValue.location.lat"
+        - "customValue.location.lon"
+      validation: "coordinate_range"
+      required: false
+
+    - name: "RFC_791_2460"
+      description: "IP address format (IPv4/IPv6)"
+      field: "customValue.serviceIP"
+      pattern: '^(\d{1,3}\.){3}\d{1,3}$|^([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$'
+      required: false
+
+    - name: "IEEE_802_1AR"
+      description: "Device identifier standard"
+      field: "customValue.device"
+      validation: "not_empty"
+      required: false
+
+    - name: "ISO_IEC_20324_2012"
+      description: "Federated Identifier"
+      field: "customValue.account"
+      validation: "not_empty"
+      required: false
+
+  # 2. Legal Compliance (กฎหมายไทย)
+  legal_compliance:
+    - name: "PDPA_2562"
+      description: "พ.ร.บ. คุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562"
+      rules:
+        - type: "consent_required"
+          message: "ต้องมีความยินยอมในการเก็บข้อมูล"
+          action: "flag" # flag, reject, anonymize
+
+        - type: "anonymize_pii"
+          description: "ปกปิดข้อมูลส่วนบุคคล"
+          fields:
+            - "customValue.account" # Hash account name
+            - "customValue.serviceIP" # Mask last octet
+          method: "hash_sha256"
+
+    - name: "COMPUTER_CRIME_ACT_2550"
+      description: "พ.ร.บ. คอมพิวเตอร์ พ.ศ. 2550"
+      rules:
+        - type: "detect_malicious_activity"
+          patterns:
+            - "sql_injection"
+            - "xss_attack"
+            - "excessive_requests"
+          action: "reject"
+
+    - name: "ELECTRONIC_TRANSACTION_ACT"
+      description: "พ.ร.บ. ธุรกรรมทางอิเล็กทรอนิกส์"
+      rules:
+        - type: "data_integrity"
+          validation: "checksum_validation"
+          action: "flag"
+
+    - name: "CONSUMER_PROTECTION_ACT"
+      description: "พ.ร.บ. การคุ้มครองผู้บริโภค"
+      rules:
+        - type: "fair_data_usage"
+          description: "ไม่นำข้อมูลไปใช้ในทางที่ผิด"
+          action: "audit_log"
+
+  # 3. Base Entities Validation (ตามภาพ UBIF)
+  base_entities:
+    UsageLogs:
+      required_fields:
+        - "category"
+        - "name"
+      validation:
+        category:
+          type: "flexible" # Changed from enum to flexible
+          allowed_values:
+            [
+              "Home",
+              "Activity",
+              "product",
+              "travel",
+              "restaurant",
+              "room",
+              "knowledge",
+              "business",
+              "Technology",
+              "Innovation",
+            ]
+
+        name:
+          type: "string"
+          pattern: "^[a-zA-Z0-9/_]+$"
+          # max_length removed: not enforced unless explicitly configured
+
+        customValue:
+          type: "object"
+          required: true
+
+  # 4. Supporting Entities Validation
+  supporting_entities:
+    Person:
+      field: "customValue.account"
+      validation:
+        type: "string"
+        not_empty: true
+        anonymize: true # Apply PDPA
+
+    Service:
+      fields:
+        - "customValue.serviceId"
+        - "customValue.serviceType"
+        - "customValue.serviceName"
+      validation:
+        serviceId:
+          type: "integer"
+          min: 1
+        serviceType:
+          type: "enum"
+          allowed_values:
+            [
+              "restaurant",
+              "hotel",
+              "homestay",
+              "tourist",
+              "activity",
+              "product",
+              "knowledge",
+              "business",
+            ]
+        serviceName:
+          type: "string"
+          not_empty: true
+
+    Device:
+      fields:
+        - "customValue.device"
+        - "customValue.operation"
+      validation:
+        device:
+          type: "string"
+          pattern: "^(IPhone|Android|Web|iPad|Desktop)$"
+        operation:
+          type: "string"
+          pattern: '^(IOS|Android|Windows|MacOS|Linux)\s?\d*$'
+
+    Location:
+      fields:
+        - "customValue.location.lat"
+        - "customValue.location.lon"
+      validation:
+        lat:
+          type: "float"
+          range: [-90, 90]
+        lon:
+          type: "float"
+          range: [-180, 180]
+      required: false
+
+    Keyword:
+      field: "customValue.keyword"
+      validation:
+        type: "string"
+        max_length: 200
+      required: false
+
+    Datetime:
+      field: "customValue.datetime"
+      validation:
+        type: "datetime"
+        format: "ISO_8601"
+        min_date: "2015-01-01T00:00:00Z"
+        max_date: "2030-12-31T23:59:59Z"
+      required: true
+
+    Category:
+      field: "category"
+      validation:
+        type: "enum"
+        allowed_values:
+          [
+            "Home",
+            "Activity",
+            "product",
+            "travel",
+            "restaurant",
+            "room",
+            "knowledge",
+            "business",
+            "Technology",
+            "Innovation",
+          ]
+      required: true
+
+    FederatedIdentifier:
+      field: "customValue.accessId"
+      validation:
+        type: "integer"
+        min: 1
+      required: false
+
+  # 5. Data Quality Rules
+  data_quality:
+    - name: "remove_duplicates"
+      description: "Remove exact duplicate events within 1 second"
+      enabled: true
+      window_seconds: 1
+
+    - name: "remove_test_accounts"
+      description: "Remove test/admin accounts"
+      enabled: true
+      patterns: ["test", "admin", "demo", "debug"]
+
+    - name: "remove_bot_traffic"
+      description: "Remove bot/crawler traffic"
+      enabled: true
+      bot_patterns:
+        - "bot"
+        - "crawler"
+        - "spider"
+        - "scraper"
+
+    - name: "validate_service_consistency"
+      description: "serviceId must match serviceName"
+      enabled: true
+
+    - name: "validate_location_in_thailand"
+      description: "Location must be in Thailand (optional)"
+      enabled: false
+      bounds:
+        lat_min: 5.0
+        lat_max: 21.0
+        lon_min: 97.0
+        lon_max: 106.0
+
+  # 6. Output Report
+  report:
+    enabled: true
+    output_file: "ubif_validation_report.json"
+    log_rejected: true
+    log_flagged: true

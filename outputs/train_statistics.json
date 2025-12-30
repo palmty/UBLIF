@@ -1,0 +1,138 @@
+{
+  "graph_stats": {
+    "max_in_degree": 15,
+    "max_out_degree": 15,
+    "max_pagerank": 0.023601896618683425,
+    "total_nodes": 118,
+    "total_edges": 4114
+  },
+  "session_stats": {
+    "max_duration": 30.0,
+    "max_click_position": 104,
+    "max_session_depth": 104,
+    "avg_session_length": 4.3061335314965135
+  },
+  "category_stats": {
+    "Home": {
+      "count": 1555,
+      "avg_interest": 0.0012861736334405145
+    },
+    "Search": {
+      "count": 10,
+      "avg_interest": 0.0
+    },
+    "Restaurant": {
+      "count": 75,
+      "avg_interest": 0.0
+    },
+    "Attraction": {
+      "count": 139,
+      "avg_interest": 0.0
+    },
+    "Activity": {
+      "count": 86,
+      "avg_interest": 0.0
+    },
+    "Hotel": {
+      "count": 52,
+      "avg_interest": 0.0
+    },
+    "https://rcbt-sip.com/app/app/producttouristindexpage": {
+      "count": 100,
+      "avg_interest": 0.0
+    },
+    "https://rcbt-sip.com/app/app/communitydetail": {
+      "count": 695,
+      "avg_interest": 1.0
+    },
+    "https://rcbt-sip.com/app/app/TouristRouteSubRoute": {
+      "count": 38,
+      "avg_interest": 0.0
+    },
+    "https://rcbt-sip.com/app/app/TouristRouteDetail": {
+      "count": 38,
+      "avg_interest": 0.0
+    },
+    "https://rcbt-sip.com/app/app/blogdetail": {
+      "count": 66,
+      "avg_interest": 0.0
+    },
+    "https://rcbt-sip.com/app/app/ActivityIndex": {
+      "count": 29,
+      "avg_interest": 0.0
+    },
+    "https://rcbt-sip.com/app/app/activityindex": {
+      "count": 24,
+      "avg_interest": 0.0
+    },
+    "https://rcbt-sip.com/app/app/ActivityDetailAll": {
+      "count": 66,
+      "avg_interest": 0.0
+    },
+    "https://rcbt-sip.com/app/app/producttouristdetailpage": {
+      "count": 217,
+      "avg_interest": 0.0
+    },
+    "https://rcbt-sip.com/app/app/touristroute": {
+      "count": 19,
+      "avg_interest": 0.0
+    },
+    "https://rcbt-sip.com/app/app/facilitationdetailindexpage": {
+      "count": 144,
+      "avg_interest": 0.0
+    },
+    "https://rcbt-sip.com/app/app/ProductListDetail": {
+      "count": 11,
+      "avg_interest": 0.0
+    },
+    "https://rcbt-sip.com/app/app/LearningDetail": {
+      "count": 13,
+      "avg_interest": 0.0
+    },
+    "https://rcbt-sip.com/app/app/facilitationindexpage": {
+      "count": 8,
+      "avg_interest": 0.0
+    },
+    "https://rcbt-sip.com/app/app/blog": {
+      "count": 107,
+      "avg_interest": 0.0
+    },
+    "https://rcbt-sip.com/app/app/CommunityPageDetail": {
+      "count": 8,
+      "avg_interest": 0.0
+    },
+    "https://rcbt-sip.com/app/app/technologypage": {
+      "count": 4,
+      "avg_interest": 0.0
+    },
+    "https://rcbt-sip.com/app/app/innovationobjectpage": {
+      "count": 3,
+      "avg_interest": 0.0
+    },
+    "https://rcbt-sip.com/app/app/innovationprocesspage": {
+      "count": 2,
+      "avg_interest": 0.0
+    },
+    "https://rcbt-sip.com/app/app/researcherlearningindex": {
+      "count": 8,
+      "avg_interest": 0.0
+    },
+    "Marketplace-rcbt-sip": {
+      "count": 27698,
+      "avg_interest": 0.6595783089031699
+    },
+    "https://rcbt-sip.com/app/app/researcherroute": {
+      "count": 4,
+      "avg_interest": 0.0
+    },
+    "https://rcbt-sip.com/app/app/researcherproductpage": {
+      "count": 1,
+      "avg_interest": 0.0
+    },
+    "RCBT-SIP": {
+      "count": 3768,
+      "avg_interest": 0.5774946921443737
+    }
+  },
+  "global_baseline": 0.6042643191951527
+}

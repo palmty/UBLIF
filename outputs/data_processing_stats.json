@@ -1,0 +1,39 @@
+{
+  "total_input_records": 43736,
+  "valid_records": 43736,
+  "rejected_records": 0,
+  "train_records": 34988,
+  "test_records": 8748,
+  "train_interest_distribution": {
+    "interest": 21142,
+    "no_interest": 13846
+  },
+  "test_interest_distribution": {
+    "interest": 4550,
+    "no_interest": 4198
+  },
+  "session_statistics": {
+    "total_records": 43736,
+    "total_sessions": 9423,
+    "avg_session_length": 4.641409317627082,
+    "min_session_length": 1,
+    "max_session_length": 128
+  },
+  "cleaning_statistics": {
+    "total_input": 0,
+    "duplicates_removed": 2943,
+    "test_accounts_removed": 0,
+    "bot_traffic_removed": 0,
+    "missing_service_id_removed": 57481,
+    "total_output": 0
+  },
+  "step_durations_seconds": {
+    "step_1_ubif_validation": 1.023806,
+    "step_2_legal_compliance": 0.475104,
+    "step_3_cleaning_parsing": 0.571692,
+    "step_4_interest_labeling": 0.082209,
+    "step_5_sessionization": 0.758279,
+    "step_6_temporal_split": 0.034706
+  },
+  "generated_at": "2025-12-31T02:16:10.293072"
+}
