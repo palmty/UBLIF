@@ -8,6 +8,7 @@ from typing import Dict, List, Optional, Any
 import pandas as pd
 import numpy as np
 from collections import defaultdict
+from datetime import datetime
 
 
 class Sessionizer:
@@ -162,37 +163,97 @@ class SessionFeatureExtractor:
     def extract_all_features(self, df):
         """
         Extract all session features using Pandas DataFrame (vectorized).
+        Includes time, location, and contextual history features.
         Args:
             df: DataFrame with sessionized records
         Returns:
             DataFrame with new features
         """
-        import pandas as pd
         if df is None or len(df) == 0:
             return df
+        
         # Ensure required columns exist
         for col in ['session_id', 'timestamp', 'product_id']:
             if col not in df.columns:
                 df[col] = None
+        
         # Sort by session and timestamp
         df = df.sort_values(['session_id', 'timestamp'], kind='mergesort').reset_index(drop=True)
+        
         # Click position (1-indexed)
         df['click_position'] = df.groupby('session_id').cumcount() + 1
+        
         # Session depth (group size)
         df['session_depth'] = df.groupby('session_id')['timestamp'].transform('size')
+        
         # Session duration in minutes (max - min per session)
         session_max = df.groupby('session_id')['timestamp'].transform('max')
         session_min = df.groupby('session_id')['timestamp'].transform('min')
         df['session_duration_minutes'] = (session_max - session_min) / 60.0
+        
         # Time since last click (in seconds)
         prev_ts = df.groupby('session_id')['timestamp'].shift(1)
         df['time_since_last_click'] = (df['timestamp'] - prev_ts).fillna(0).astype(int)
+        
+        # --- Time Features ---
+        # Convert timestamp to datetime for time-based features
+        df['datetime'] = pd.to_datetime(df['timestamp'], unit='s')
+        df['hour_of_day'] = df['datetime'].dt.hour  # 0-23
+        df['day_of_week'] = df['datetime'].dt.weekday  # 0=Mon, 6=Sun
+        df['is_weekend'] = (df['datetime'].dt.weekday >= 5).astype(int)  # 1=weekend
+        
+        # --- Location Features ---
+        # Extract lat/lon from location dict if it exists
+        def extract_lat(row):
+            loc = row.get('location', {})
+            if isinstance(loc, dict):
+                return loc.get('lat', 0.0)
+            return 0.0
+        
+        def extract_lon(row):
+            loc = row.get('location', {})
+            if isinstance(loc, dict):
+                return loc.get('lon', 0.0)
+            return 0.0
+        
+        df['user_lat'] = df.apply(extract_lat, axis=1)
+        df['user_lon'] = df.apply(extract_lon, axis=1)
+        
+        # --- History Features (Contextual) ---
+        # Track category views per session
+        def calculate_category_history(g):
+            # Sort by timestamp within group
+            g = g.sort_values('timestamp')
+            categories = g['category'].fillna('unknown')
+            
+            # For each row, count how many times this category was viewed before
+            category_counts = defaultdict(int)
+            viewed_before = []
+            view_count = []
+            
+            for cat in categories:
+                viewed_before.append(1 if category_counts[cat] > 0 else 0)
+                view_count.append(category_counts[cat])
+                category_counts[cat] += 1
+            
+            g = g.copy()
+            g['viewed_category_before'] = viewed_before
+            g['category_view_count'] = view_count
+            return g
+        
+        df = df.groupby('session_id', group_keys=False).apply(calculate_category_history)
+        
         # Previous products as list (per session, cumulative up to previous index)
         def _prev_products_per_session(g: pd.DataFrame) -> pd.Series:
             products = g['product_id'].tolist()
             prev_lists = [[p for p in products[:i] if p is not None] for i in range(len(products))]
             return pd.Series(prev_lists, index=g.index)
+        
         df['previous_products'] = df.groupby('session_id', group_keys=False).apply(_prev_products_per_session)
+        
+        # Clean up temporary columns
+        df = df.drop('datetime', axis=1, errors='ignore')
+        
         return df
     
     def calculate_click_position(self, record: Dict[str, Any], session: List[Dict[str, Any]]) -> int:

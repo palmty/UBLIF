@@ -1,122 +1,66 @@
 {
   "test_metrics": {
-    "accuracy": 0.5170324645633287,
-    "precision": 0.5192193968066233,
-    "recall": 0.9648351648351648,
-    "f1_score": 0.675124951941561,
-    "roc_auc": 0.5258692260574109,
+    "accuracy": 0.5152034750800183,
+    "precision": 0.5204879989391328,
+    "recall": 0.8626373626373627,
+    "f1_score": 0.6492432387726408,
+    "roc_auc": 0.5212680030783889,
     "confusion_matrix": [
       [
-        133,
-        4065
+        582,
+        3616
       ],
       [
-        160,
-        4390
+        625,
+        3925
       ]
     ],
-    "true_negatives": 133,
-    "false_positives": 4065,
-    "false_negatives": 160,
-    "true_positives": 4390
+    "true_negatives": 582,
+    "false_positives": 3616,
+    "false_negatives": 625,
+    "true_positives": 3925
   },
   "classification_report": {
     "No Interest": {
-      "precision": 0.4539249146757679,
-      "recall": 0.03168175321581706,
-      "f1-score": 0.05922957025161434,
+      "precision": 0.48218724109362054,
+      "recall": 0.13863744640304906,
+      "f1-score": 0.21535615171137834,
       "support": 4198.0
     },
     "Interest": {
-      "precision": 0.5192193968066233,
-      "recall": 0.9648351648351648,
-      "f1-score": 0.675124951941561,
+      "precision": 0.5204879989391328,
+      "recall": 0.8626373626373627,
+      "f1-score": 0.6492432387726408,
       "support": 4550.0
     },
-    "accuracy": 0.5170324645633287,
+    "accuracy": 0.5152034750800183,
     "macro avg": {
-      "precision": 0.4865721557411956,
-      "recall": 0.49825845902549093,
-      "f1-score": 0.36717726109658766,
+      "precision": 0.5013376200163766,
+      "recall": 0.5006374045202059,
+      "f1-score": 0.43229969524200956,
       "support": 8748.0
     },
     "weighted avg": {
-      "precision": 0.48788580787368657,
-      "recall": 0.5170324645633287,
-      "f1-score": 0.37956838903182205,
+      "precision": 0.5021081885327014,
+      "recall": 0.5152034750800183,
+      "f1-score": 0.44102901935298144,
       "support": 8748.0
     }
   },
   "error_analysis": {
-    "total_false_positives": 4065,
-    "total_false_negatives": 160,
+    "total_false_positives": 3616,
+    "total_false_negatives": 625,
     "fp_by_category": {
-      "Marketplace-rcbt-sip": 2963,
-      "RCBT-SIP": 957,
-      "Home": 134,
-      "Activity": 8,
-      "Restaurant": 2,
-      "Search": 1
+      "Marketplace-rcbt-sip": 2651,
+      "RCBT-SIP": 870,
+      "Home": 94,
+      "Activity": 1
     },
     "fn_by_category": {
-      "Marketplace-rcbt-sip": 153,
-      "RCBT-SIP": 7
+      "Marketplace-rcbt-sip": 574,
+      "RCBT-SIP": 51
     },
     "sample_false_positives": [
-      {
-        "index": 3,
-        "record": {
-          "timestamp": 1749387390,
-          "device_id": "Guest",
-          "product_id": "178",
-          "event_type": "Restaurant/show",
-          "category": "Marketplace-rcbt-sip",
-          "service_name": "",
-          "service_type": "Restaurant",
-          "location": {
-            "lat": 14.0433,
-            "lon": 100.64
-          },
-          "keyword": "",
-          "device": "Computer",
-          "operation": "Unknown Platform",
-          "interest": 0,
-          "session_id": "541a8fa988f7",
-          "click_position": 1,
-          "session_depth": 1,
-          "previous_products": [],
-          "session_duration_minutes": 0.0,
-          "time_since_last_click": 0
-        },
-        "probability": 0.7238436215947525
-      },
-      {
-        "index": 4,
-        "record": {
-          "timestamp": 1749390225,
-          "device_id": "Guest",
-          "product_id": "71",
-          "event_type": "room/homestay/show",
-          "category": "Marketplace-rcbt-sip",
-          "service_name": "โฮมสเตยบ้านเชียงแหว",
-          "service_type": "room",
-          "location": {
-            "lat": 14.0433,
-            "lon": 100.64
-          },
-          "keyword": "",
-          "device": "Computer",
-          "operation": "Unknown Platform",
-          "interest": 0,
-          "session_id": "2af607ab0d14",
-          "click_position": 1,
-          "session_depth": 1,
-          "previous_products": [],
-          "session_duration_minutes": 0.0,
-          "time_since_last_click": 0
-        },
-        "probability": 0.5948311250641973
-      },
       {
         "index": 7,
         "record": {
@@ -138,11 +82,18 @@
           "session_id": "2dc26028d0e3",
           "click_position": 1,
           "session_depth": 4,
-          "previous_products": [],
-          "session_duration_minutes": 23.433333333333334,
-          "time_since_last_click": 0
+          "session_duration_minutes": 23.4333333333,
+          "time_since_last_click": 0,
+          "hour_of_day": 19,
+          "day_of_week": 6,
+          "is_weekend": 1,
+          "user_lat": 14.0433,
+          "user_lon": 100.64,
+          "viewed_category_before": 0,
+          "category_view_count": 0,
+          "previous_products": []
         },
-        "probability": 0.6492070554268501
+        "probability": 0.67529273439444
       },
       {
         "index": 8,
@@ -155,8 +106,8 @@
           "service_name": "เซรั่มดอกบัวแดง",
           "service_type": "page_view",
           "location": {
-            "lat": 14.06187091212293,
-            "lon": 100.88753778827945
+            "lat": 14.0618709121,
+            "lon": 100.8875377883
           },
           "keyword": "",
           "device": "",
@@ -165,13 +116,20 @@
           "session_id": "2dc26028d0e3",
           "click_position": 2,
           "session_depth": 4,
+          "session_duration_minutes": 23.4333333333,
+          "time_since_last_click": 1382,
+          "hour_of_day": 20,
+          "day_of_week": 6,
+          "is_weekend": 1,
+          "user_lat": 14.0618709121,
+          "user_lon": 100.8875377883,
+          "viewed_category_before": 0,
+          "category_view_count": 0,
           "previous_products": [
             "163"
-          ],
-          "session_duration_minutes": 23.433333333333334,
-          "time_since_last_click": 1382
+          ]
         },
-        "probability": 0.6365810753701001
+        "probability": 0.6556320194127918
       },
       {
         "index": 9,
@@ -184,8 +142,8 @@
           "service_name": "เซรั่มดอกบัวแดง",
           "service_type": "click",
           "location": {
-            "lat": 14.061889505992847,
-            "lon": 100.88753883415167
+            "lat": 14.061889506,
+            "lon": 100.8875388342
           },
           "keyword": "",
           "device": "",
@@ -194,14 +152,21 @@
           "session_id": "2dc26028d0e3",
           "click_position": 3,
           "session_depth": 4,
+          "session_duration_minutes": 23.4333333333,
+          "time_since_last_click": 1,
+          "hour_of_day": 20,
+          "day_of_week": 6,
+          "is_weekend": 1,
+          "user_lat": 14.061889506,
+          "user_lon": 100.8875388342,
+          "viewed_category_before": 1,
+          "category_view_count": 1,
           "previous_products": [
             "163",
             "189"
-          ],
-          "session_duration_minutes": 23.433333333333334,
-          "time_since_last_click": 1
+          ]
         },
-        "probability": 0.6237640164090937
+        "probability": 0.6431101646200637
       },
       {
         "index": 10,
@@ -214,8 +179,8 @@
           "service_name": "เซรั่มดอกบัวแดง",
           "service_type": "click",
           "location": {
-            "lat": 14.061890640151816,
-            "lon": 100.88753536319157
+            "lat": 14.0618906402,
+            "lon": 100.8875353632
           },
           "keyword": "",
           "device": "",
@@ -224,15 +189,22 @@
           "session_id": "2dc26028d0e3",
           "click_position": 4,
           "session_depth": 4,
+          "session_duration_minutes": 23.4333333333,
+          "time_since_last_click": 23,
+          "hour_of_day": 20,
+          "day_of_week": 6,
+          "is_weekend": 1,
+          "user_lat": 14.0618906402,
+          "user_lon": 100.8875353632,
+          "viewed_category_before": 1,
+          "category_view_count": 2,
           "previous_products": [
             "163",
             "189",
             "189"
-          ],
-          "session_duration_minutes": 23.433333333333334,
-          "time_since_last_click": 23
+          ]
         },
-        "probability": 0.6107713141384139
+        "probability": 0.6476873009707846
       },
       {
         "index": 11,
@@ -245,8 +217,8 @@
           "service_name": "เซรั่มดอกบัวแดง",
           "service_type": "click",
           "location": {
-            "lat": 14.061872996882238,
-            "lon": 100.88755254211635
+            "lat": 14.0618729969,
+            "lon": 100.8875525421
           },
           "keyword": "",
           "device": "",
@@ -255,11 +227,18 @@
           "session_id": "56e4e0f04d6f",
           "click_position": 1,
           "session_depth": 3,
-          "previous_products": [],
-          "session_duration_minutes": 2.066666666666667,
-          "time_since_last_click": 0
+          "session_duration_minutes": 2.0666666667,
+          "time_since_last_click": 0,
+          "hour_of_day": 20,
+          "day_of_week": 6,
+          "is_weekend": 1,
+          "user_lat": 14.0618729969,
+          "user_lon": 100.8875525421,
+          "viewed_category_before": 0,
+          "category_view_count": 0,
+          "previous_products": []
         },
-        "probability": 0.5583441191244575
+        "probability": 0.5787825843041985
       },
       {
         "index": 12,
@@ -272,8 +251,8 @@
           "service_name": "เซรั่มดอกบัวแดง",
           "service_type": "page_view",
           "location": {
-            "lat": 14.061875940941016,
-            "lon": 100.88754740383962
+            "lat": 14.0618759409,
+            "lon": 100.8875474038
           },
           "keyword": "",
           "device": "",
@@ -282,13 +261,20 @@
           "session_id": "56e4e0f04d6f",
           "click_position": 2,
           "session_depth": 3,
+          "session_duration_minutes": 2.0666666667,
+          "time_since_last_click": 104,
+          "hour_of_day": 20,
+          "day_of_week": 6,
+          "is_weekend": 1,
+          "user_lat": 14.0618759409,
+          "user_lon": 100.8875474038,
+          "viewed_category_before": 1,
+          "category_view_count": 1,
           "previous_products": [
             "189"
-          ],
-          "session_duration_minutes": 2.066666666666667,
-          "time_since_last_click": 104
+          ]
         },
-        "probability": 0.538534544227401
+        "probability": 0.559165945080485
       },
       {
         "index": 13,
@@ -301,8 +287,8 @@
           "service_name": "เซรั่มดอกบัวแดง",
           "service_type": "click",
           "location": {
-            "lat": 14.061880771198796,
-            "lon": 100.88755628820236
+            "lat": 14.0618807712,
+            "lon": 100.8875562882
           },
           "keyword": "",
           "device": "",
@@ -311,25 +297,141 @@
           "session_id": "56e4e0f04d6f",
           "click_position": 3,
           "session_depth": 3,
+          "session_duration_minutes": 2.0666666667,
+          "time_since_last_click": 20,
+          "hour_of_day": 20,
+          "day_of_week": 6,
+          "is_weekend": 1,
+          "user_lat": 14.0618807712,
+          "user_lon": 100.8875562882,
+          "viewed_category_before": 1,
+          "category_view_count": 2,
           "previous_products": [
             "189",
             "189"
-          ],
-          "session_duration_minutes": 2.066666666666667,
-          "time_since_last_click": 20
+          ]
         },
-        "probability": 0.5186025206786892
+        "probability": 0.5579330859778568
       },
       {
-        "index": 14,
+        "index": 29,
         "record": {
-          "timestamp": 1749417976,
+          "timestamp": 1749447313,
           "device_id": "Guest",
-          "product_id": "55",
+          "product_id": "228",
+          "event_type": "ActivityDetailAll_Click",
+          "category": "RCBT-SIP",
+          "service_name": "ฐานการเรียนรู้การทำเส้นขนมจีน",
+          "service_type": "click",
+          "location": {
+            "lat": 13.7143128,
+            "lon": 100.4980569
+          },
+          "keyword": "",
+          "device": "",
+          "operation": "",
+          "interest": 0,
+          "session_id": "b4b1a6e3d26a",
+          "click_position": 1,
+          "session_depth": 10,
+          "session_duration_minutes": 10.3833333333,
+          "time_since_last_click": 0,
+          "hour_of_day": 5,
+          "day_of_week": 0,
+          "is_weekend": 0,
+          "user_lat": 13.7143128,
+          "user_lon": 100.4980569,
+          "viewed_category_before": 0,
+          "category_view_count": 0,
+          "previous_products": []
+        },
+        "probability": 0.6363882654277628
+      },
+      {
+        "index": 30,
+        "record": {
+          "timestamp": 1749447690,
+          "device_id": "Guest",
+          "product_id": "45",
           "event_type": "room/homestay/show",
           "category": "Marketplace-rcbt-sip",
-          "service_name": "สระทอง รีสอร์ท",
+          "service_name": "Nathasa Garden Home stay ณธษาบ้านสวนโฮมสเตย์",
           "service_type": "room",
+          "location": {
+            "lat": 14.0433,
+            "lon": 100.64
+          },
+          "keyword": "",
+          "device": "Nexus",
+          "operation": "Android",
+          "interest": 0,
+          "session_id": "b4b1a6e3d26a",
+          "click_position": 2,
+          "session_depth": 10,
+          "session_duration_minutes": 10.3833333333,
+          "time_since_last_click": 377,
+          "hour_of_day": 5,
+          "day_of_week": 0,
+          "is_weekend": 0,
+          "user_lat": 14.0433,
+          "user_lon": 100.64,
+          "viewed_category_before": 0,
+          "category_view_count": 0,
+          "previous_products": [
+            "228"
+          ]
+        },
+        "probability": 0.7324810352022515
+      },
+      {
+        "index": 44,
+        "record": {
+          "timestamp": 1749461097,
+          "device_id": "Guest",
+          "product_id": "54",
+          "event_type": "travel/nature/show",
+          "category": "Marketplace-rcbt-sip",
+          "service_name": "",
+          "service_type": "nature",
+          "location": {
+            "lat": 14.0433,
+            "lon": 100.64
+          },
+          "keyword": "",
+          "device": "Nexus",
+          "operation": "Android",
+          "interest": 0,
+          "session_id": "261b03719a6c",
+          "click_position": 3,
+          "session_depth": 3,
+          "session_duration_minutes": 26.3166666667,
+          "time_since_last_click": 573,
+          "hour_of_day": 9,
+          "day_of_week": 0,
+          "is_weekend": 0,
+          "user_lat": 14.0433,
+          "user_lon": 100.64,
+          "viewed_category_before": 1,
+          "category_view_count": 2,
+          "previous_products": [
+            "37",
+            "285"
+          ]
+        },
+        "probability": 0.7595652962722649
+      }
+    ],
+    "sample_false_negatives": [
+      {
+        "index": 0,
+        "record": {
+          "timestamp": 1749382632,
+          "device_id": "Guest",
+          "product_id": "249",
+          "event_type": "product/ProductList/show",
+          "category": "Marketplace-rcbt-sip",
+          "service_name": "ยาดมหัวโตป้าต้อย",
+          "service_type": "product",
           "location": {
             "lat": 14.0433,
             "lon": 100.64
@@ -337,18 +439,235 @@
           "keyword": "",
           "device": "Computer",
           "operation": "Unknown Platform",
-          "interest": 0,
-          "session_id": "b766e9b4078c",
+          "interest": 1,
+          "session_id": "253b8d8c88c3",
+          "click_position": 2,
+          "session_depth": 2,
+          "session_duration_minutes": 16.95,
+          "time_since_last_click": 1017,
+          "hour_of_day": 11,
+          "day_of_week": 6,
+          "is_weekend": 1,
+          "user_lat": 14.0433,
+          "user_lon": 100.64,
+          "viewed_category_before": 1,
+          "category_view_count": 1,
+          "previous_products": [
+            "140"
+          ]
+        },
+        "probability": 0.16798161486607546
+      },
+      {
+        "index": 1,
+        "record": {
+          "timestamp": 1749385208,
+          "device_id": "Guest",
+          "product_id": "242",
+          "event_type": "product/ProductList/show",
+          "category": "Marketplace-rcbt-sip",
+          "service_name": "ผ้าพันคอไหมย้อมเปลือกหอมแดง",
+          "service_type": "product",
+          "location": {
+            "lat": 14.0433,
+            "lon": 100.64
+          },
+          "keyword": "",
+          "device": "Computer",
+          "operation": "Unknown Platform",
+          "interest": 1,
+          "session_id": "27fd248994ee",
           "click_position": 1,
           "session_depth": 2,
-          "previous_products": [],
-          "session_duration_minutes": 28.333333333333332,
-          "time_since_last_click": 0
+          "session_duration_minutes": 5.2666666667,
+          "time_since_last_click": 0,
+          "hour_of_day": 12,
+          "day_of_week": 6,
+          "is_weekend": 1,
+          "user_lat": 14.0433,
+          "user_lon": 100.64,
+          "viewed_category_before": 0,
+          "category_view_count": 0,
+          "previous_products": []
         },
-        "probability": 0.6507237894572695
-      }
-    ],
-    "sample_false_negatives": [
+        "probability": 0.20425763796745622
+      },
+      {
+        "index": 2,
+        "record": {
+          "timestamp": 1749385524,
+          "device_id": "Guest",
+          "product_id": "19",
+          "event_type": "knowledge/show",
+          "category": "Marketplace-rcbt-sip",
+          "service_name": "AR SMART GUIDE สมุทรสงคราม",
+          "service_type": "knowledge",
+          "location": {
+            "lat": 14.0433,
+            "lon": 100.64
+          },
+          "keyword": "",
+          "device": "Nexus",
+          "operation": "Android",
+          "interest": 1,
+          "session_id": "27fd248994ee",
+          "click_position": 2,
+          "session_depth": 2,
+          "session_duration_minutes": 5.2666666667,
+          "time_since_last_click": 316,
+          "hour_of_day": 12,
+          "day_of_week": 6,
+          "is_weekend": 1,
+          "user_lat": 14.0433,
+          "user_lon": 100.64,
+          "viewed_category_before": 1,
+          "category_view_count": 1,
+          "previous_products": [
+            "242"
+          ]
+        },
+        "probability": 0.3681911961156606
+      },
+      {
+        "index": 5,
+        "record": {
+          "timestamp": 1749405729,
+          "device_id": "Guest",
+          "product_id": "625",
+          "event_type": "travel/poi/show",
+          "category": "Marketplace-rcbt-sip",
+          "service_name": "",
+          "service_type": "poi",
+          "location": {
+            "lat": 14.0433,
+            "lon": 100.64
+          },
+          "keyword": "",
+          "device": "Computer",
+          "operation": "Mac OS X",
+          "interest": 1,
+          "session_id": "baaedc49d9c0",
+          "click_position": 1,
+          "session_depth": 2,
+          "session_duration_minutes": 4.2,
+          "time_since_last_click": 0,
+          "hour_of_day": 18,
+          "day_of_week": 6,
+          "is_weekend": 1,
+          "user_lat": 14.0433,
+          "user_lon": 100.64,
+          "viewed_category_before": 0,
+          "category_view_count": 0,
+          "previous_products": []
+        },
+        "probability": 0.18056832378031662
+      },
+      {
+        "index": 6,
+        "record": {
+          "timestamp": 1749405981,
+          "device_id": "Guest",
+          "product_id": "163",
+          "event_type": "product/ProductList/show",
+          "category": "Marketplace-rcbt-sip",
+          "service_name": "หมอนรองคอสมุนไพรเมล็ดลำไย",
+          "service_type": "product",
+          "location": {
+            "lat": 14.0433,
+            "lon": 100.64
+          },
+          "keyword": "",
+          "device": "Nexus",
+          "operation": "Android",
+          "interest": 1,
+          "session_id": "baaedc49d9c0",
+          "click_position": 2,
+          "session_depth": 2,
+          "session_duration_minutes": 4.2,
+          "time_since_last_click": 252,
+          "hour_of_day": 18,
+          "day_of_week": 6,
+          "is_weekend": 1,
+          "user_lat": 14.0433,
+          "user_lon": 100.64,
+          "viewed_category_before": 1,
+          "category_view_count": 1,
+          "previous_products": [
+            "625"
+          ]
+        },
+        "probability": 0.16798161486607546
+      },
+      {
+        "index": 15,
+        "record": {
+          "timestamp": 1749419676,
+          "device_id": "Guest",
+          "product_id": "284",
+          "event_type": "Activity/show",
+          "category": "Marketplace-rcbt-sip",
+          "service_name": "",
+          "service_type": "Activity",
+          "location": {
+            "lat": 14.0433,
+            "lon": 100.64
+          },
+          "keyword": "",
+          "device": "Nexus",
+          "operation": "Android",
+          "interest": 1,
+          "session_id": "b766e9b4078c",
+          "click_position": 2,
+          "session_depth": 2,
+          "session_duration_minutes": 28.3333333333,
+          "time_since_last_click": 1700,
+          "hour_of_day": 21,
+          "day_of_week": 6,
+          "is_weekend": 1,
+          "user_lat": 14.0433,
+          "user_lon": 100.64,
+          "viewed_category_before": 1,
+          "category_view_count": 1,
+          "previous_products": [
+            "55"
+          ]
+        },
+        "probability": 0.16798161486607546
+      },
+      {
+        "index": 16,
+        "record": {
+          "timestamp": 1749420737,
+          "device_id": "Guest",
+          "product_id": "12",
+          "event_type": "knowledge/show",
+          "category": "Marketplace-rcbt-sip",
+          "service_name": "น้องชบาท่องโลกกว้าง",
+          "service_type": "knowledge",
+          "location": {
+            "lat": 14.0433,
+            "lon": 100.64
+          },
+          "keyword": "",
+          "device": "Nexus",
+          "operation": "Android",
+          "interest": 1,
+          "session_id": "54f35cba2861",
+          "click_position": 1,
+          "session_depth": 1,
+          "session_duration_minutes": 0.0,
+          "time_since_last_click": 0,
+          "hour_of_day": 22,
+          "day_of_week": 6,
+          "is_weekend": 1,
+          "user_lat": 14.0433,
+          "user_lon": 100.64,
+          "viewed_category_before": 0,
+          "category_view_count": 0,
+          "previous_products": []
+        },
+        "probability": 0.33918534357453334
+      },
       {
         "index": 17,
         "record": {
@@ -370,11 +689,18 @@
           "session_id": "a0c63454084c",
           "click_position": 1,
           "session_depth": 1,
-          "previous_products": [],
           "session_duration_minutes": 0.0,
-          "time_since_last_click": 0
+          "time_since_last_click": 0,
+          "hour_of_day": 23,
+          "day_of_week": 6,
+          "is_weekend": 1,
+          "user_lat": 14.0433,
+          "user_lon": 100.64,
+          "viewed_category_before": 0,
+          "category_view_count": 0,
+          "previous_products": []
         },
-        "probability": 0.5
+        "probability": 0.16798161486607546
       },
       {
         "index": 18,
@@ -397,234 +723,59 @@
           "session_id": "d72d7297cefd",
           "click_position": 1,
           "session_depth": 1,
-          "previous_products": [],
           "session_duration_minutes": 0.0,
-          "time_since_last_click": 0
+          "time_since_last_click": 0,
+          "hour_of_day": 0,
+          "day_of_week": 0,
+          "is_weekend": 0,
+          "user_lat": 14.0433,
+          "user_lon": 100.64,
+          "viewed_category_before": 0,
+          "category_view_count": 0,
+          "previous_products": []
         },
-        "probability": 0.5
+        "probability": 0.16798161486607546
       },
       {
-        "index": 56,
+        "index": 19,
         "record": {
-          "timestamp": 1749480228,
+          "timestamp": 1749430080,
           "device_id": "Guest",
-          "product_id": "336",
-          "event_type": "Activity/show",
-          "category": "Marketplace-rcbt-sip",
-          "service_name": "",
-          "service_type": "Activity",
-          "location": {
-            "lat": 14.0433,
-            "lon": 100.64
-          },
-          "keyword": "",
-          "device": "Computer",
-          "operation": "Unknown Platform",
-          "interest": 1,
-          "session_id": "e80e7ad70cd3",
-          "click_position": 1,
-          "session_depth": 1,
-          "previous_products": [],
-          "session_duration_minutes": 0.0,
-          "time_since_last_click": 0
-        },
-        "probability": 0.5
-      },
-      {
-        "index": 133,
-        "record": {
-          "timestamp": 1749519272,
-          "device_id": "Guest",
-          "product_id": "331",
-          "event_type": "Activity/show",
-          "category": "Marketplace-rcbt-sip",
-          "service_name": "",
-          "service_type": "Activity",
-          "location": {
-            "lat": 14.0433,
-            "lon": 100.64
-          },
-          "keyword": "",
-          "device": "Nexus",
-          "operation": "Android",
-          "interest": 1,
-          "session_id": "8da05f250545",
-          "click_position": 1,
-          "session_depth": 1,
-          "previous_products": [],
-          "session_duration_minutes": 0.0,
-          "time_since_last_click": 0
-        },
-        "probability": 0.5
-      },
-      {
-        "index": 152,
-        "record": {
-          "timestamp": 1749560354,
-          "device_id": "Guest",
-          "product_id": "231",
-          "event_type": "Activity/show",
-          "category": "Marketplace-rcbt-sip",
-          "service_name": "",
-          "service_type": "Activity",
-          "location": {
-            "lat": 14.97066,
-            "lon": 102.10196
-          },
-          "keyword": "",
-          "device": "Computer",
-          "operation": "Unknown Platform",
-          "interest": 1,
-          "session_id": "94bacc662ca0",
-          "click_position": 1,
-          "session_depth": 1,
-          "previous_products": [],
-          "session_duration_minutes": 0.0,
-          "time_since_last_click": 0
-        },
-        "probability": 0.5
-      },
-      {
-        "index": 229,
-        "record": {
-          "timestamp": 1749602889,
-          "device_id": "Guest",
-          "product_id": "183",
-          "event_type": "Activity/show",
-          "category": "Marketplace-rcbt-sip",
-          "service_name": "",
-          "service_type": "Activity",
-          "location": {
-            "lat": 14.97066,
-            "lon": 102.10196
-          },
-          "keyword": "",
-          "device": "Computer",
-          "operation": "Unknown Platform",
-          "interest": 1,
-          "session_id": "4610f1f80dfc",
-          "click_position": 1,
-          "session_depth": 1,
-          "previous_products": [],
-          "session_duration_minutes": 0.0,
-          "time_since_last_click": 0
-        },
-        "probability": 0.5
-      },
-      {
-        "index": 232,
-        "record": {
-          "timestamp": 1749607556,
-          "device_id": "Guest",
-          "product_id": "259",
-          "event_type": "Activity/show",
-          "category": "Marketplace-rcbt-sip",
-          "service_name": "",
-          "service_type": "Activity",
-          "location": {
-            "lat": 14.97066,
-            "lon": 102.10196
-          },
-          "keyword": "",
-          "device": "Computer",
-          "operation": "Unknown Platform",
-          "interest": 1,
-          "session_id": "b680ea3bc120",
-          "click_position": 1,
-          "session_depth": 1,
-          "previous_products": [],
-          "session_duration_minutes": 0.0,
-          "time_since_last_click": 0
-        },
-        "probability": 0.5
-      },
-      {
-        "index": 243,
-        "record": {
-          "timestamp": 1749635770,
-          "device_id": "Guest",
-          "product_id": "140",
+          "product_id": "161",
           "event_type": "communitydetail_Click",
           "category": "RCBT-SIP",
-          "service_name": "บ้านโพนสูง",
+          "service_name": "วิสาหกิจชุมชนกลุ่มโฮมสเตย์เชิงอนุรักษ์บ้านเชียงแหว",
           "service_type": "page_view",
           "location": {
-            "lat": 14.991381014797831,
-            "lon": 102.11258802087637
+            "lat": 13.8385883,
+            "lon": 100.5683024
           },
           "keyword": "",
           "device": "",
           "operation": "",
           "interest": 1,
-          "session_id": "fe8695d3a43f",
+          "session_id": "48c0942babd3",
           "click_position": 1,
-          "session_depth": 1,
-          "previous_products": [],
-          "session_duration_minutes": 0.0,
-          "time_since_last_click": 0
+          "session_depth": 2,
+          "session_duration_minutes": 26.5,
+          "time_since_last_click": 0,
+          "hour_of_day": 0,
+          "day_of_week": 0,
+          "is_weekend": 0,
+          "user_lat": 13.8385883,
+          "user_lon": 100.5683024,
+          "viewed_category_before": 0,
+          "category_view_count": 0,
+          "previous_products": []
         },
-        "probability": 0.5
-      },
-      {
-        "index": 265,
-        "record": {
-          "timestamp": 1749663464,
-          "device_id": "Guest",
-          "product_id": "326",
-          "event_type": "Activity/show",
-          "category": "Marketplace-rcbt-sip",
-          "service_name": "",
-          "service_type": "Activity",
-          "location": {
-            "lat": 14.97066,
-            "lon": 102.10196
-          },
-          "keyword": "",
-          "device": "Computer",
-          "operation": "Unknown Platform",
-          "interest": 1,
-          "session_id": "947367eae66a",
-          "click_position": 1,
-          "session_depth": 1,
-          "previous_products": [],
-          "session_duration_minutes": 0.0,
-          "time_since_last_click": 0
-        },
-        "probability": 0.5
-      },
-      {
-        "index": 474,
-        "record": {
-          "timestamp": 1749713110,
-          "device_id": "Guest",
-          "product_id": "249",
-          "event_type": "product/ProductList/show",
-          "category": "Marketplace-rcbt-sip",
-          "service_name": "ยาดมหัวโตป้าต้อย",
-          "service_type": "product",
-          "location": {
-            "lat": 14.97066,
-            "lon": 102.10196
-          },
-          "keyword": "",
-          "device": "Computer",
-          "operation": "Unknown Platform",
-          "interest": 1,
-          "session_id": "dc6818b34c42",
-          "click_position": 1,
-          "session_depth": 1,
-          "previous_products": [],
-          "session_duration_minutes": 0.0,
-          "time_since_last_click": 0
-        },
-        "probability": 0.5
+        "probability": 0.23616252085163977
       }
     ]
   },
   "cold_start_analysis": {
     "total_test_products": 426,
-    "products_with_errors": 291,
-    "error_rate": 0.6830985915492958
+    "products_with_errors": 352,
+    "error_rate": 0.8262910798122066
   },
-  "timestamp": "2025-12-31T01:45:09.838944"
+  "timestamp": "2025-12-31T04:28:43.267400"
 }

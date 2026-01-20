@@ -28,12 +28,12 @@
     "total_output": 0
   },
   "step_durations_seconds": {
-    "step_1_ubif_validation": 1.023806,
-    "step_2_legal_compliance": 0.475104,
-    "step_3_cleaning_parsing": 0.571692,
-    "step_4_interest_labeling": 0.082209,
-    "step_5_sessionization": 0.758279,
-    "step_6_temporal_split": 0.034706
+    "step_1_ubif_validation": 1.139521,
+    "step_2_legal_compliance": 0.512291,
+    "step_3_cleaning_parsing": 0.627116,
+    "step_4_interest_labeling": 0.09264,
+    "step_5_sessionization": 6.751255,
+    "step_6_temporal_split": 0.039048
   },
-  "generated_at": "2025-12-31T02:16:10.293072"
+  "generated_at": "2025-12-31T04:20:26.715676"
 }

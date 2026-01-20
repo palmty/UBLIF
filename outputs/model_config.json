@@ -3,18 +3,18 @@
   "prediction": {
     "method": "custom_gradient_boosting",
     "weights": {
-      "rule_matching": 0.5,
+      "rule_matching": 0.3,
       "graph_features": 0.3,
-      "session_features": 0.2
+      "session_features": 0.4
     },
     "activation": "sigmoid",
-    "threshold": 0.5
+    "threshold": 0.4
   },
   "normalization": {
     "graph_stats": {
       "max_in_degree": 15,
       "max_out_degree": 15,
-      "max_pagerank": 0.023601896618683425,
+      "max_pagerank": 0.023601896618683418,
       "total_nodes": 118,
       "total_edges": 4114
     },
