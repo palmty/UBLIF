@@ -65,19 +65,32 @@ ubif_filters:
             - "excessive_requests"
           action: "reject"
 
-    - name: "ELECTRONIC_TRANSACTION_ACT"
-      description: "พ.ร.บ. ธุรกรรมทางอิเล็กทรอนิกส์"
+    - name: "CYBERSECURITY_ACT_2562"
+      description: "พ.ร.บ. การรักษาความมั่นคงปลอดภัยไซเบอร์ พ.ศ. 2562"
       rules:
-        - type: "data_integrity"
-          validation: "checksum_validation"
+        - type: "device_and_network_logging"
+          fields:
+            - "customValue.device"
+            - "customValue.serviceIP"
           action: "flag"
 
-    - name: "CONSUMER_PROTECTION_ACT"
-      description: "พ.ร.บ. การคุ้มครองผู้บริโภค"
+    - name: "ROYAL_DECREE_TECH_CRIME_2566"
+      description: "พระราชกำหนดการป้องกันและปราบปรามอาชญากรรมทางเทคโนโลยี พ.ศ. 2566"
       rules:
-        - type: "fair_data_usage"
-          description: "ไม่นำข้อมูลไปใช้ในทางที่ผิด"
-          action: "audit_log"
+        - type: "access_control_logging"
+          fields:
+            - "_id"
+            - "customValue.datetime"
+          action: "flag"
+
+    - name: "GDPR_EU_2016_679"
+      description: "General Data Protection Regulation (EU 2016/679)"
+      rules:
+        - type: "privacy_by_design"
+          fields:
+            - "customValue.account"
+            - "customValue.serviceIP"
+          action: "flag"
 
   # 3. Base Entities Validation (ตามภาพ UBIF)
   base_entities:

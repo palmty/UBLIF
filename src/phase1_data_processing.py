@@ -157,8 +157,6 @@ class DataProcessingPipeline:
                     'record': processed_record,
                     'issues': issues
                 })
-                # Still include but flag
-                compliant_records.append(processed_record)
         
         # Save audit log
         audit_log = self.compliance_engine.generate_audit_log()
@@ -273,6 +271,13 @@ class DataProcessingPipeline:
             (train_df, test_df)
         """
         print("\n=== STEP 1.6: TEMPORAL SPLIT ===")
+
+        import pandas as pd
+
+        if df is None or len(df) == 0 or 'timestamp' not in df.columns:
+            print("⚠ No usable timestamp column; skipping temporal split.")
+            empty_df = pd.DataFrame()
+            return empty_df, empty_df
         
         # Sort by timestamp
         df = df.sort_values('timestamp').reset_index(drop=True)

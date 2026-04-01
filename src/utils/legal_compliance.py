@@ -1,10 +1,11 @@
 """
 Legal Compliance Module
-Implements compliance with Thai laws:
-- PDPA 2562 (Personal Data Protection Act)
-- Computer Crime Act 2550
-- Electronic Transaction Act
-- Consumer Protection Act
+Implements compliance with Thai laws and references:
+- Personal Data Protection Act B.E. 2562 (PDPA, 2019)
+- Computer-Related Crime Act B.E. 2560 (2017)
+- Cybersecurity Act B.E. 2562 (2019)
+- Royal Decree on Technology Crime Prevention B.E. 2566 (2023)
+- General Data Protection Regulation (GDPR, EU 2016/679)
 """
 
 import hashlib
@@ -14,10 +15,22 @@ from typing import Dict, List, Optional, Tuple, Any
 import yaml
 
 
+def _get_field(record: Dict[str, Any], field_path: str) -> Optional[Any]:
+    if field_path in record:
+        return record.get(field_path)
+
+    current = record
+    for part in field_path.split('.'):
+        if not isinstance(current, dict) or part not in current:
+            return None
+        current = current.get(part)
+    return current
+
+
 class PDPACompliance:
     """
-    PDPA 2562 (Personal Data Protection Act) Compliance
-    Handles anonymization and consent management
+    Personal Data Protection Act B.E. 2562 (PDPA, 2019)
+    Handles anonymization, coordinate truncation, and consent logging
     """
     
     def __init__(self, config: Optional[Dict[str, Any]] = None):
@@ -52,6 +65,16 @@ class PDPACompliance:
         hashed_account = hash_object.hexdigest()
         
         return hashed_account
+
+    def get_account_value(self, record: Dict[str, Any]) -> Optional[str]:
+        """
+        Extract account value from nested or flattened records
+        """
+        custom_value = record.get('customValue')
+        if isinstance(custom_value, dict):
+            return custom_value.get('account')
+
+        return record.get('customValue.account')
     
     def mask_ip_address(self, ip_address: str) -> str:
         """
@@ -109,8 +132,65 @@ class PDPACompliance:
             # Mask IP address
             if 'serviceIP' in custom_value and custom_value['serviceIP']:
                 custom_value['serviceIP'] = self.mask_ip_address(str(custom_value['serviceIP']))
+
+            # Truncate coordinates to reduce precision
+            if 'location' in custom_value and isinstance(custom_value['location'], dict):
+                loc = custom_value['location']
+                if loc.get('lat') is not None:
+                    try:
+                        loc['lat'] = round(float(loc['lat']), 4)
+                    except (ValueError, TypeError):
+                        pass
+                if loc.get('lon') is not None:
+                    try:
+                        loc['lon'] = round(float(loc['lon']), 4)
+                    except (ValueError, TypeError):
+                        pass
+
+            # Anonymize accessId using the same hashing logic
+            if 'accessId' in custom_value and custom_value['accessId']:
+                custom_value['accessId'] = self.anonymize_account(str(custom_value['accessId']))
+        else:
+            account_key = 'customValue.account'
+            if account_key in anonymized and anonymized[account_key]:
+                anonymized[account_key] = self.anonymize_account(str(anonymized[account_key]))
+
+            service_ip_key = 'customValue.serviceIP'
+            if service_ip_key in anonymized and anonymized[service_ip_key]:
+                anonymized[service_ip_key] = self.mask_ip_address(str(anonymized[service_ip_key]))
+
+            lat_key = 'customValue.location.lat'
+            if lat_key in anonymized and anonymized[lat_key] is not None:
+                try:
+                    anonymized[lat_key] = round(float(anonymized[lat_key]), 4)
+                except (ValueError, TypeError):
+                    pass
+
+            lon_key = 'customValue.location.lon'
+            if lon_key in anonymized and anonymized[lon_key] is not None:
+                try:
+                    anonymized[lon_key] = round(float(anonymized[lon_key]), 4)
+                except (ValueError, TypeError):
+                    pass
+
+            access_id_key = 'customValue.accessId'
+            if access_id_key in anonymized and anonymized[access_id_key]:
+                anonymized[access_id_key] = self.anonymize_account(str(anonymized[access_id_key]))
         
         return anonymized
+
+    def check_pdpa_required_fields(self, record: Dict[str, Any]) -> Tuple[bool, str]:
+        """
+        Check PDPA minimum requirements before anonymization
+        Returns False if record cannot be made compliant
+        """
+        account_value = self.get_account_value(record)
+
+        # Missing account means anonymization cannot be applied
+        if not account_value:
+            return False, "PDPA: missing account field required for anonymization"
+
+        return True, ""
     
     def log_consent(self, user_id: str, action: str, timestamp: Optional[str] = None) -> None:
         """
@@ -145,8 +225,8 @@ class PDPACompliance:
 
 class ComputerCrimeActChecker:
     """
-    Computer Crime Act 2550 Compliance
-    Detects malicious activities
+    Computer-Related Crime Act B.E. 2560 (2017)
+    Detects malicious activities and preserves evidence trails
     """
     
     # SQL injection patterns
@@ -182,6 +262,8 @@ class ComputerCrimeActChecker:
             config: Configuration
         """
         self.config = config or {}
+        self.action = self.config.get('action', 'reject')
+        self.enabled_patterns = set(self.config.get('patterns', []))
         self.detected_attacks = []
     
     def detect_sql_injection(self, input_str: str) -> Tuple[bool, Optional[str]]:
@@ -254,40 +336,44 @@ class ComputerCrimeActChecker:
         threats = []
         
         # Check all string fields for SQL injection and XSS
-        custom_value = record.get('customValue', {})
-        
         # Check keyword
-        keyword = custom_value.get('keyword', '')
+        keyword = _get_field(record, 'customValue.keyword') or ''
         if keyword:
-            sql_found, sql_pattern = self.detect_sql_injection(str(keyword))
-            if sql_found:
-                threats.append(f"SQL_INJECTION in keyword: {sql_pattern}")
-            
-            xss_found, xss_pattern = self.detect_xss_attack(str(keyword))
-            if xss_found:
-                threats.append(f"XSS_ATTACK in keyword: {xss_pattern}")
+            if not self.enabled_patterns or 'sql_injection' in self.enabled_patterns:
+                sql_found, sql_pattern = self.detect_sql_injection(str(keyword))
+                if sql_found:
+                    threats.append(f"SQL_INJECTION in keyword: {sql_pattern}")
+
+            if not self.enabled_patterns or 'xss_attack' in self.enabled_patterns:
+                xss_found, xss_pattern = self.detect_xss_attack(str(keyword))
+                if xss_found:
+                    threats.append(f"XSS_ATTACK in keyword: {xss_pattern}")
         
         # Check service name
-        service_name = custom_value.get('serviceName', '')
+        service_name = _get_field(record, 'customValue.serviceName') or ''
         if service_name:
-            sql_found, sql_pattern = self.detect_sql_injection(str(service_name))
-            if sql_found:
-                threats.append(f"SQL_INJECTION in serviceName: {sql_pattern}")
-            
-            xss_found, xss_pattern = self.detect_xss_attack(str(service_name))
-            if xss_found:
-                threats.append(f"XSS_ATTACK in serviceName: {xss_pattern}")
+            if not self.enabled_patterns or 'sql_injection' in self.enabled_patterns:
+                sql_found, sql_pattern = self.detect_sql_injection(str(service_name))
+                if sql_found:
+                    threats.append(f"SQL_INJECTION in serviceName: {sql_pattern}")
+
+            if not self.enabled_patterns or 'xss_attack' in self.enabled_patterns:
+                xss_found, xss_pattern = self.detect_xss_attack(str(service_name))
+                if xss_found:
+                    threats.append(f"XSS_ATTACK in serviceName: {xss_pattern}")
         
         # Check name field
         name = record.get('name', '')
         if name:
-            sql_found, sql_pattern = self.detect_sql_injection(str(name))
-            if sql_found:
-                threats.append(f"SQL_INJECTION in name: {sql_pattern}")
-            
-            xss_found, xss_pattern = self.detect_xss_attack(str(name))
-            if xss_found:
-                threats.append(f"XSS_ATTACK in name: {xss_pattern}")
+            if not self.enabled_patterns or 'sql_injection' in self.enabled_patterns:
+                sql_found, sql_pattern = self.detect_sql_injection(str(name))
+                if sql_found:
+                    threats.append(f"SQL_INJECTION in name: {sql_pattern}")
+
+            if not self.enabled_patterns or 'xss_attack' in self.enabled_patterns:
+                xss_found, xss_pattern = self.detect_xss_attack(str(name))
+                if xss_found:
+                    threats.append(f"XSS_ATTACK in name: {xss_pattern}")
         
         if threats:
             self.detected_attacks.append({
@@ -308,6 +394,81 @@ class ComputerCrimeActChecker:
         return self.detected_attacks
 
 
+class CybersecurityActChecker:
+    """
+    Cybersecurity Act B.E. 2562 (2019)
+    Ensures device identification and network-layer logging are present
+    """
+
+    def __init__(self, config: Optional[Dict[str, Any]] = None):
+        self.config = config or {}
+        self.action = self.config.get('action', 'flag')
+        self.fields = self.config.get('fields', ['customValue.device', 'customValue.serviceIP'])
+
+    def check_record(self, record: Dict[str, Any]) -> Tuple[bool, List[str]]:
+        issues = []
+
+        for field in self.fields:
+            if not _get_field(record, field):
+                issues.append(f"CYBERSECURITY_ACT: missing {field}")
+
+        return len(issues) == 0, issues
+
+
+class RoyalDecreeTechCrimeChecker:
+    """
+    Royal Decree on Technology Crime Prevention B.E. 2566 (2023)
+    Requires access-control logs with record identifiers and timestamps
+    """
+
+    def __init__(self, config: Optional[Dict[str, Any]] = None):
+        self.config = config or {}
+        self.action = self.config.get('action', 'flag')
+        self.fields = self.config.get('fields', ['_id', 'customValue.datetime'])
+
+    def check_record(self, record: Dict[str, Any]) -> Tuple[bool, List[str]]:
+        issues = []
+
+        for field in self.fields:
+            if field in ('_id', 'id'):
+                value = record.get(field)
+            else:
+                value = _get_field(record, field)
+            if not value:
+                issues.append(f"ROYAL_DECREE_2566: missing {field}")
+
+        return len(issues) == 0, issues
+
+
+class GDPRComplianceChecker:
+    """
+    GDPR (EU 2016/679)
+    Verifies privacy-by-design controls are applied to personal data
+    """
+
+    def __init__(self, config: Optional[Dict[str, Any]] = None):
+        self.config = config or {}
+        self.action = self.config.get('action', 'flag')
+        self.fields = set(self.config.get('fields', ['customValue.account', 'customValue.serviceIP']))
+
+    def check_record(self, original_record: Dict[str, Any], processed_record: Dict[str, Any]) -> Tuple[bool, List[str]]:
+        issues = []
+
+        if 'customValue.account' in self.fields:
+            original_account = _get_field(original_record, 'customValue.account')
+            processed_account = _get_field(processed_record, 'customValue.account')
+            if original_account and processed_account and original_account == processed_account:
+                issues.append('GDPR: account not anonymized')
+
+        if 'customValue.serviceIP' in self.fields:
+            original_ip = _get_field(original_record, 'customValue.serviceIP')
+            processed_ip = _get_field(processed_record, 'customValue.serviceIP')
+            if original_ip and processed_ip and original_ip == processed_ip:
+                issues.append('GDPR: serviceIP not masked')
+
+        return len(issues) == 0, issues
+
+
 class ComplianceEngine:
     """
     Main compliance engine that applies all legal rules
@@ -325,19 +486,40 @@ class ComplianceEngine:
         
         self.ubif_config = self.config.get('ubif_filters', {})
         self.legal_config = self.ubif_config.get('legal_compliance', [])
+
+        crime_rule = self._get_rule_config('COMPUTER_CRIME_ACT_2550', 'detect_malicious_activity')
+        cyber_rule = self._get_rule_config('CYBERSECURITY_ACT_2562', 'device_and_network_logging')
+        royal_rule = self._get_rule_config('ROYAL_DECREE_TECH_CRIME_2566', 'access_control_logging')
+        gdpr_rule = self._get_rule_config('GDPR_EU_2016_679', 'privacy_by_design')
+
         
         # Initialize compliance modules
         self.pdpa = PDPACompliance()
-        self.computer_crime = ComputerCrimeActChecker()
+        self.computer_crime = ComputerCrimeActChecker(config=crime_rule)
+        self.cybersecurity = CybersecurityActChecker(config=cyber_rule)
+        self.royal_decree = RoyalDecreeTechCrimeChecker(config=royal_rule)
+        self.gdpr = GDPRComplianceChecker(config=gdpr_rule)
         
         # Statistics
         self.stats = {
             'total_processed': 0,
             'pdpa_anonymized': 0,
             'threats_detected': 0,
+            'cybersecurity_issues': 0,
+            'royal_decree_issues': 0,
+            'gdpr_issues': 0,
             'flagged_records': 0
         }
-    
+
+    def _get_rule_config(self, law_name: str, rule_type: str) -> Dict[str, Any]:
+        for law in self.legal_config:
+            if law.get('name') != law_name:
+                continue
+            for rule in law.get('rules', []):
+                if rule.get('type') == rule_type:
+                    return rule
+        return {}
+
     def apply_all_rules(self, record: Dict[str, Any]) -> Tuple[Dict[str, Any], bool, List[str]]:
         """
         Apply all compliance rules to record
@@ -350,26 +532,55 @@ class ComplianceEngine:
         """
         self.stats['total_processed'] += 1
         issues = []
+
+        pdpa_ok, pdpa_msg = self.pdpa.check_pdpa_required_fields(record)
+        if not pdpa_ok:
+            self.stats['flagged_records'] += 1
+            issues.append(pdpa_msg)
+            return record, False, issues
         
         # Apply PDPA anonymization
         processed_record = self.pdpa.apply_anonymization(record)
         self.stats['pdpa_anonymized'] += 1
         
         # Check for computer crimes
-        is_clean, threats = self.computer_crime.check_record(record)
+        is_clean, threats = self.computer_crime.check_record(processed_record)
         
         if not is_clean:
             self.stats['threats_detected'] += 1
             issues.extend(threats)
-        
+            if self.computer_crime.action == 'reject':
+                is_clean = False
+
+        cyber_ok, cyber_issues = self.cybersecurity.check_record(record)
+        if not cyber_ok:
+            self.stats['cybersecurity_issues'] += len(cyber_issues)
+            issues.extend(cyber_issues)
+            if self.cybersecurity.action == 'reject':
+                is_clean = False
+
+        royal_ok, royal_issues = self.royal_decree.check_record(record)
+        if not royal_ok:
+            self.stats['royal_decree_issues'] += len(royal_issues)
+            issues.extend(royal_issues)
+            if self.royal_decree.action == 'reject':
+                is_clean = False
+
+        gdpr_ok, gdpr_issues = self.gdpr.check_record(record, processed_record)
+        if not gdpr_ok:
+            self.stats['gdpr_issues'] += len(gdpr_issues)
+            issues.extend(gdpr_issues)
+            if self.gdpr.action == 'reject':
+                is_clean = False
+
         # Log consent (if account exists)
-        custom_value = record.get('customValue', {})
-        if 'account' in custom_value:
+        account_value = self.pdpa.get_account_value(record)
+        if account_value:
             self.pdpa.log_consent(
-                user_id=custom_value['account'],
+                user_id=account_value,
                 action='data_processing'
             )
-        
+
         # Flag if issues found
         if issues:
             self.stats['flagged_records'] += 1
