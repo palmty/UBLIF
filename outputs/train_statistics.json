@@ -2,7 +2,7 @@
   "graph_stats": {
     "max_in_degree": 15,
     "max_out_degree": 15,
-    "max_pagerank": 0.023601896618683418,
+    "max_pagerank": 0.027031192768006626,
     "total_nodes": 118,
     "total_edges": 4114
   },

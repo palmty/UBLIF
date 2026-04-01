@@ -9,6 +9,10 @@ from datetime import datetime
 from typing import Dict, List, Any, Tuple
 from collections import defaultdict
 import numpy as np
+
+# Fix matplotlib backend for Windows
+import matplotlib
+matplotlib.use('Agg')  # Use non-interactive backend
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.metrics import (

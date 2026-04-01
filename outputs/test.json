@@ -66132,6 +66132,40 @@
   },
   {
     "timestamp":1749944447,
+    "device_id":"Guest",
+    "product_id":"253",
+    "event_type":"restaurant\/show",
+    "category":"Marketplace-rcbt-sip",
+    "service_name":"",
+    "service_type":"restaurant",
+    "location":{
+      "lat":14.97066,
+      "lon":102.10196
+    },
+    "keyword":"",
+    "device":"Computer",
+    "operation":"Unknown Platform",
+    "interest":1,
+    "session_id":"2d837da32a1b",
+    "click_position":4,
+    "session_depth":4,
+    "session_duration_minutes":22.8833333333,
+    "time_since_last_click":1034,
+    "hour_of_day":23,
+    "day_of_week":5,
+    "is_weekend":1,
+    "user_lat":14.97066,
+    "user_lon":102.10196,
+    "viewed_category_before":1,
+    "category_view_count":3,
+    "previous_products":[
+      "102",
+      "634",
+      "164"
+    ]
+  },
+  {
+    "timestamp":1749944447,
     "device_id":"BanBangPhlap",
     "product_id":"18",
     "event_type":"communitydetail_Click",
@@ -66178,40 +66212,6 @@
       "18",
       "18",
       "18"
-    ]
-  },
-  {
-    "timestamp":1749944447,
-    "device_id":"Guest",
-    "product_id":"253",
-    "event_type":"restaurant\/show",
-    "category":"Marketplace-rcbt-sip",
-    "service_name":"",
-    "service_type":"restaurant",
-    "location":{
-      "lat":14.97066,
-      "lon":102.10196
-    },
-    "keyword":"",
-    "device":"Computer",
-    "operation":"Unknown Platform",
-    "interest":1,
-    "session_id":"2d837da32a1b",
-    "click_position":4,
-    "session_depth":4,
-    "session_duration_minutes":22.8833333333,
-    "time_since_last_click":1034,
-    "hour_of_day":23,
-    "day_of_week":5,
-    "is_weekend":1,
-    "user_lat":14.97066,
-    "user_lon":102.10196,
-    "viewed_category_before":1,
-    "category_view_count":3,
-    "previous_products":[
-      "102",
-      "634",
-      "164"
     ]
   },
   {
@@ -104128,39 +104128,6 @@
     "product_id":"17",
     "event_type":"communitydetail_Click",
     "category":"RCBT-SIP",
-    "service_name":"ชุมชนบ้านริมคลอง",
-    "service_type":"page_view",
-    "location":{
-      "lat":14.9759563,
-      "lon":102.1282681
-    },
-    "keyword":"",
-    "device":"",
-    "operation":"",
-    "interest":1,
-    "session_id":"aaa196659017",
-    "click_position":3,
-    "session_depth":7,
-    "session_duration_minutes":29.7166666667,
-    "time_since_last_click":63,
-    "hour_of_day":0,
-    "day_of_week":6,
-    "is_weekend":1,
-    "user_lat":14.9759563,
-    "user_lon":102.1282681,
-    "viewed_category_before":0,
-    "category_view_count":0,
-    "previous_products":[
-      "163",
-      "93"
-    ]
-  },
-  {
-    "timestamp":1750553768,
-    "device_id":"Guest",
-    "product_id":"17",
-    "event_type":"communitydetail_Click",
-    "category":"RCBT-SIP",
     "service_name":"RCBT-SIP",
     "service_type":"page_view",
     "location":{
@@ -104187,6 +104154,39 @@
       "163",
       "93",
       "17"
+    ]
+  },
+  {
+    "timestamp":1750553768,
+    "device_id":"Guest",
+    "product_id":"17",
+    "event_type":"communitydetail_Click",
+    "category":"RCBT-SIP",
+    "service_name":"ชุมชนบ้านริมคลอง",
+    "service_type":"page_view",
+    "location":{
+      "lat":14.9759563,
+      "lon":102.1282681
+    },
+    "keyword":"",
+    "device":"",
+    "operation":"",
+    "interest":1,
+    "session_id":"aaa196659017",
+    "click_position":3,
+    "session_depth":7,
+    "session_duration_minutes":29.7166666667,
+    "time_since_last_click":63,
+    "hour_of_day":0,
+    "day_of_week":6,
+    "is_weekend":1,
+    "user_lat":14.9759563,
+    "user_lon":102.1282681,
+    "viewed_category_before":0,
+    "category_view_count":0,
+    "previous_products":[
+      "163",
+      "93"
     ]
   },
   {
@@ -136471,41 +136471,6 @@
     "product_id":"164",
     "event_type":"producttouristdetailpage_Click",
     "category":"RCBT-SIP",
-    "service_name":"แกะสลักหนังใหญ่",
-    "service_type":"page_view",
-    "location":{
-      "lat":15.0004384,
-      "lon":102.1483453
-    },
-    "keyword":"",
-    "device":"",
-    "operation":"",
-    "interest":0,
-    "session_id":"fb1689bfff08",
-    "click_position":5,
-    "session_depth":7,
-    "session_duration_minutes":8.8333333333,
-    "time_since_last_click":10,
-    "hour_of_day":10,
-    "day_of_week":0,
-    "is_weekend":0,
-    "user_lat":15.0004384,
-    "user_lon":102.1483453,
-    "viewed_category_before":1,
-    "category_view_count":4,
-    "previous_products":[
-      "163",
-      "19",
-      "19",
-      "19"
-    ]
-  },
-  {
-    "timestamp":1751883876,
-    "device_id":"admin",
-    "product_id":"164",
-    "event_type":"producttouristdetailpage_Click",
-    "category":"RCBT-SIP",
     "service_name":"[]",
     "service_type":"page_view",
     "location":{
@@ -136534,6 +136499,41 @@
       "19",
       "19",
       "164"
+    ]
+  },
+  {
+    "timestamp":1751883876,
+    "device_id":"admin",
+    "product_id":"164",
+    "event_type":"producttouristdetailpage_Click",
+    "category":"RCBT-SIP",
+    "service_name":"แกะสลักหนังใหญ่",
+    "service_type":"page_view",
+    "location":{
+      "lat":15.0004384,
+      "lon":102.1483453
+    },
+    "keyword":"",
+    "device":"",
+    "operation":"",
+    "interest":0,
+    "session_id":"fb1689bfff08",
+    "click_position":5,
+    "session_depth":7,
+    "session_duration_minutes":8.8333333333,
+    "time_since_last_click":10,
+    "hour_of_day":10,
+    "day_of_week":0,
+    "is_weekend":0,
+    "user_lat":15.0004384,
+    "user_lon":102.1483453,
+    "viewed_category_before":1,
+    "category_view_count":4,
+    "previous_products":[
+      "163",
+      "19",
+      "19",
+      "19"
     ]
   },
   {
@@ -153460,6 +153460,44 @@
   {
     "timestamp":1752625769,
     "device_id":"KhaoPhra2022",
+    "product_id":"27",
+    "event_type":"communitydetail_Click",
+    "category":"RCBT-SIP",
+    "service_name":"บ้านปรางค์",
+    "service_type":"click",
+    "location":{
+      "lat":14.9773755,
+      "lon":102.1289826
+    },
+    "keyword":"",
+    "device":"",
+    "operation":"",
+    "interest":1,
+    "session_id":"c9ef0948e30e",
+    "click_position":8,
+    "session_depth":10,
+    "session_duration_minutes":1.1166666667,
+    "time_since_last_click":16,
+    "hour_of_day":0,
+    "day_of_week":2,
+    "is_weekend":0,
+    "user_lat":14.9773755,
+    "user_lon":102.1289826,
+    "viewed_category_before":1,
+    "category_view_count":7,
+    "previous_products":[
+      "27",
+      "27",
+      "27",
+      "27",
+      "27",
+      "27",
+      "27"
+    ]
+  },
+  {
+    "timestamp":1752625769,
+    "device_id":"KhaoPhra2022",
     "product_id":"242",
     "event_type":"producttouristdetailpage_Click",
     "category":"RCBT-SIP",
@@ -153487,44 +153525,6 @@
     "category_view_count":8,
     "previous_products":[
       "27",
-      "27",
-      "27",
-      "27",
-      "27",
-      "27",
-      "27",
-      "27"
-    ]
-  },
-  {
-    "timestamp":1752625769,
-    "device_id":"KhaoPhra2022",
-    "product_id":"27",
-    "event_type":"communitydetail_Click",
-    "category":"RCBT-SIP",
-    "service_name":"บ้านปรางค์",
-    "service_type":"click",
-    "location":{
-      "lat":14.9773755,
-      "lon":102.1289826
-    },
-    "keyword":"",
-    "device":"",
-    "operation":"",
-    "interest":1,
-    "session_id":"c9ef0948e30e",
-    "click_position":8,
-    "session_depth":10,
-    "session_duration_minutes":1.1166666667,
-    "time_since_last_click":16,
-    "hour_of_day":0,
-    "day_of_week":2,
-    "is_weekend":0,
-    "user_lat":14.9773755,
-    "user_lon":102.1289826,
-    "viewed_category_before":1,
-    "category_view_count":7,
-    "previous_products":[
       "27",
       "27",
       "27",
@@ -155160,53 +155160,6 @@
     "operation":"",
     "interest":0,
     "session_id":"b910ad597bef",
-    "click_position":17,
-    "session_depth":24,
-    "session_duration_minutes":28.1833333333,
-    "time_since_last_click":302,
-    "hour_of_day":0,
-    "day_of_week":2,
-    "is_weekend":0,
-    "user_lat":14.9866002179,
-    "user_lon":102.1191474981,
-    "viewed_category_before":1,
-    "category_view_count":1,
-    "previous_products":[
-      "44",
-      "48",
-      "30",
-      "45",
-      "45",
-      "45",
-      "76",
-      "104",
-      "3",
-      "3",
-      "3",
-      "68",
-      "47",
-      "70",
-      "34",
-      "24"
-    ]
-  },
-  {
-    "timestamp":1752627252,
-    "device_id":"Guest",
-    "product_id":"0",
-    "event_type":"businessproductbusinessindexpage_Click",
-    "category":"RCBT-SIP",
-    "service_name":"RCBT-SIP",
-    "service_type":"page_view",
-    "location":{
-      "lat":14.9866002179,
-      "lon":102.1191474981
-    },
-    "keyword":"",
-    "device":"",
-    "operation":"",
-    "interest":0,
-    "session_id":"b910ad597bef",
     "click_position":18,
     "session_depth":24,
     "session_duration_minutes":28.1833333333,
@@ -155236,6 +155189,53 @@
       "34",
       "24",
       "0"
+    ]
+  },
+  {
+    "timestamp":1752627252,
+    "device_id":"Guest",
+    "product_id":"0",
+    "event_type":"businessproductbusinessindexpage_Click",
+    "category":"RCBT-SIP",
+    "service_name":"RCBT-SIP",
+    "service_type":"page_view",
+    "location":{
+      "lat":14.9866002179,
+      "lon":102.1191474981
+    },
+    "keyword":"",
+    "device":"",
+    "operation":"",
+    "interest":0,
+    "session_id":"b910ad597bef",
+    "click_position":17,
+    "session_depth":24,
+    "session_duration_minutes":28.1833333333,
+    "time_since_last_click":302,
+    "hour_of_day":0,
+    "day_of_week":2,
+    "is_weekend":0,
+    "user_lat":14.9866002179,
+    "user_lon":102.1191474981,
+    "viewed_category_before":1,
+    "category_view_count":1,
+    "previous_products":[
+      "44",
+      "48",
+      "30",
+      "45",
+      "45",
+      "45",
+      "76",
+      "104",
+      "3",
+      "3",
+      "3",
+      "68",
+      "47",
+      "70",
+      "34",
+      "24"
     ]
   },
   {
@@ -156872,6 +156872,45 @@
     "service_name":"BusinessProductBusinessIndexPage",
     "service_type":"route_change",
     "location":{
+      "lat":14.9822101724,
+      "lon":102.1184899823
+    },
+    "keyword":"",
+    "device":"",
+    "operation":"",
+    "interest":0,
+    "session_id":"73090be75f9f",
+    "click_position":9,
+    "session_depth":13,
+    "session_duration_minutes":7.8833333333,
+    "time_since_last_click":2,
+    "hour_of_day":2,
+    "day_of_week":2,
+    "is_weekend":0,
+    "user_lat":14.9822101724,
+    "user_lon":102.1184899823,
+    "viewed_category_before":1,
+    "category_view_count":8,
+    "previous_products":[
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0"
+    ]
+  },
+  {
+    "timestamp":1752633653,
+    "device_id":"sompong99",
+    "product_id":"0",
+    "event_type":"businessproductbusinessindexpage_Click",
+    "category":"RCBT-SIP",
+    "service_name":"BusinessProductBusinessIndexPage",
+    "service_type":"route_change",
+    "location":{
       "lat":14.9821847582,
       "lon":102.118487035
     },
@@ -156893,45 +156932,6 @@
     "category_view_count":9,
     "previous_products":[
       "0",
-      "0",
-      "0",
-      "0",
-      "0",
-      "0",
-      "0",
-      "0",
-      "0"
-    ]
-  },
-  {
-    "timestamp":1752633653,
-    "device_id":"sompong99",
-    "product_id":"0",
-    "event_type":"businessproductbusinessindexpage_Click",
-    "category":"RCBT-SIP",
-    "service_name":"BusinessProductBusinessIndexPage",
-    "service_type":"route_change",
-    "location":{
-      "lat":14.9822101724,
-      "lon":102.1184899823
-    },
-    "keyword":"",
-    "device":"",
-    "operation":"",
-    "interest":0,
-    "session_id":"73090be75f9f",
-    "click_position":9,
-    "session_depth":13,
-    "session_duration_minutes":7.8833333333,
-    "time_since_last_click":2,
-    "hour_of_day":2,
-    "day_of_week":2,
-    "is_weekend":0,
-    "user_lat":14.9822101724,
-    "user_lon":102.1184899823,
-    "viewed_category_before":1,
-    "category_view_count":8,
-    "previous_products":[
       "0",
       "0",
       "0",
@@ -157554,6 +157554,38 @@
   },
   {
     "timestamp":1752651148,
+    "device_id":"AP3A.240905.015.A2",
+    "product_id":"257",
+    "event_type":"Home_MapClick",
+    "category":"Home",
+    "service_name":"ตำไทบ้าน E-San‘Korat ",
+    "service_type":"restaurant",
+    "location":{
+      "lat":14.9865594,
+      "lon":102.1192635
+    },
+    "keyword":"",
+    "device":"Android",
+    "operation":"15",
+    "interest":0,
+    "session_id":"e6b758751ba9",
+    "click_position":1,
+    "session_depth":1,
+    "session_duration_minutes":0.0,
+    "time_since_last_click":0,
+    "hour_of_day":7,
+    "day_of_week":2,
+    "is_weekend":0,
+    "user_lat":14.9865594,
+    "user_lon":102.1192635,
+    "viewed_category_before":0,
+    "category_view_count":0,
+    "previous_products":[
+
+    ]
+  },
+  {
+    "timestamp":1752651148,
     "device_id":"563A8DC0-EDD9-4912-ADB9-50DC547BBCFA",
     "product_id":"257",
     "event_type":"Home_MapClick",
@@ -157584,38 +157616,6 @@
       "140",
       "7",
       "348"
-    ]
-  },
-  {
-    "timestamp":1752651148,
-    "device_id":"AP3A.240905.015.A2",
-    "product_id":"257",
-    "event_type":"Home_MapClick",
-    "category":"Home",
-    "service_name":"ตำไทบ้าน E-San‘Korat ",
-    "service_type":"restaurant",
-    "location":{
-      "lat":14.9865594,
-      "lon":102.1192635
-    },
-    "keyword":"",
-    "device":"Android",
-    "operation":"15",
-    "interest":0,
-    "session_id":"e6b758751ba9",
-    "click_position":1,
-    "session_depth":1,
-    "session_duration_minutes":0.0,
-    "time_since_last_click":0,
-    "hour_of_day":7,
-    "day_of_week":2,
-    "is_weekend":0,
-    "user_lat":14.9865594,
-    "user_lon":102.1192635,
-    "viewed_category_before":0,
-    "category_view_count":0,
-    "previous_products":[
-
     ]
   },
   {
@@ -159699,38 +159699,6 @@
     "event_type":"businessproductbusinessindexpage_Click",
     "category":"RCBT-SIP",
     "service_name":"RCBT-SIP",
-    "service_type":"click",
-    "location":{
-      "lat":14.9867652,
-      "lon":102.1186991
-    },
-    "keyword":"",
-    "device":"",
-    "operation":"",
-    "interest":0,
-    "session_id":"e012dc3f90c6",
-    "click_position":2,
-    "session_depth":21,
-    "session_duration_minutes":4.0,
-    "time_since_last_click":0,
-    "hour_of_day":23,
-    "day_of_week":2,
-    "is_weekend":0,
-    "user_lat":14.9867652,
-    "user_lon":102.1186991,
-    "viewed_category_before":1,
-    "category_view_count":1,
-    "previous_products":[
-      "0"
-    ]
-  },
-  {
-    "timestamp":1752709191,
-    "device_id":"oshinkorat",
-    "product_id":"0",
-    "event_type":"businessproductbusinessindexpage_Click",
-    "category":"RCBT-SIP",
-    "service_name":"RCBT-SIP",
     "service_type":"page_view",
     "location":{
       "lat":14.9867652,
@@ -159787,6 +159755,38 @@
     "category_view_count":0,
     "previous_products":[
 
+    ]
+  },
+  {
+    "timestamp":1752709191,
+    "device_id":"oshinkorat",
+    "product_id":"0",
+    "event_type":"businessproductbusinessindexpage_Click",
+    "category":"RCBT-SIP",
+    "service_name":"RCBT-SIP",
+    "service_type":"click",
+    "location":{
+      "lat":14.9867652,
+      "lon":102.1186991
+    },
+    "keyword":"",
+    "device":"",
+    "operation":"",
+    "interest":0,
+    "session_id":"e012dc3f90c6",
+    "click_position":2,
+    "session_depth":21,
+    "session_duration_minutes":4.0,
+    "time_since_last_click":0,
+    "hour_of_day":23,
+    "day_of_week":2,
+    "is_weekend":0,
+    "user_lat":14.9867652,
+    "user_lon":102.1186991,
+    "viewed_category_before":1,
+    "category_view_count":1,
+    "previous_products":[
+      "0"
     ]
   },
   {
@@ -160035,9 +160035,8 @@
     "user_lat":14.9867689,
     "user_lon":102.118685,
     "viewed_category_before":1,
-    "category_view_count":10,
+    "category_view_count":9,
     "previous_products":[
-      "0",
       "0",
       "0",
       "0",
@@ -160076,8 +160075,9 @@
     "user_lat":14.9867689,
     "user_lon":102.118685,
     "viewed_category_before":1,
-    "category_view_count":9,
+    "category_view_count":10,
     "previous_products":[
+      "0",
       "0",
       "0",
       "0",
@@ -160135,49 +160135,6 @@
     "timestamp":1752709229,
     "device_id":"oshinkorat",
     "product_id":"0",
-    "event_type":"businessproductbusinessindexpage_Click",
-    "category":"RCBT-SIP",
-    "service_name":"RCBT-SIP",
-    "service_type":"click",
-    "location":{
-      "lat":14.9867697,
-      "lon":102.11871
-    },
-    "keyword":"",
-    "device":"",
-    "operation":"",
-    "interest":0,
-    "session_id":"e012dc3f90c6",
-    "click_position":13,
-    "session_depth":21,
-    "session_duration_minutes":4.0,
-    "time_since_last_click":5,
-    "hour_of_day":23,
-    "day_of_week":2,
-    "is_weekend":0,
-    "user_lat":14.9867697,
-    "user_lon":102.11871,
-    "viewed_category_before":1,
-    "category_view_count":12,
-    "previous_products":[
-      "0",
-      "0",
-      "0",
-      "0",
-      "0",
-      "0",
-      "0",
-      "0",
-      "0",
-      "0",
-      "0",
-      "0"
-    ]
-  },
-  {
-    "timestamp":1752709229,
-    "device_id":"oshinkorat",
-    "product_id":"0",
     "event_type":"businessproducttouristindexpage_Click",
     "category":"RCBT-SIP",
     "service_name":"RCBT-SIP",
@@ -160204,6 +160161,49 @@
     "category_view_count":13,
     "previous_products":[
       "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0"
+    ]
+  },
+  {
+    "timestamp":1752709229,
+    "device_id":"oshinkorat",
+    "product_id":"0",
+    "event_type":"businessproductbusinessindexpage_Click",
+    "category":"RCBT-SIP",
+    "service_name":"RCBT-SIP",
+    "service_type":"click",
+    "location":{
+      "lat":14.9867697,
+      "lon":102.11871
+    },
+    "keyword":"",
+    "device":"",
+    "operation":"",
+    "interest":0,
+    "session_id":"e012dc3f90c6",
+    "click_position":13,
+    "session_depth":21,
+    "session_duration_minutes":4.0,
+    "time_since_last_click":5,
+    "hour_of_day":23,
+    "day_of_week":2,
+    "is_weekend":0,
+    "user_lat":14.9867697,
+    "user_lon":102.11871,
+    "viewed_category_before":1,
+    "category_view_count":12,
+    "previous_products":[
       "0",
       "0",
       "0",
@@ -160360,7 +160360,7 @@
     "timestamp":1752709326,
     "device_id":"oshinkorat",
     "product_id":"0",
-    "event_type":"businessproducttouristindexpage_Click",
+    "event_type":"businessproductcommunityindexpage_Click",
     "category":"RCBT-SIP",
     "service_name":"RCBT-SIP",
     "service_type":"page_view",
@@ -160373,7 +160373,7 @@
     "operation":"",
     "interest":0,
     "session_id":"e012dc3f90c6",
-    "click_position":20,
+    "click_position":19,
     "session_depth":21,
     "session_duration_minutes":4.0,
     "time_since_last_click":0,
@@ -160383,8 +160383,9 @@
     "user_lat":14.986767,
     "user_lon":102.1186908,
     "viewed_category_before":1,
-    "category_view_count":17,
+    "category_view_count":18,
     "previous_products":[
+      "0",
       "0",
       "0",
       "0",
@@ -160408,7 +160409,7 @@
     "timestamp":1752709326,
     "device_id":"oshinkorat",
     "product_id":"0",
-    "event_type":"businessproductcommunityindexpage_Click",
+    "event_type":"businessproducttouristindexpage_Click",
     "category":"RCBT-SIP",
     "service_name":"RCBT-SIP",
     "service_type":"page_view",
@@ -160421,7 +160422,7 @@
     "operation":"",
     "interest":0,
     "session_id":"e012dc3f90c6",
-    "click_position":19,
+    "click_position":20,
     "session_depth":21,
     "session_duration_minutes":4.0,
     "time_since_last_click":0,
@@ -160481,9 +160482,8 @@
     "user_lat":14.986767,
     "user_lon":102.1186908,
     "viewed_category_before":1,
-    "category_view_count":18,
+    "category_view_count":17,
     "previous_products":[
-      "0",
       "0",
       "0",
       "0",
@@ -223769,18 +223769,19 @@
     "operation":"",
     "interest":0,
     "session_id":"5bd1b9e9d8a0",
-    "click_position":2,
+    "click_position":3,
     "session_depth":7,
     "session_duration_minutes":2.8666666667,
-    "time_since_last_click":9,
+    "time_since_last_click":0,
     "hour_of_day":21,
     "day_of_week":1,
     "is_weekend":0,
     "user_lat":14.9847458283,
     "user_lon":102.1209467359,
     "viewed_category_before":1,
-    "category_view_count":1,
+    "category_view_count":2,
     "previous_products":[
+      "45",
       "45"
     ]
   },
@@ -223801,19 +223802,18 @@
     "operation":"",
     "interest":0,
     "session_id":"5bd1b9e9d8a0",
-    "click_position":3,
+    "click_position":2,
     "session_depth":7,
     "session_duration_minutes":2.8666666667,
-    "time_since_last_click":0,
+    "time_since_last_click":9,
     "hour_of_day":21,
     "day_of_week":1,
     "is_weekend":0,
     "user_lat":14.9847458283,
     "user_lon":102.1209467359,
     "viewed_category_before":1,
-    "category_view_count":2,
+    "category_view_count":1,
     "previous_products":[
-      "45",
       "45"
     ]
   },
@@ -237380,39 +237380,6 @@
   {
     "timestamp":1754094076,
     "device_id":"Guest",
-    "product_id":"130",
-    "event_type":"TouristRoute\/SubRoute",
-    "category":"Marketplace-rcbt-sip",
-    "service_name":"สวัสดีลำสะแทด",
-    "service_type":"TouristRoute",
-    "location":{
-      "lat":14.0433,
-      "lon":100.64
-    },
-    "keyword":"",
-    "device":"Computer",
-    "operation":"Unknown Platform",
-    "interest":0,
-    "session_id":"5d7980f95c48",
-    "click_position":3,
-    "session_depth":4,
-    "session_duration_minutes":21.45,
-    "time_since_last_click":288,
-    "hour_of_day":0,
-    "day_of_week":5,
-    "is_weekend":1,
-    "user_lat":14.0433,
-    "user_lon":100.64,
-    "viewed_category_before":1,
-    "category_view_count":2,
-    "previous_products":[
-      "276",
-      "149"
-    ]
-  },
-  {
-    "timestamp":1754094076,
-    "device_id":"Guest",
     "product_id":"148",
     "event_type":"room\/hotel\/show",
     "category":"Marketplace-rcbt-sip",
@@ -237442,6 +237409,39 @@
       "276",
       "149",
       "130"
+    ]
+  },
+  {
+    "timestamp":1754094076,
+    "device_id":"Guest",
+    "product_id":"130",
+    "event_type":"TouristRoute\/SubRoute",
+    "category":"Marketplace-rcbt-sip",
+    "service_name":"สวัสดีลำสะแทด",
+    "service_type":"TouristRoute",
+    "location":{
+      "lat":14.0433,
+      "lon":100.64
+    },
+    "keyword":"",
+    "device":"Computer",
+    "operation":"Unknown Platform",
+    "interest":0,
+    "session_id":"5d7980f95c48",
+    "click_position":3,
+    "session_depth":4,
+    "session_duration_minutes":21.45,
+    "time_since_last_click":288,
+    "hour_of_day":0,
+    "day_of_week":5,
+    "is_weekend":1,
+    "user_lat":14.0433,
+    "user_lon":100.64,
+    "viewed_category_before":1,
+    "category_view_count":2,
+    "previous_products":[
+      "276",
+      "149"
     ]
   },
   {
@@ -253497,6 +253497,38 @@
   },
   {
     "timestamp":1754297342,
+    "device_id":"DonutsMuangYa",
+    "product_id":"47",
+    "event_type":"businessdetailindexpage_Click",
+    "category":"RCBT-SIP",
+    "service_name":"RCBT-SIP",
+    "service_type":"page_view",
+    "location":{
+      "lat":14.9839284068,
+      "lon":102.1227747362
+    },
+    "keyword":"",
+    "device":"",
+    "operation":"",
+    "interest":0,
+    "session_id":"b3954f621ce8",
+    "click_position":2,
+    "session_depth":8,
+    "session_duration_minutes":2.1333333333,
+    "time_since_last_click":12,
+    "hour_of_day":8,
+    "day_of_week":0,
+    "is_weekend":0,
+    "user_lat":14.9839284068,
+    "user_lon":102.1227747362,
+    "viewed_category_before":1,
+    "category_view_count":1,
+    "previous_products":[
+      "47"
+    ]
+  },
+  {
+    "timestamp":1754297342,
     "device_id":"Khaikhembaneng",
     "product_id":"0",
     "event_type":"businessproductbusinessindexpage_Click",
@@ -253535,38 +253567,6 @@
       "7",
       "0",
       "0"
-    ]
-  },
-  {
-    "timestamp":1754297342,
-    "device_id":"DonutsMuangYa",
-    "product_id":"47",
-    "event_type":"businessdetailindexpage_Click",
-    "category":"RCBT-SIP",
-    "service_name":"RCBT-SIP",
-    "service_type":"page_view",
-    "location":{
-      "lat":14.9839284068,
-      "lon":102.1227747362
-    },
-    "keyword":"",
-    "device":"",
-    "operation":"",
-    "interest":0,
-    "session_id":"b3954f621ce8",
-    "click_position":2,
-    "session_depth":8,
-    "session_duration_minutes":2.1333333333,
-    "time_since_last_click":12,
-    "hour_of_day":8,
-    "day_of_week":0,
-    "is_weekend":0,
-    "user_lat":14.9839284068,
-    "user_lon":102.1227747362,
-    "viewed_category_before":1,
-    "category_view_count":1,
-    "previous_products":[
-      "47"
     ]
   },
   {
@@ -253796,39 +253796,6 @@
   },
   {
     "timestamp":1754297353,
-    "device_id":"DonutsMuangYa",
-    "product_id":"47",
-    "event_type":"businessdetailindexpage_Click",
-    "category":"RCBT-SIP",
-    "service_name":"RCBT-SIP",
-    "service_type":"page_view",
-    "location":{
-      "lat":14.9839305594,
-      "lon":102.1227832502
-    },
-    "keyword":"",
-    "device":"",
-    "operation":"",
-    "interest":0,
-    "session_id":"b3954f621ce8",
-    "click_position":3,
-    "session_depth":8,
-    "session_duration_minutes":2.1333333333,
-    "time_since_last_click":11,
-    "hour_of_day":8,
-    "day_of_week":0,
-    "is_weekend":0,
-    "user_lat":14.9839305594,
-    "user_lon":102.1227832502,
-    "viewed_category_before":1,
-    "category_view_count":2,
-    "previous_products":[
-      "47",
-      "47"
-    ]
-  },
-  {
-    "timestamp":1754297353,
     "device_id":"Khaikhembaneng",
     "product_id":"0",
     "event_type":"businessproductbusinessindexpage_Click",
@@ -253873,6 +253840,39 @@
       "0",
       "0",
       "0"
+    ]
+  },
+  {
+    "timestamp":1754297353,
+    "device_id":"DonutsMuangYa",
+    "product_id":"47",
+    "event_type":"businessdetailindexpage_Click",
+    "category":"RCBT-SIP",
+    "service_name":"RCBT-SIP",
+    "service_type":"page_view",
+    "location":{
+      "lat":14.9839305594,
+      "lon":102.1227832502
+    },
+    "keyword":"",
+    "device":"",
+    "operation":"",
+    "interest":0,
+    "session_id":"b3954f621ce8",
+    "click_position":3,
+    "session_depth":8,
+    "session_duration_minutes":2.1333333333,
+    "time_since_last_click":11,
+    "hour_of_day":8,
+    "day_of_week":0,
+    "is_weekend":0,
+    "user_lat":14.9839305594,
+    "user_lon":102.1227832502,
+    "viewed_category_before":1,
+    "category_view_count":2,
+    "previous_products":[
+      "47",
+      "47"
     ]
   },
   {
@@ -267896,6 +267896,44 @@
   {
     "timestamp":1754349118,
     "device_id":"Guest",
+    "product_id":"270",
+    "event_type":"show_Click",
+    "category":"Marketplace-rcbt-sip",
+    "service_name":"0907778272",
+    "service_type":"img",
+    "location":{
+      "lat":14.9873813199,
+      "lon":102.1198332764
+    },
+    "keyword":"",
+    "device":"macOS",
+    "operation":"10.15.7",
+    "interest":0,
+    "session_id":"bec162d23251",
+    "click_position":8,
+    "session_depth":13,
+    "session_duration_minutes":20.85,
+    "time_since_last_click":2,
+    "hour_of_day":23,
+    "day_of_week":0,
+    "is_weekend":0,
+    "user_lat":14.9873813199,
+    "user_lon":102.1198332764,
+    "viewed_category_before":1,
+    "category_view_count":5,
+    "previous_products":[
+      "189",
+      "298",
+      "298",
+      "270",
+      "199",
+      "270",
+      "199"
+    ]
+  },
+  {
+    "timestamp":1754349118,
+    "device_id":"Guest",
     "product_id":"199",
     "event_type":"communitydetail_Click",
     "category":"RCBT-SIP",
@@ -267930,44 +267968,6 @@
       "270",
       "199",
       "270"
-    ]
-  },
-  {
-    "timestamp":1754349118,
-    "device_id":"Guest",
-    "product_id":"270",
-    "event_type":"show_Click",
-    "category":"Marketplace-rcbt-sip",
-    "service_name":"0907778272",
-    "service_type":"img",
-    "location":{
-      "lat":14.9873813199,
-      "lon":102.1198332764
-    },
-    "keyword":"",
-    "device":"macOS",
-    "operation":"10.15.7",
-    "interest":0,
-    "session_id":"bec162d23251",
-    "click_position":8,
-    "session_depth":13,
-    "session_duration_minutes":20.85,
-    "time_since_last_click":2,
-    "hour_of_day":23,
-    "day_of_week":0,
-    "is_weekend":0,
-    "user_lat":14.9873813199,
-    "user_lon":102.1198332764,
-    "viewed_category_before":1,
-    "category_view_count":5,
-    "previous_products":[
-      "189",
-      "298",
-      "298",
-      "270",
-      "199",
-      "270",
-      "199"
     ]
   },
   {
@@ -270593,20 +270593,19 @@
     "operation":"",
     "interest":0,
     "session_id":"b43d60a5e9eb",
-    "click_position":6,
+    "click_position":5,
     "session_depth":10,
     "session_duration_minutes":17.55,
-    "time_since_last_click":0,
+    "time_since_last_click":34,
     "hour_of_day":9,
     "day_of_week":1,
     "is_weekend":0,
     "user_lat":14.997865,
     "user_lon":102.1267604,
     "viewed_category_before":1,
-    "category_view_count":5,
+    "category_view_count":4,
     "previous_products":[
       "0",
-      "41",
       "41",
       "41",
       "41"
@@ -270629,19 +270628,20 @@
     "operation":"",
     "interest":0,
     "session_id":"b43d60a5e9eb",
-    "click_position":5,
+    "click_position":6,
     "session_depth":10,
     "session_duration_minutes":17.55,
-    "time_since_last_click":34,
+    "time_since_last_click":0,
     "hour_of_day":9,
     "day_of_week":1,
     "is_weekend":0,
     "user_lat":14.997865,
     "user_lon":102.1267604,
     "viewed_category_before":1,
-    "category_view_count":4,
+    "category_view_count":5,
     "previous_products":[
       "0",
+      "41",
       "41",
       "41",
       "41"
@@ -289781,6 +289781,39 @@
   {
     "timestamp":1754511267,
     "device_id":"Guest",
+    "product_id":"604",
+    "event_type":"travel\/poi\/show",
+    "category":"Marketplace-rcbt-sip",
+    "service_name":"",
+    "service_type":"poi",
+    "location":{
+      "lat":14.0433,
+      "lon":100.64
+    },
+    "keyword":"",
+    "device":"Computer",
+    "operation":"Unknown Platform",
+    "interest":1,
+    "session_id":"ce5f0349e97e",
+    "click_position":3,
+    "session_depth":9,
+    "session_duration_minutes":26.5833333333,
+    "time_since_last_click":129,
+    "hour_of_day":20,
+    "day_of_week":2,
+    "is_weekend":0,
+    "user_lat":14.0433,
+    "user_lon":100.64,
+    "viewed_category_before":1,
+    "category_view_count":2,
+    "previous_products":[
+      "107",
+      "198"
+    ]
+  },
+  {
+    "timestamp":1754511267,
+    "device_id":"Guest",
     "product_id":"630",
     "event_type":"travel\/poi\/show",
     "category":"Marketplace-rcbt-sip",
@@ -289810,39 +289843,6 @@
       "107",
       "198",
       "604"
-    ]
-  },
-  {
-    "timestamp":1754511267,
-    "device_id":"Guest",
-    "product_id":"604",
-    "event_type":"travel\/poi\/show",
-    "category":"Marketplace-rcbt-sip",
-    "service_name":"",
-    "service_type":"poi",
-    "location":{
-      "lat":14.0433,
-      "lon":100.64
-    },
-    "keyword":"",
-    "device":"Computer",
-    "operation":"Unknown Platform",
-    "interest":1,
-    "session_id":"ce5f0349e97e",
-    "click_position":3,
-    "session_depth":9,
-    "session_duration_minutes":26.5833333333,
-    "time_since_last_click":129,
-    "hour_of_day":20,
-    "day_of_week":2,
-    "is_weekend":0,
-    "user_lat":14.0433,
-    "user_lon":100.64,
-    "viewed_category_before":1,
-    "category_view_count":2,
-    "previous_products":[
-      "107",
-      "198"
     ]
   },
   {
@@ -302121,47 +302121,6 @@
   {
     "timestamp":1754622012,
     "device_id":"Guest",
-    "product_id":"284",
-    "event_type":"product\/ProductList\/show",
-    "category":"Marketplace-rcbt-sip",
-    "service_name":"สุกี้แห้งไข่ปะทุ",
-    "service_type":"product",
-    "location":{
-      "lat":14.0433,
-      "lon":100.64
-    },
-    "keyword":"",
-    "device":"Computer",
-    "operation":"Unknown Platform",
-    "interest":1,
-    "session_id":"33fc38a3dde4",
-    "click_position":11,
-    "session_depth":17,
-    "session_duration_minutes":23.2,
-    "time_since_last_click":80,
-    "hour_of_day":3,
-    "day_of_week":4,
-    "is_weekend":0,
-    "user_lat":14.0433,
-    "user_lon":100.64,
-    "viewed_category_before":1,
-    "category_view_count":8,
-    "previous_products":[
-      "78",
-      "44",
-      "196",
-      "179",
-      "47",
-      "46",
-      "267",
-      "267",
-      "206",
-      "287"
-    ]
-  },
-  {
-    "timestamp":1754622012,
-    "device_id":"Guest",
     "product_id":"50",
     "event_type":"room\/homestay\/show",
     "category":"Marketplace-rcbt-sip",
@@ -302199,6 +302158,47 @@
       "206",
       "287",
       "284"
+    ]
+  },
+  {
+    "timestamp":1754622012,
+    "device_id":"Guest",
+    "product_id":"284",
+    "event_type":"product\/ProductList\/show",
+    "category":"Marketplace-rcbt-sip",
+    "service_name":"สุกี้แห้งไข่ปะทุ",
+    "service_type":"product",
+    "location":{
+      "lat":14.0433,
+      "lon":100.64
+    },
+    "keyword":"",
+    "device":"Computer",
+    "operation":"Unknown Platform",
+    "interest":1,
+    "session_id":"33fc38a3dde4",
+    "click_position":11,
+    "session_depth":17,
+    "session_duration_minutes":23.2,
+    "time_since_last_click":80,
+    "hour_of_day":3,
+    "day_of_week":4,
+    "is_weekend":0,
+    "user_lat":14.0433,
+    "user_lon":100.64,
+    "viewed_category_before":1,
+    "category_view_count":8,
+    "previous_products":[
+      "78",
+      "44",
+      "196",
+      "179",
+      "47",
+      "46",
+      "267",
+      "267",
+      "206",
+      "287"
     ]
   },
   {
@@ -307010,6 +307010,41 @@
   {
     "timestamp":1754683358,
     "device_id":"Guest",
+    "product_id":"64",
+    "event_type":"product\/BussinessProduct\/show",
+    "category":"Marketplace-rcbt-sip",
+    "service_name":"สร้อยคอลูกปัดดินเผา+ห้อยจี้ไดโนเสาร์",
+    "service_type":"product",
+    "location":{
+      "lat":14.0433,
+      "lon":100.64
+    },
+    "keyword":"",
+    "device":"Computer",
+    "operation":"Unknown Platform",
+    "interest":0,
+    "session_id":"41d751b99093",
+    "click_position":5,
+    "session_depth":11,
+    "session_duration_minutes":21.2833333333,
+    "time_since_last_click":71,
+    "hour_of_day":20,
+    "day_of_week":4,
+    "is_weekend":0,
+    "user_lat":14.0433,
+    "user_lon":100.64,
+    "viewed_category_before":1,
+    "category_view_count":4,
+    "previous_products":[
+      "36",
+      "61",
+      "62",
+      "293"
+    ]
+  },
+  {
+    "timestamp":1754683358,
+    "device_id":"Guest",
     "product_id":"532",
     "event_type":"travel\/poi\/show",
     "category":"Marketplace-rcbt-sip",
@@ -307041,41 +307076,6 @@
       "62",
       "293",
       "64"
-    ]
-  },
-  {
-    "timestamp":1754683358,
-    "device_id":"Guest",
-    "product_id":"64",
-    "event_type":"product\/BussinessProduct\/show",
-    "category":"Marketplace-rcbt-sip",
-    "service_name":"สร้อยคอลูกปัดดินเผา+ห้อยจี้ไดโนเสาร์",
-    "service_type":"product",
-    "location":{
-      "lat":14.0433,
-      "lon":100.64
-    },
-    "keyword":"",
-    "device":"Computer",
-    "operation":"Unknown Platform",
-    "interest":0,
-    "session_id":"41d751b99093",
-    "click_position":5,
-    "session_depth":11,
-    "session_duration_minutes":21.2833333333,
-    "time_since_last_click":71,
-    "hour_of_day":20,
-    "day_of_week":4,
-    "is_weekend":0,
-    "user_lat":14.0433,
-    "user_lon":100.64,
-    "viewed_category_before":1,
-    "category_view_count":4,
-    "previous_products":[
-      "36",
-      "61",
-      "62",
-      "293"
     ]
   },
   {
@@ -310640,38 +310640,6 @@
   {
     "timestamp":1754780173,
     "device_id":"Guest",
-    "product_id":"211",
-    "event_type":"restaurant\/show",
-    "category":"Marketplace-rcbt-sip",
-    "service_name":"",
-    "service_type":"restaurant",
-    "location":{
-      "lat":14.0433,
-      "lon":100.64
-    },
-    "keyword":"",
-    "device":"Nexus",
-    "operation":"Android",
-    "interest":1,
-    "session_id":"2510e852e7d1",
-    "click_position":2,
-    "session_depth":3,
-    "session_duration_minutes":21.5666666667,
-    "time_since_last_click":0,
-    "hour_of_day":22,
-    "day_of_week":5,
-    "is_weekend":1,
-    "user_lat":14.0433,
-    "user_lon":100.64,
-    "viewed_category_before":1,
-    "category_view_count":1,
-    "previous_products":[
-      "521"
-    ]
-  },
-  {
-    "timestamp":1754780173,
-    "device_id":"Guest",
     "product_id":"521",
     "event_type":"travel\/poi\/show",
     "category":"Marketplace-rcbt-sip",
@@ -310699,6 +310667,38 @@
     "category_view_count":0,
     "previous_products":[
 
+    ]
+  },
+  {
+    "timestamp":1754780173,
+    "device_id":"Guest",
+    "product_id":"211",
+    "event_type":"restaurant\/show",
+    "category":"Marketplace-rcbt-sip",
+    "service_name":"",
+    "service_type":"restaurant",
+    "location":{
+      "lat":14.0433,
+      "lon":100.64
+    },
+    "keyword":"",
+    "device":"Nexus",
+    "operation":"Android",
+    "interest":1,
+    "session_id":"2510e852e7d1",
+    "click_position":2,
+    "session_depth":3,
+    "session_duration_minutes":21.5666666667,
+    "time_since_last_click":0,
+    "hour_of_day":22,
+    "day_of_week":5,
+    "is_weekend":1,
+    "user_lat":14.0433,
+    "user_lon":100.64,
+    "viewed_category_before":1,
+    "category_view_count":1,
+    "previous_products":[
+      "521"
     ]
   },
   {
@@ -320673,25 +320673,24 @@
     "operation":"",
     "interest":0,
     "session_id":"1c16472320f4",
-    "click_position":8,
+    "click_position":7,
     "session_depth":10,
     "session_duration_minutes":28.6666666667,
-    "time_since_last_click":0,
+    "time_since_last_click":247,
     "hour_of_day":15,
     "day_of_week":2,
     "is_weekend":0,
     "user_lat":14.9793006,
     "user_lon":102.5579438,
-    "viewed_category_before":1,
-    "category_view_count":1,
+    "viewed_category_before":0,
+    "category_view_count":0,
     "previous_products":[
       "358",
       "126",
       "367",
       "373",
       "328",
-      "285",
-      "271"
+      "285"
     ]
   },
   {
@@ -320711,24 +320710,25 @@
     "operation":"",
     "interest":0,
     "session_id":"1c16472320f4",
-    "click_position":7,
+    "click_position":8,
     "session_depth":10,
     "session_duration_minutes":28.6666666667,
-    "time_since_last_click":247,
+    "time_since_last_click":0,
     "hour_of_day":15,
     "day_of_week":2,
     "is_weekend":0,
     "user_lat":14.9793006,
     "user_lon":102.5579438,
-    "viewed_category_before":0,
-    "category_view_count":0,
+    "viewed_category_before":1,
+    "category_view_count":1,
     "previous_products":[
       "358",
       "126",
       "367",
       "373",
       "328",
-      "285"
+      "285",
+      "271"
     ]
   },
   {
@@ -325314,20 +325314,21 @@
     "operation":"",
     "interest":0,
     "session_id":"89106a85b7c5",
-    "click_position":3,
+    "click_position":4,
     "session_depth":13,
     "session_duration_minutes":18.2166666667,
-    "time_since_last_click":385,
+    "time_since_last_click":0,
     "hour_of_day":9,
     "day_of_week":3,
     "is_weekend":0,
     "user_lat":13.7244792306,
     "user_lon":100.66254293,
-    "viewed_category_before":0,
-    "category_view_count":0,
+    "viewed_category_before":1,
+    "category_view_count":1,
     "previous_products":[
       "42",
-      "42"
+      "42",
+      "228"
     ]
   },
   {
@@ -325347,21 +325348,20 @@
     "operation":"",
     "interest":0,
     "session_id":"89106a85b7c5",
-    "click_position":4,
+    "click_position":3,
     "session_depth":13,
     "session_duration_minutes":18.2166666667,
-    "time_since_last_click":0,
+    "time_since_last_click":385,
     "hour_of_day":9,
     "day_of_week":3,
     "is_weekend":0,
     "user_lat":13.7244792306,
     "user_lon":100.66254293,
-    "viewed_category_before":1,
-    "category_view_count":1,
+    "viewed_category_before":0,
+    "category_view_count":0,
     "previous_products":[
       "42",
-      "42",
-      "228"
+      "42"
     ]
   },
   {

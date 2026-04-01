@@ -146,3 +146,13 @@ ACGI/
 ---
 
 **Ready to start! 🚀**
+
+# ใช้ .\ ข้างหน้า
+
+.\run_metrics_dashboard.bat
+
+# หรือใช้เส้นทางเต็ม
+
+& ".\run_metrics_dashboard.bat"
+
+cd "C:\Users\admin\Desktop\Parinya\ป.เอก\projuct\ACGI"

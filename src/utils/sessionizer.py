@@ -222,6 +222,9 @@ class SessionFeatureExtractor:
         # --- History Features (Contextual) ---
         # Track category views per session
         def calculate_category_history(g):
+            # Capture session_id from the group
+            session_id_val = g.name if hasattr(g, 'name') else g.iloc[0].get('session_id')
+            
             # Sort by timestamp within group
             g = g.sort_values('timestamp')
             categories = g['category'].fillna('unknown')
@@ -239,9 +242,13 @@ class SessionFeatureExtractor:
             g = g.copy()
             g['viewed_category_before'] = viewed_before
             g['category_view_count'] = view_count
+            
+            # Explicitly preserve session_id
+            g['session_id'] = session_id_val
             return g
         
         df = df.groupby('session_id', group_keys=False).apply(calculate_category_history)
+        df = df.reset_index(drop=True)
         
         # Previous products as list (per session, cumulative up to previous index)
         def _prev_products_per_session(g: pd.DataFrame) -> pd.Series:

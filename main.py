@@ -86,28 +86,28 @@ def main():
     parser.add_argument(
         '--config',
         type=str,
-        default='/Users/lab1/Documents/ACGI/config.yaml',
+        default='config.yaml',
         help='Path to config.yaml'
     )
     
     parser.add_argument(
         '--input',
         type=str,
-        default='/Users/lab1/Documents/ACGI/output_raw.ndjson',
+        default='output_raw.ndjson',
         help='Path to input NDJSON file'
     )
     
     parser.add_argument(
         '--output',
         type=str,
-        default='/Users/lab1/Documents/ACGI/outputs',
+        default='outputs',
         help='Path to output directory'
     )
     
     parser.add_argument(
         '--viz',
         type=str,
-        default='/Users/lab1/Documents/ACGI/visualizations',
+        default='visualizations',
         help='Path to visualizations directory'
     )
     

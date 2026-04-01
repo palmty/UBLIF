@@ -4,7 +4,7 @@
     "precision": 0.5204879989391328,
     "recall": 0.8626373626373627,
     "f1_score": 0.6492432387726408,
-    "roc_auc": 0.5212680030783889,
+    "roc_auc": 0.5216704972017026,
     "confusion_matrix": [
       [
         582,
@@ -381,7 +381,7 @@
             "228"
           ]
         },
-        "probability": 0.7324810352022515
+        "probability": 0.7302140226625562
       },
       {
         "index": 44,
@@ -418,7 +418,7 @@
             "285"
           ]
         },
-        "probability": 0.7595652962722649
+        "probability": 0.7563846251942481
       }
     ],
     "sample_false_negatives": [
@@ -490,7 +490,7 @@
           "category_view_count": 0,
           "previous_products": []
         },
-        "probability": 0.20425763796745622
+        "probability": 0.2026124100681131
       },
       {
         "index": 2,
@@ -526,7 +526,7 @@
             "242"
           ]
         },
-        "probability": 0.3681911961156606
+        "probability": 0.36143111546886847
       },
       {
         "index": 5,
@@ -560,7 +560,7 @@
           "category_view_count": 0,
           "previous_products": []
         },
-        "probability": 0.18056832378031662
+        "probability": 0.1798655033712847
       },
       {
         "index": 6,
@@ -666,7 +666,7 @@
           "category_view_count": 0,
           "previous_products": []
         },
-        "probability": 0.33918534357453334
+        "probability": 0.32227237300290806
       },
       {
         "index": 17,
@@ -768,7 +768,7 @@
           "category_view_count": 0,
           "previous_products": []
         },
-        "probability": 0.23616252085163977
+        "probability": 0.23126829617932107
       }
     ]
   },
@@ -777,5 +777,5 @@
     "products_with_errors": 352,
     "error_rate": 0.8262910798122066
   },
-  "timestamp": "2025-12-31T04:28:43.267400"
+  "timestamp": "2026-03-25T16:12:12.167688"
 }
