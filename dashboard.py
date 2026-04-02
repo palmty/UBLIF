@@ -132,7 +132,7 @@ def calculate_metrics(data):
             failed_alg2_by_rule['IP format'] += c
         elif 'ieee_802_1ar' in v or 'device' in v or 'operation' in v:
             failed_alg2_by_rule['device field rule'] += c
-        elif 'iso_iec_20324_2012' in v or 'serviceid' in v or 'identifier' in v or 'account' in v:
+        elif 'iso_26324_2025' in v or 'serviceid' in v or 'identifier' in v or 'account' in v:
             failed_alg2_by_rule['serviceId / identifier rule'] += c
         else:
             failed_alg2_by_rule['other rules'] += c

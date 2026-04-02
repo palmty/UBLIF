@@ -126,8 +126,8 @@ class StandardsChecker:
                 valid, msg = self.validate_rfc_ip(record, standard)
             elif name == 'IEEE_802_1AR':
                 valid, msg = self.validate_ieee_device(record, standard)
-            elif name == 'ISO_IEC_20324_2012':
-                valid, msg = self.validate_iso_iec_20324(record, standard)
+            elif name == 'ISO_26324_2025':
+                valid, msg = self.validate_iso_26324(record, standard)
             else:
                 continue
             
@@ -229,14 +229,18 @@ class StandardsChecker:
         
         return True, ""
     
-    def validate_iso_iec_20324(self, record: Dict[str, Any], standard: Dict) -> Tuple[bool, str]:
-        """Validate ISO/IEC 20324:2012 federated identifier"""
-        field = standard.get('field', 'customValue.account')
+    def validate_iso_26324(self, record: Dict[str, Any], standard: Dict) -> Tuple[bool, str]:
+        """Validate ISO 26324:2025 federated identifier"""
+        field = standard.get('field', 'customValue.serviceId')
+        pattern = standard.get('pattern', r'^10\.\d{4,9}/\S+$')
         
         value = self._get_nested_field(record, field)
         
         if value is None or str(value).strip() == "":
             return False, "Federated identifier missing"
+
+        if not re.match(pattern, str(value)):
+            return False, f"Invalid DOI format: {value}"
         
         return True, ""
     

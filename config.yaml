@@ -33,10 +33,10 @@ ubif_filters:
       validation: "not_empty"
       required: false
 
-    - name: "ISO_IEC_20324_2012"
-      description: "Federated Identifier"
-      field: "customValue.account"
-      validation: "not_empty"
+    - name: "ISO_26324_2025"
+      description: "Digital Object Identifier for service content"
+      field: "customValue.serviceId"
+      validation: "schema_ready"
       required: false
 
   # 2. Legal Compliance (กฎหมายไทย)

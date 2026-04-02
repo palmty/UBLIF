@@ -559,3 +559,6 @@ For issues or questions:
 
 ทดสอบ python3 src/compare_and_test.py
 รันทั้งหมด python3 main.py --phase all
+
+
+/workspaces/ACGI/.venv/bin/python main.py --phase all
