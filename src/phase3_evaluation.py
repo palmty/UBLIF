@@ -60,9 +60,21 @@ class ModelEvaluator:
             self.statistics = json.load(f)
         
         # Initialize predictor
+        graph_structure = rules_data.get(
+            'graph',
+            {
+                'nodes': [],
+                'edges': [],
+                'metadata': {
+                    'total_nodes': 0,
+                    'total_edges': 0,
+                    'graph_density': 0
+                }
+            }
+        )
         self.predictor = CustomPredictor(
             rules=rules_data['rules'],
-            graph_structure=rules_data['graph'],
+            graph_structure=graph_structure,
             statistics=self.statistics
         )
         print("✓ Model loaded successfully")
@@ -648,7 +660,7 @@ class Phase3Pipeline:
         </ul>
         
         <div class="footer">
-            <p>Hybrid Recommendation System (Apriori Graph + Custom XGBoost)</p>
+            <p>Hybrid Recommendation System (Apriori + Custom XGBoost)</p>
             <p>ACGI Project - Version 1.0</p>
         </div>
     </div>

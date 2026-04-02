@@ -1,6 +1,6 @@
 """
-Phase 2: Apriori Graph + Training
-Transaction preparation, Apriori algorithm, graph building, and custom prediction
+Phase 2: Apriori + Training
+Transaction preparation, Apriori algorithm, and custom prediction
 """
 
 import json
@@ -17,12 +17,6 @@ try:
     from mlxtend.preprocessing import TransactionEncoder
 except ImportError:
     print("WARNING: mlxtend not installed. Install with: pip install mlxtend")
-
-# Import networkx for graph operations
-try:
-    import networkx as nx
-except ImportError:
-    print("WARNING: networkx not installed. Install with: pip install networkx")
 
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
 import pandas as pd
@@ -294,204 +288,6 @@ class AprioriEngine:
         return rules_list
 
 
-class GraphBuilder:
-    """
-    Build knowledge graph from association rules
-    """
-    
-    def __init__(self):
-        """Initialize graph builder"""
-        self.graph = nx.DiGraph()
-        self.nodes = {}
-        self.edges = []
-    
-    def create_nodes_from_rules(self, rules: List[Dict[str, Any]]) -> None:
-        """
-        Create nodes (products) from rules
-        
-        Args:
-            rules: List of association rules
-        """
-        print("Creating graph nodes...")
-        
-        all_products = set()
-        
-        for rule in rules:
-            all_products.update(rule['antecedents'])
-            all_products.update(rule['consequents'])
-        
-        for product_id in all_products:
-            self.graph.add_node(product_id)
-            self.nodes[product_id] = {
-                'product_id': product_id,
-                'in_degree': 0,
-                'out_degree': 0,
-                'pagerank': 0.0,
-                'avg_confidence': 0.0,
-                'avg_lift': 0.0
-            }
-        
-        print(f"✓ Created {len(self.nodes)} nodes")
-    
-    def create_edges_from_rules(self, rules: List[Dict[str, Any]]) -> None:
-        """
-        Create edges (associations) from rules
-        
-        Args:
-            rules: List of association rules
-        """
-        print("Creating graph edges...")
-        
-        for rule in rules:
-            antecedents = rule['antecedents']
-            consequents = rule['consequents']
-            confidence = rule['confidence']
-            lift = rule['lift']
-            
-            # Create edges from each antecedent to each consequent
-            for ant in antecedents:
-                for cons in consequents:
-                    weight = confidence * lift
-                    
-                    self.graph.add_edge(ant, cons, 
-                                      confidence=confidence,
-                                      lift=lift,
-                                      weight=weight)
-                    
-                    self.edges.append({
-                        'source': ant,
-                        'target': cons,
-                        'confidence': confidence,
-                        'lift': lift,
-                        'weight': weight
-                    })
-        
-        print(f"✓ Created {len(self.edges)} edges")
-    
-    def calculate_node_features(self) -> None:
-        """Calculate graph-based features for nodes"""
-        print("Calculating node features...")
-        
-        # Calculate degrees
-        for node_id in self.nodes:
-            self.nodes[node_id]['in_degree'] = self.graph.in_degree(node_id)
-            self.nodes[node_id]['out_degree'] = self.graph.out_degree(node_id)
-        
-        # Calculate PageRank
-        try:
-            pagerank = nx.pagerank(self.graph)
-            for node_id in self.nodes:
-                self.nodes[node_id]['pagerank'] = pagerank.get(node_id, 0.0)
-        except:
-            print("Warning: PageRank calculation failed")
-        
-        # Calculate average confidence and lift
-        for node_id in self.nodes:
-            in_edges = self.graph.in_edges(node_id, data=True)
-            out_edges = self.graph.out_edges(node_id, data=True)
-            
-            # Average confidence from incoming edges
-            in_confidences = [data['confidence'] for _, _, data in in_edges]
-            if in_confidences:
-                self.nodes[node_id]['avg_confidence'] = np.mean(in_confidences)
-            
-            # Average lift from incoming edges
-            in_lifts = [data['lift'] for _, _, data in in_edges]
-            if in_lifts:
-                self.nodes[node_id]['avg_lift'] = np.mean(in_lifts)
-        
-        print("✓ Node features calculated")
-    
-    def enrich_nodes_with_metadata(self, train_records: List[Dict[str, Any]]) -> None:
-        """
-        Enrich nodes with metadata from training data
-        Nodes represent individual products (serviceId) for product-level recommendations
-        
-        Args:
-            train_records: Training records
-        """
-        print("Enriching nodes with metadata...")
-        
-        # Create product metadata (nodes are products/serviceId)
-        product_metadata = defaultdict(lambda: {
-            'category': None,
-            'service_name': None,
-            'total_sessions': 0,
-            'total_interest': 0,
-            'unique_users': set(),
-            'avg_session_depth': []
-        })
-        
-        for record in train_records:
-            product_id = record.get('product_id')
-            if product_id:
-                product_id = str(product_id)
-                product_metadata[product_id]['category'] = record.get('category')
-                product_metadata[product_id]['service_name'] = record.get('service_name')
-                product_metadata[product_id]['total_sessions'] += 1
-                product_metadata[product_id]['total_interest'] += record.get('interest', 0)
-                
-                device_id = record.get('device_id')
-                if device_id:
-                    product_metadata[product_id]['unique_users'].add(device_id)
-                
-                session_depth = record.get('session_depth', 0)
-                if session_depth > 0:
-                    product_metadata[product_id]['avg_session_depth'].append(session_depth)
-        
-        # Add metadata to nodes
-        for node_id in self.nodes:
-            if node_id in product_metadata:
-                meta = product_metadata[node_id]
-                self.nodes[node_id]['category'] = meta['category']
-                self.nodes[node_id]['service_name'] = meta['service_name']
-                self.nodes[node_id]['total_sessions'] = meta['total_sessions']
-                self.nodes[node_id]['unique_users'] = len(meta['unique_users'])
-                
-                if meta['total_sessions'] > 0:
-                    self.nodes[node_id]['avg_interest_rate'] = (
-                        meta['total_interest'] / meta['total_sessions']
-                    )
-                else:
-                    self.nodes[node_id]['avg_interest_rate'] = 0.0
-                
-                if meta['avg_session_depth']:
-                    self.nodes[node_id]['avg_session_depth'] = np.mean(meta['avg_session_depth'])
-                else:
-                    self.nodes[node_id]['avg_session_depth'] = 0.0
-        
-        print("✓ Nodes enriched with metadata")
-    
-    def build_graph(self, rules: List[Dict[str, Any]], 
-                   train_records: List[Dict[str, Any]]) -> Dict[str, Any]:
-        """
-        Complete graph building pipeline
-        
-        Args:
-            rules: Association rules
-            train_records: Training records
-            
-        Returns:
-            Graph structure dictionary
-        """
-        self.create_nodes_from_rules(rules)
-        self.create_edges_from_rules(rules)
-        self.calculate_node_features()
-        self.enrich_nodes_with_metadata(train_records)
-        
-        graph_structure = {
-            'nodes': list(self.nodes.values()),
-            'edges': self.edges,
-            'metadata': {
-                'total_nodes': len(self.nodes),
-                'total_edges': len(self.edges),
-                'graph_density': nx.density(self.graph) if len(self.nodes) > 1 else 0
-            }
-        }
-        
-        return graph_structure
-
-
 class StatisticsCalculator:
     """
     Calculate normalization parameters from training data
@@ -569,7 +365,7 @@ from custom_predictor import CustomPredictor, ModelTrainer
 
 class Phase2Pipeline:
     """
-    Complete Phase 2 pipeline: Apriori + Graph + Training
+    Complete Phase 2 pipeline: Apriori + Training
     """
     
     def __init__(self, config_path: str, train_path: str, output_dir: str):
@@ -604,7 +400,7 @@ class Phase2Pipeline:
     def run_full_pipeline(self) -> None:
         """Run complete Phase 2 pipeline"""
         print("="*70)
-        print("PHASE 2: APRIORI GRAPH + TRAINING")
+        print("PHASE 2: APRIORI + TRAINING")
         print("="*70)
         
         start_time = datetime.now()
@@ -635,19 +431,24 @@ class Phase2Pipeline:
             print("ERROR: No rules generated. Try lowering min_support or min_confidence.")
             return
         
-        # Step 2.3: Build Graph
-        print("\n=== STEP 2.3: GRAPH CONSTRUCTION ===")
-        
-        # Load train records
+        # Step 2.3: Load train records (no graph construction)
+        print("\n=== STEP 2.3: LOADING TRAIN RECORDS ===")
         with open(self.train_path, 'r', encoding='utf-8') as f:
             train_records = json.load(f)
-        
-        graph_builder = GraphBuilder()
-        graph_structure = graph_builder.build_graph(rules_list, train_records)
-        
+
+        graph_structure = {
+            'nodes': [],
+            'edges': [],
+            'metadata': {
+                'total_nodes': 0,
+                'total_edges': 0,
+                'graph_density': 0
+            }
+        }
+
         # Step 2.4: Calculate Statistics
         print("\n=== STEP 2.4: STATISTICS CALCULATION ===")
-        graph_stats = StatisticsCalculator.calculate_graph_stats(graph_structure)
+        graph_stats = {}
         session_stats = StatisticsCalculator.calculate_session_stats(train_records)
         category_stats = StatisticsCalculator.calculate_category_stats(train_records)
         global_baseline = StatisticsCalculator.calculate_global_baseline(train_records)
@@ -659,10 +460,7 @@ class Phase2Pipeline:
             'global_baseline': global_baseline
         }
         
-        print(f"✓ Statistics calculated:")
-        print(f"  - Max in_degree: {graph_stats.get('max_in_degree', 0)}")
-        print(f"  - Max out_degree: {graph_stats.get('max_out_degree', 0)}")
-        print(f"  - Max PageRank: {graph_stats.get('max_pagerank', 0):.6f}")
+        print("✓ Statistics calculated:")
         print(f"  - Global baseline: {global_baseline:.4f}")
         
         # Step 2.5: Train Custom Predictor
@@ -696,7 +494,7 @@ class Phase2Pipeline:
                              predictor: CustomPredictor) -> None:
         """Save all model artifacts"""
         
-        # Save rules.json (includes graph)
+        # Save rules.json
         rules_output = {
             'metadata': {
                 'algorithm': 'apriori',
@@ -709,8 +507,7 @@ class Phase2Pipeline:
                 'total_products': len(graph['nodes']),
                 'generated_at': datetime.now().isoformat()
             },
-            'rules': rules,
-            'graph': graph
+            'rules': rules
         }
         
         rules_path = os.path.join(self.output_dir, 'rules.json')

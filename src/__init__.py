@@ -1,5 +1,5 @@
 """
-Hybrid Recommendation System (Apriori Graph + Custom XGBoost)
+Hybrid Recommendation System (Apriori + Custom XGBoost)
 Main package initialization
 """
 

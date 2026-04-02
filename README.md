@@ -1,6 +1,6 @@
 # Hybrid Recommendation System
 
-## (Apriori Graph + Custom XGBoost)
+## (Apriori + Custom XGBoost)
 
 A comprehensive recommendation system combining association rule mining (Apriori) with custom gradient boosting prediction for user interest prediction.
 
@@ -14,7 +14,6 @@ This project implements a hybrid recommendation system that:
 - **Complies** with Thai laws (PDPA 2562, Computer Crime Act 2550)
 - **Processes** user behavior data with sessionization and feature extraction
 - **Trains** using Apriori algorithm to find association rules
-- **Builds** a knowledge graph from product relationships
 - **Predicts** user interest using custom gradient boosting formula
 - **Evaluates** model performance with comprehensive metrics and visualizations
 
@@ -37,9 +36,7 @@ This project implements a hybrid recommendation system that:
 - ✅ Transaction matrix creation from sessions
 - ✅ Apriori algorithm (min_support=0.015, min_confidence=0.60)
 - ✅ Association rule generation
-- ✅ Knowledge graph construction
-- ✅ Graph features (PageRank, degrees, centrality)
-- ✅ Custom prediction formula (3-tree ensemble)
+- ✅ Custom prediction formula (2-tree ensemble)
 - ✅ Model artifact export
 
 ### Evaluation (Phase 3)
@@ -80,7 +77,7 @@ ACGI/
 ├── outputs/                     # Output files
 │   ├── train.json                    # Training data (80%)
 │   ├── test.json                     # Test data (20%)
-│   ├── rules.json                    # Apriori rules + graph
+│   ├── rules.json                    # Apriori rules
 │   ├── model_config.json             # Model configuration
 │   ├── train_statistics.json         # Training statistics
 │   ├── train_evaluation.json         # Training metrics
@@ -259,7 +256,7 @@ ubif_filters:
 
 ### Phase 2 Outputs
 
-**rules.json** - Association rules and graph
+**rules.json** - Association rules
 
 ```json
 {
@@ -268,11 +265,7 @@ ubif_filters:
     "total_rules": 1200,
     "total_products": 500
   },
-  "rules": [...],
-  "graph": {
-    "nodes": [...],
-    "edges": [...]
-  }
+  "rules": [...]
 }
 ```
 
@@ -284,9 +277,8 @@ ubif_filters:
   "prediction": {
     "method": "custom_gradient_boosting",
     "weights": {
-      "rule_matching": 0.5,
-      "graph_features": 0.3,
-      "session_features": 0.2
+      "rule_matching": 0.45,
+      "session_features": 0.55
     }
   }
 }
@@ -337,19 +329,14 @@ ubif_filters:
 
 ### Custom Prediction Formula
 
-The model combines three weighted trees:
+The model combines two weighted trees:
 
 **Tree 1: Rule Matching (50%)**
 
 - Matches previous products to association rules
 - Uses confidence × lift for scoring
 
-**Tree 2: Graph Features (30%)**
-
-- In-degree, out-degree, PageRank
-- Captures product centrality in network
-
-**Tree 3: Session Features (20%)**
+**Tree 2: Session Features (55%)**
 
 - Session duration, click position
 - Previous products count
@@ -357,7 +344,7 @@ The model combines three weighted trees:
 **Final Prediction:**
 
 ```python
-score = 0.5 * f1 + 0.3 * f2 + 0.2 * f3
+score = 0.45 * f1 + 0.55 * f2
 probability = sigmoid(score)
 prediction = 1 if probability > 0.5 else 0
 ```
@@ -538,7 +525,7 @@ For issues or questions:
 - ✅ Complete 3-phase pipeline
 - ✅ UBIF validation
 - ✅ Legal compliance (PDPA, Computer Crime Act)
-- ✅ Apriori + Graph + Custom XGBoost
+- ✅ Apriori + Custom XGBoost
 - ✅ Comprehensive evaluation
 - ✅ Visualization suite
 

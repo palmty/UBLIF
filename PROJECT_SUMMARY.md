@@ -1,6 +1,6 @@
 # PROJECT IMPLEMENTATION SUMMARY
 
-## Hybrid Recommendation System (Apriori Graph + Custom XGBoost)
+## Hybrid Recommendation System (Apriori + Custom XGBoost)
 
 **Date**: December 23, 2025  
 **Status**: ✅ COMPLETED  
@@ -57,7 +57,7 @@
   - Train/test temporal split (80:20)
   - Output file generation
 
-### Phase 2: Apriori Graph + Training ✓
+### Phase 2: Apriori + Training ✓
 
 - [x] **Transaction Builder**
 
@@ -72,27 +72,16 @@
   - Rule filtering (support, confidence, lift)
   - Rule export to JSON
 
-- [x] **Graph Builder**
-
-  - Node creation from products
-  - Edge creation from rules
-  - PageRank calculation
-  - Degree centrality features
-  - Metadata enrichment
-
 - [x] **Statistics Calculator**
-
-  - Graph statistics (max degrees, PageRank)
   - Session statistics (duration, depth)
   - Category statistics
   - Global baseline calculation
 
 - [x] **Custom Predictor** (src/custom_predictor.py)
 
-  - 3-tree ensemble model
-  - Tree 1: Rule matching (50% weight)
-  - Tree 2: Graph features (30% weight)
-  - Tree 3: Session features (20% weight)
+  - 2-tree ensemble model
+  - Tree 1: Rule matching (45% weight)
+  - Tree 2: Session features (55% weight)
   - Sigmoid activation
   - Batch prediction
 
@@ -161,7 +150,7 @@
 
 1. `outputs/train.json` - Training data
 2. `outputs/test.json` - Test data
-3. `outputs/rules.json` - Association rules + graph
+3. `outputs/rules.json` - Association rules
 4. `outputs/model_config.json` - Model configuration
 5. `outputs/train_statistics.json` - Training statistics
 6. `outputs/train_evaluation.json` - Training metrics
@@ -206,9 +195,7 @@
 
 ✅ Apriori algorithm (min_support=0.015)  
 ✅ Association rule mining  
-✅ Knowledge graph construction  
-✅ Graph features (PageRank, degrees)  
-✅ Custom 3-tree ensemble  
+✅ Custom 2-tree ensemble  
 ✅ Gradient boosting-like prediction  
 ✅ Cold start handling
 
@@ -320,7 +307,6 @@ cat outputs/evaluation_metrics.json
         ┌─────────▼──────────┤
         │   PHASE 2: TRAINING │
         │   • Apriori         │
-        │   • Graph Building  │
         │   • Custom Predictor│
         └─────────┬───────────┘
                   │
@@ -342,9 +328,8 @@ cat outputs/evaluation_metrics.json
 
 ### Innovation
 
-- **Hybrid Approach**: Combines association rules with graph features
-- **Custom Ensemble**: 3-tree gradient boosting-like model
-- **Graph-Based**: Leverages network structure for predictions
+- **Hybrid Approach**: Combines association rules with session features
+- **Custom Ensemble**: 2-tree gradient boosting-like model
 - **Compliant**: Full PDPA and legal compliance
 
 ### Quality
@@ -370,7 +355,7 @@ cat outputs/evaluation_metrics.json
 ### Technical
 
 - ✅ Streaming processing essential for large files
-- ✅ Graph features improve prediction accuracy
+- ✅ Session features improve prediction accuracy
 - ✅ Session-based features capture user behavior
 - ✅ Custom ensembles can outperform standard models
 

@@ -11,9 +11,8 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 class CustomPredictor:
     """
     Custom prediction formula combining:
-    - Tree 1: Rule Matching (weight=0.30)
-    - Tree 2: Graph Features (weight=0.30)
-    - Tree 3: Enhanced Session Features with Negative Scoring (weight=0.40)
+    - Tree 1: Rule Matching
+    - Tree 2: Enhanced Session Features with Negative Scoring
     
     Enhanced session features with penalty system:
     - Session duration and click position (positive factors)
@@ -23,7 +22,7 @@ class CustomPredictor:
     - Score range: [-1, 1] allowing penalties for suboptimal conditions
     """
     
-    def __init__(self, rules: List[Dict[str, Any]], 
+    def __init__(self, rules: List[Dict[str, Any]],
                  graph_structure: Dict[str, Any],
                  statistics: Dict[str, Any]):
         """
@@ -31,27 +30,19 @@ class CustomPredictor:
         
         Args:
             rules: Association rules
-            graph_structure: Graph structure with nodes and edges
+            graph_structure: Placeholder structure (unused)
             statistics: Normalization statistics
         """
         self.rules = rules
-        self.graph = graph_structure
         self.stats = statistics
-        
-        # Create lookup structures for faster access
-        self.node_lookup = {
-            node['product_id']: node 
-            for node in graph_structure.get('nodes', [])
-        }
         
         # Create rule lookup by consequents
         self.rule_lookup = self._create_rule_lookup()
         
         # Weights for ensemble (re-balanced to reduce rule dominance)
         self.weights = {
-            'rule_matching': 0.30,      # ลดลง (เพื่อให้ Rule ไม่ชี้นำทั้งหมด)
-            'graph_features': 0.30,
-            'session_features': 0.40    # เพิ่มขึ้น (เพราะเราใส่ Logic ละเอียดแล้ว)
+            'rule_matching': 0.45,      # ลดลง (เพื่อให้ Rule ไม่ชี้นำทั้งหมด)
+            'session_features': 0.55    # เพิ่มขึ้น (เพราะเราใส่ Logic ละเอียดแล้ว)
         }
         
         self.threshold = 0.40  # Decision threshold
@@ -128,41 +119,9 @@ class CustomPredictor:
         
         return 0.0
     
-    def calculate_graph_features_score(self, record: Dict[str, Any]) -> float:
-        """
-        Calculate Tree 2: Graph Features score
-        
-        Args:
-            record: Record to score
-            
-        Returns:
-            Graph features score [0, 1]
-        """
-        product_id = str(record.get('product_id', ''))
-        node = self.node_lookup.get(product_id)
-        
-        if not node:
-            return 0.0
-        
-        graph_stats = self.stats.get('graph_stats', {})
-        
-        # Normalize features
-        max_in = max(graph_stats.get('max_in_degree', 1), 1)
-        max_out = max(graph_stats.get('max_out_degree', 1), 1)
-        max_pr = max(graph_stats.get('max_pagerank', 1), 0.001)
-        
-        f_in = node.get('in_degree', 0) / max_in
-        f_out = node.get('out_degree', 0) / max_out
-        f_pr = node.get('pagerank', 0) / max_pr
-        
-        # Weighted combination
-        score = 0.5 * f_in + 0.3 * f_out + 0.2 * f_pr
-        
-        return min(score, 1.0)
-    
     def calculate_session_features_score(self, record: Dict[str, Any]) -> float:
         """
-        Calculate Tree 3: Session Features score with Negative Scoring
+        Calculate Tree 2: Session Features score with Negative Scoring
         
         Args:
             record: Record to score
@@ -239,14 +198,12 @@ class CustomPredictor:
         """
         # Calculate scores for each tree
         f1 = self.calculate_rule_matching_score(record)
-        f2 = self.calculate_graph_features_score(record)
-        f3 = self.calculate_session_features_score(record)
+        f2 = self.calculate_session_features_score(record)
         
         # Weighted combination
         combined_score = (
             self.weights['rule_matching'] * f1 +
-            self.weights['graph_features'] * f2 +
-            self.weights['session_features'] * f3
+            self.weights['session_features'] * f2
         )
         
         # ลบ Bias ออก หรือลดลงเหลือแค่นิดเดียว
@@ -323,7 +280,7 @@ class ModelTrainer:
         
         Args:
             rules: Association rules
-            graph_structure: Graph structure
+            graph_structure: Placeholder structure
             train_records: Training records
         """
         self.rules = rules
@@ -341,7 +298,6 @@ class ModelTrainer:
         from phase2_apriori_training import StatisticsCalculator
         
         stats = {
-            'graph_stats': StatisticsCalculator.calculate_graph_stats(self.graph),
             'session_stats': StatisticsCalculator.calculate_session_stats(self.train_records),
             'category_stats': StatisticsCalculator.calculate_category_stats(self.train_records),
             'global_baseline': StatisticsCalculator.calculate_global_baseline(self.train_records)

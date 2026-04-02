@@ -23,7 +23,7 @@ def print_banner():
     ╔══════════════════════════════════════════════════════════════╗
     ║                                                              ║
     ║       HYBRID RECOMMENDATION SYSTEM                           ║
-    ║       (Apriori Graph + Custom XGBoost)                       ║
+    ║       (Apriori + Custom XGBoost)                             ║
     ║                                                              ║
     ║       Version 1.0                                            ║
     ║       ACGI Project - 2025                                    ║
@@ -48,7 +48,7 @@ def run_phase1(config_path: str, input_file: str, output_dir: str):
 def run_phase2(config_path: str, train_path: str, output_dir: str):
     """Run Phase 2: Apriori Training"""
     print("\n" + "="*70)
-    print("STARTING PHASE 2: APRIORI GRAPH + TRAINING")
+    print("STARTING PHASE 2: APRIORI + TRAINING")
     print("="*70)
     
     pipeline = Phase2Pipeline(config_path, train_path, output_dir)
