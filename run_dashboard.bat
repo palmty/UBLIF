@@ -8,7 +8,10 @@ echo =============================================
 echo.
 
 REM ตรวจสอบว่ามี virtual environment หรือไม่
-if exist ".venv\Scripts\python.exe" (
+if exist ".venv-win\Scripts\python.exe" (
+    echo Activating virtual environment...
+    set PYTHON_PATH="%CD%\.venv-win\Scripts\python.exe"
+) else if exist ".venv\Scripts\python.exe" (
     echo Activating virtual environment...
     set PYTHON_PATH="%CD%\.venv\Scripts\python.exe"
 ) else (

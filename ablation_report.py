@@ -4,17 +4,17 @@ This script compares record rejection/compliance rates under different
 pipeline variants using the same raw NDJSON input.
 
 Scenarios:
-  A) stream_clean + UBIF + legal
-  B) stream_clean + legal (skip UBIF)
-  C) UBIF + legal (no stream_clean)
+    A) stream_clean + standards + legal
+    B) stream_clean + legal (skip standards)
+    C) standards + legal (no stream_clean)
   D) legal only (raw)
 
 Notes:
 - "stream_clean" here uses DataCleaner.stream_process_record() (drops records
   early for missing serviceId / duplicates / etc.).
-- "UBIF" uses UBIFValidator.validate_record() and rejects records with
+- "standards" uses UBIFValidator.validate_record() and rejects records with
   violations.
-- "legal" uses ComputerCrimeActChecker.check_record() to count threats/flagging.
+- "legal" uses ComplianceEngine.apply_all_rules() to count issues across all laws.
 
 The purpose is to make it easy to quantify whether 0% rejection / 100%
 compliance is driven by upstream cleaning, lenient validation rules, or
@@ -25,13 +25,14 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 import time
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple
 
 from src.utils.data_cleaner import DataCleaner
-from src.utils.legal_compliance import ComputerCrimeActChecker
+from src.utils.legal_compliance import ComplianceEngine
 from src.utils.ubif_validator import UBIFValidator
 
 
@@ -42,19 +43,19 @@ class ScenarioResult:
     json_errors: int
     kept_after_stream_clean: int
     dropped_by_stream_clean: int
-    ubif_validated: int
-    ubif_valid: int
-    ubif_rejected: int
+    standards_validated: int
+    standards_valid: int
+    standards_rejected: int
     legal_checked: int
     legal_flagged: int
     legal_clean: int
     elapsed_seconds: float
 
     @property
-    def ubif_rejection_rate_pct(self) -> float:
-        if self.ubif_validated <= 0:
+    def standards_rejection_rate_pct(self) -> float:
+        if self.standards_validated <= 0:
             return 0.0
-        return (self.ubif_rejected / self.ubif_validated) * 100.0
+        return (self.standards_rejected / self.standards_validated) * 100.0
 
     @property
     def compliance_rate_pct(self) -> float:
@@ -66,13 +67,13 @@ class ScenarioResult:
     def overall_success_rate_pct(self) -> float:
         """Records that pass everything that is enabled in the scenario.
 
-        If UBIF is enabled: denominator is ubif_validated.
-        If UBIF is disabled: denominator is legal_checked.
+        If standards are enabled: denominator is standards_validated.
+        If standards are disabled: denominator is legal_checked.
         """
 
-        if self.ubif_validated > 0:
-            denom = self.ubif_validated
-            numer = min(self.ubif_valid, self.legal_clean)
+        if self.standards_validated > 0:
+            denom = self.standards_validated
+            numer = min(self.standards_valid, self.legal_clean)
         else:
             denom = self.legal_checked
             numer = self.legal_clean
@@ -104,16 +105,16 @@ def run_scenario(
 
     data_cleaner = DataCleaner(str(config_path))
     ubif_validator = UBIFValidator(str(config_path)) if ubif else None
-    crime_checker = ComputerCrimeActChecker() if legal else None
+    compliance_engine = ComplianceEngine(str(config_path)) if legal else None
 
     total_lines = 0
     json_errors = 0
     kept_after_stream_clean = 0
     dropped_by_stream_clean = 0
 
-    ubif_validated = 0
-    ubif_valid = 0
-    ubif_rejected = 0
+    standards_validated = 0
+    standards_valid = 0
+    standards_rejected = 0
 
     legal_checked = 0
     legal_flagged = 0
@@ -145,22 +146,22 @@ def run_scenario(
             kept_after_stream_clean += 1
 
             if ubif and ubif_validator is not None:
-                ubif_validated += 1
+                standards_validated += 1
                 is_valid, _violations = ubif_validator.validate_record(record)
                 if is_valid:
-                    ubif_valid += 1
+                    standards_valid += 1
                 else:
-                    ubif_rejected += 1
-                    # If rejected by UBIF, do not check legal compliance
+                    standards_rejected += 1
+                    # Rejected by standards; do not check legal compliance
                     continue
 
-            if legal and crime_checker is not None:
+            if legal and compliance_engine is not None:
                 legal_checked += 1
-                is_clean, threats = crime_checker.check_record(record)
-                if is_clean:
-                    legal_clean += 1
-                else:
+                _processed, _is_clean, issues = compliance_engine.apply_all_rules(record)
+                if issues:
                     legal_flagged += 1
+                else:
+                    legal_clean += 1
 
     elapsed = time.perf_counter() - start
 
@@ -170,9 +171,9 @@ def run_scenario(
         json_errors=json_errors,
         kept_after_stream_clean=kept_after_stream_clean,
         dropped_by_stream_clean=dropped_by_stream_clean,
-        ubif_validated=ubif_validated,
-        ubif_valid=ubif_valid,
-        ubif_rejected=ubif_rejected,
+        standards_validated=standards_validated,
+        standards_valid=standards_valid,
+        standards_rejected=standards_rejected,
         legal_checked=legal_checked,
         legal_flagged=legal_flagged,
         legal_clean=legal_clean,
@@ -183,12 +184,10 @@ def run_scenario(
 def print_table(results: List[ScenarioResult]) -> None:
     headers = [
         "Scenario",
-        "Lines",
-        "JSONerr",
-        "Kept",
-        "Dropped",
-        "UBIF_validated",
-        "UBIF_rejected(%)",
+        "Raw_data",
+        "Cleaned_data",
+        "Data_standards_passed",
+        "Standards_rejected(%)",
         "Legal_checked",
         "Legal_flagged",
         "Compliance(%)",
@@ -202,11 +201,9 @@ def print_table(results: List[ScenarioResult]) -> None:
             [
                 r.name,
                 str(r.total_lines),
-                str(r.json_errors),
                 str(r.kept_after_stream_clean),
-                str(r.dropped_by_stream_clean),
-                str(r.ubif_validated),
-                f"{r.ubif_rejection_rate_pct:.2f}%",
+                str(r.standards_valid),
+                f"{r.standards_rejection_rate_pct:.2f}%",
                 str(r.legal_checked),
                 str(r.legal_flagged),
                 f"{r.compliance_rate_pct:.2f}%",
@@ -230,6 +227,9 @@ def print_table(results: List[ScenarioResult]) -> None:
 
 
 def main() -> int:
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
+
     parser = argparse.ArgumentParser(description="Ablation / what-if metrics report")
     parser.add_argument("--config", default="config.yaml", help="Path to config.yaml")
     parser.add_argument("--input", default="output_raw.ndjson", help="Path to raw NDJSON")
@@ -243,7 +243,7 @@ def main() -> int:
 
     results.append(
         run_scenario(
-            name="A stream_clean+UBIF+legal",
+            name="A stream_clean+standards+legal",
             config_path=config_path,
             input_path=input_path,
             stream_clean=True,
@@ -255,7 +255,7 @@ def main() -> int:
 
     results.append(
         run_scenario(
-            name="B stream_clean+legal (no UBIF)",
+            name="B stream_clean+legal (no standards)",
             config_path=config_path,
             input_path=input_path,
             stream_clean=True,
@@ -267,7 +267,7 @@ def main() -> int:
 
     results.append(
         run_scenario(
-            name="C UBIF+legal (raw)",
+            name="C standards+legal (raw)",
             config_path=config_path,
             input_path=input_path,
             stream_clean=False,
@@ -285,6 +285,42 @@ def main() -> int:
             stream_clean=False,
             ubif=False,
             legal=True,
+            limit=args.limit,
+        )
+    )
+
+    results.append(
+        run_scenario(
+            name="E standards only (raw)",
+            config_path=config_path,
+            input_path=input_path,
+            stream_clean=False,
+            ubif=True,
+            legal=False,
+            limit=args.limit,
+        )
+    )
+
+    results.append(
+        run_scenario(
+            name="F stream_clean+standards (no legal)",
+            config_path=config_path,
+            input_path=input_path,
+            stream_clean=True,
+            ubif=True,
+            legal=False,
+            limit=args.limit,
+        )
+    )
+
+    results.append(
+        run_scenario(
+            name="G raw only",
+            config_path=config_path,
+            input_path=input_path,
+            stream_clean=False,
+            ubif=False,
+            legal=False,
             limit=args.limit,
         )
     )

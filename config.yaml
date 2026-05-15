@@ -4,8 +4,9 @@ ubif_filters:
   strict_mode: true # true = reject invalid, false = flag only
   processing:
     stream_clean_first: true
+    shadow_legal_audit: true
 
-  # 1. Standard Compliance (ตามภาพ)
+  # 1. Standard Compliance
   standards:
     - name: "ISO_8601"
       description: "Datetime format standard"
@@ -92,7 +93,7 @@ ubif_filters:
             - "customValue.serviceIP"
           action: "flag"
 
-  # 3. Base Entities Validation (ตามภาพ UBIF)
+  # 3. Base Entities Validation
   base_entities:
     UsageLogs:
       required_fields:

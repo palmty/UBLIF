@@ -72,7 +72,7 @@ run_metrics_dashboard.bat
 ### วิธีที่ 2: รันจาก Command Line
 
 ```bash
-& "c:\Users\admin\Desktop\Parinya\?.???\projuct\ACGI\.venv\Scripts\python.exe" -m streamlit run metrics_dashboard.py
+& ".\\.venv-win\\Scripts\\python.exe" -m streamlit run metrics_dashboard.py
 ```
 
 ## 🌐 การเข้าถึง

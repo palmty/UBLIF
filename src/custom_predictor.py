@@ -39,13 +39,30 @@ class CustomPredictor:
         # Create rule lookup by consequents
         self.rule_lookup = self._create_rule_lookup()
         
-        # Weights for ensemble (re-balanced to reduce rule dominance)
+        # Weights for ensemble (tuned on train set)
         self.weights = {
-            'rule_matching': 0.45,      # ลดลง (เพื่อให้ Rule ไม่ชี้นำทั้งหมด)
-            'session_features': 0.55    # เพิ่มขึ้น (เพราะเราใส่ Logic ละเอียดแล้ว)
+            'rule_matching': 0.7,
+            'session_features': 0.3
         }
         
-        self.threshold = 0.40  # Decision threshold
+        self.threshold = 0.45  # Decision threshold on probability
+        self.rule_lift_threshold = 1.2
+        self.sigmoid_scale = 6.0
+
+        # Session feature tuning knobs
+        self.penalty_low_depth = 0.1
+        self.penalty_short_duration = 0.1
+        self.bonus_scale = 0.3
+
+        gains = [r.get('xgboost_gain', 0.0) for r in self.rules]
+        self.gain_min = min(gains) if gains else 0.0
+        self.gain_max = max(gains) if gains else 0.0
+
+    def _normalize_gain(self, gain: float) -> float:
+        if self.gain_max <= self.gain_min:
+            return 0.0
+        normalized = (gain - self.gain_min) / (self.gain_max - self.gain_min)
+        return normalized * 1.5
     
     def _create_rule_lookup(self) -> Dict[str, List[Dict[str, Any]]]:
         """Create lookup dictionary for rules by consequent"""
@@ -82,14 +99,16 @@ class CustomPredictor:
         candidate_rules = self.rule_lookup.get(product_id, [])
         
         for rule in candidate_rules:
+            # Normalize gain to create wider gaps between rules
+            rule_gain = self._normalize_gain(rule.get('xgboost_gain', 0.0))
             antecedents_set = set(rule['antecedents'])
             
             # Calculate overlap
             overlap = len(prev_set.intersection(antecedents_set))
             
             if overlap > 0:
-                # Score based on overlap, confidence, and lift
-                score = overlap * rule['confidence'] * rule['lift']
+                # Gain-based score to prioritize predictive rules
+                score = overlap * (1 + rule_gain)
                 
                 if score > best_score:
                     best_score = score
@@ -111,13 +130,16 @@ class CustomPredictor:
         product_id = str(record.get('product_id', ''))
         
         matched_rule = self.find_best_rule(previous_products, product_id)
-        
-        if matched_rule:
-            # Normalize confidence * lift
-            score = matched_rule['confidence'] * min(matched_rule['lift'] / 100.0, 1.0)
-            return min(score, 1.0)
-        
-        return 0.0
+
+        if not matched_rule:
+            return 0.0
+
+        lift = matched_rule.get('lift', 0.0)
+        conf = matched_rule.get('confidence', 0.0)
+        gain = self._normalize_gain(matched_rule.get('xgboost_gain', 0.0))
+
+        lift_weight = min(lift / max(self.rule_lift_threshold, 1e-6), 1.5)
+        return conf * (1.0 + gain) * lift_weight
     
     def calculate_session_features_score(self, record: Dict[str, Any]) -> float:
         """
@@ -129,62 +151,18 @@ class CustomPredictor:
         Returns:
             Session features score [-1, 1] with penalty system
         """
-        session_stats = self.stats.get('session_stats', {})
-        
-        # --- A. BOUNCE PENALTY (ลงโทษคนดูน้อย) ---
-        # ถ้าดูน้อยกว่า 3 ชิ้น หรือ อยู่น้อยกว่า 1 นาที -> ให้ติดลบหนักๆ
         session_depth = record.get('session_depth', 1)
         duration = record.get('session_duration_minutes', 0)
-        
-        if session_depth <= 2 or duration < 1.0:
-            return -0.8  # ตัดคะแนนทันที! (เกือบเต็ม -1)
-        
-        # 4. Session Duration & Depth: (0 ถึง 1)
-        # Normalize session duration
-        max_duration = max(session_stats.get('max_duration', 1), 1)
-        duration = record.get('session_duration_minutes', 0)
-        f_duration = min(duration / max_duration, 1.0)
-        
-        # Normalize click position (earlier is better)
-        click_pos = record.get('click_position', 1)
-        session_depth = max(record.get('session_depth', 1), 1)
-        f_position = 1 - (click_pos / session_depth)
-        
-        # Previous products count (more context is better)
-        prev_count = len(record.get('previous_products', []))
-        f_prev = min(prev_count / 10.0, 1.0)
-        
-        # 1. Hour: ให้คะแนนเป็นช่วง (-0.5 ถึง 0.5)
-        # เที่ยงวัน = +0.5, เที่ยงคืน = -0.5
-        hour = record.get('hour_of_day', 12)
-        dist_from_noon = abs(hour - 12)
-        f_hour = (1 - (dist_from_noon / 12.0)) - 0.5 
-        
-        # 2. Location: ให้คะแนนเป็นช่วง (-0.5 ถึง 0.5)
-        user_lat = record.get('user_lat', 13.0)
-        # สมมติ Target Zone คือภาคกลาง/อีสาน (Lat 13-16)
-        if 13.0 <= user_lat <= 16.0:
-            f_lat = 0.5  # อยู่ในพื้นที่เป้าหมาย = บวก
-        else:
-            f_lat = -0.5 # อยู่นอกพื้นที่ = ลบ
-        
-        # --- B. SCALING (ปรับให้ค่าบวกยากขึ้น) ---
-        # 3. Category Views: ต้องดูซ้ำ 3 ครั้งขึ้นไปถึงจะได้คะแนนเต็ม
-        category_views = record.get('category_view_count', 0)
-        f_category_views = min(max(0, category_views - 1) / 4.0, 1.0) 
-        
-        # --- รวมคะแนนแบบใหม่ ---
-        score = (
-            0.25 * f_duration +      # ถ้าดูนาน ช่วยดึงคะแนนขึ้น
-            0.15 * f_position +
-            0.10 * f_prev +
-            0.20 * f_hour +          # มีสิทธิ์ติดลบ
-            0.15 * f_lat +           # มีสิทธิ์ติดลบ
-            0.15 * f_category_views
-        )
-        
-        # Clip ผลลัพธ์ให้อยู่ในช่วง -1 ถึง 1
-        return max(-1.0, min(1.0, score))
+
+        penalty = 0.0
+        if session_depth <= 2:
+            penalty -= self.penalty_low_depth
+        if duration < 1.0:
+            penalty -= self.penalty_short_duration
+
+        bonus = (record.get('category_view_count', 0) / 5.0) * self.bonus_scale
+
+        return bonus + penalty
     
     def predict_single(self, record: Dict[str, Any]) -> Tuple[int, float]:
         """
@@ -196,26 +174,18 @@ class CustomPredictor:
         Returns:
             (prediction, probability)
         """
-        # Calculate scores for each tree
         f1 = self.calculate_rule_matching_score(record)
         f2 = self.calculate_session_features_score(record)
-        
-        # Weighted combination
+
+        weight_sum = self.weights['rule_matching'] + self.weights['session_features']
         combined_score = (
-            self.weights['rule_matching'] * f1 +
-            self.weights['session_features'] * f2
-        )
-        
-        # ลบ Bias ออก หรือลดลงเหลือแค่นิดเดียว
-        # adjusted_score = combined_score - 0.3  <-- ลบบรรทัดนี้ทิ้ง หรือเปลี่ยนเป็น -0.1
-        
-        # Sigmoid
-        prob = 1 / (1 + np.exp(-combined_score * 5)) # ใช้ combined_score เพียวๆ เลย
-        
-        # ปรับ Threshold ให้รับกับกราฟ
-        # แนะนำให้ลองที่ 0.40 ดูครับ (จากเดิมที่กราฟกองอยู่แถวๆ นั้น)
-        prediction = 1 if prob > 0.40 else 0 
-        
+            (self.weights['rule_matching'] * f1) +
+            (self.weights['session_features'] * f2)
+        ) / max(weight_sum, 1e-6)
+
+        prob = 1 / (1 + np.exp(-combined_score * self.sigmoid_scale))
+        prediction = 1 if prob >= self.threshold else 0
+
         return prediction, prob
     
     def predict_batch(self, records: List[Dict[str, Any]]) -> Tuple[List[int], List[float]]:
@@ -265,6 +235,97 @@ class CustomPredictor:
             metrics['roc_auc'] = 0.0
         
         return metrics
+
+    def tune_hyperparameters(
+        self,
+        records: List[Dict[str, Any]],
+        thresholds: Optional[List[float]] = None,
+        weight_grid: Optional[List[Tuple[float, float]]] = None,
+        penalty_grid: Optional[List[Tuple[float, float]]] = None
+    ) -> Dict[str, Any]:
+        """
+        Grid search for threshold, weights, and session penalties.
+
+        Returns best configuration and metrics.
+        """
+        if not records:
+            return {'best_metrics': {}, 'best_params': {}}
+
+        thresholds = thresholds or [0.45, 0.50, 0.55, 0.60]
+        weight_grid = weight_grid or [(0.6, 0.4), (0.7, 0.3), (0.8, 0.2)]
+        penalty_grid = penalty_grid or [(0.1, 0.1), (0.2, 0.2), (0.3, 0.2)]
+
+        y_true = [r.get('interest', 0) for r in records]
+
+        best = {
+            'accuracy': -1.0,
+            'f1_score': -1.0,
+            'recall': -1.0
+        }
+        best_params = {}
+
+        # Cache base scores to reduce repeated rule lookups
+        base_scores = []
+        for record in records:
+            base_scores.append(self.calculate_rule_matching_score(record))
+
+        for threshold in thresholds:
+            for rule_w, session_w in weight_grid:
+                weight_sum = rule_w + session_w
+                for penalty_low_depth, penalty_short_duration in penalty_grid:
+                    y_pred = []
+                    y_prob = []
+
+                    # Temporary set penalties for scoring
+                    self.penalty_low_depth = penalty_low_depth
+                    self.penalty_short_duration = penalty_short_duration
+
+                    for i, record in enumerate(records):
+                        f1 = base_scores[i]
+                        f2 = self.calculate_session_features_score(record)
+                        combined_score = (
+                            (rule_w * f1) + (session_w * f2)
+                        ) / max(weight_sum, 1e-6)
+                        prob = 1 / (1 + np.exp(-combined_score * self.sigmoid_scale))
+                        pred = 1 if prob >= threshold else 0
+                        y_pred.append(pred)
+                        y_prob.append(prob)
+
+                    metrics = {
+                        'accuracy': accuracy_score(y_true, y_pred),
+                        'precision': precision_score(y_true, y_pred, zero_division=0),
+                        'recall': recall_score(y_true, y_pred, zero_division=0),
+                        'f1_score': f1_score(y_true, y_pred, zero_division=0)
+                    }
+
+                    is_better = (
+                        metrics['accuracy'] > best['accuracy'] or
+                        (metrics['accuracy'] == best['accuracy'] and metrics['f1_score'] > best['f1_score']) or
+                        (metrics['accuracy'] == best['accuracy'] and metrics['f1_score'] == best['f1_score'] and metrics['recall'] > best['recall'])
+                    )
+                    if is_better:
+                        best = metrics
+                        best_params = {
+                            'threshold': threshold,
+                            'weights': {
+                                'rule_matching': rule_w,
+                                'session_features': session_w
+                            },
+                            'penalty_low_depth': penalty_low_depth,
+                            'penalty_short_duration': penalty_short_duration
+                        }
+
+        # Apply best params to model
+        if best_params:
+            self.threshold = best_params['threshold']
+            self.weights = best_params['weights']
+            self.penalty_low_depth = best_params['penalty_low_depth']
+            self.penalty_short_duration = best_params['penalty_short_duration']
+
+        return {
+            'best_metrics': best,
+            'best_params': best_params
+        }
 
 
 class ModelTrainer:
@@ -323,6 +384,35 @@ class ModelTrainer:
         print(f"  - ROC-AUC:   {metrics['roc_auc']:.4f}")
         
         return metrics
+
+    def tune_on_train_set(self) -> Dict[str, Any]:
+        """
+        Grid search tuning on training set.
+
+        Returns tuning summary.
+        """
+        print("\nTuning hyperparameters on training set...")
+        result = self.predictor.tune_hyperparameters(self.train_records)
+
+        best_metrics = result.get('best_metrics', {})
+        best_params = result.get('best_params', {})
+
+        if best_metrics:
+            print("Tuning Results:")
+            print(f"  - Best Accuracy:  {best_metrics.get('accuracy', 0):.4f}")
+            print(f"  - Best Precision: {best_metrics.get('precision', 0):.4f}")
+            print(f"  - Best Recall:    {best_metrics.get('recall', 0):.4f}")
+            print(f"  - Best F1-Score:  {best_metrics.get('f1_score', 0):.4f}")
+
+        if best_params:
+            print("Best Params:")
+            print(f"  - Threshold: {best_params.get('threshold')}")
+            weights = best_params.get('weights', {})
+            print(f"  - Weights: rule={weights.get('rule_matching')} session={weights.get('session_features')}")
+            print(f"  - Penalty low depth: {best_params.get('penalty_low_depth')}")
+            print(f"  - Penalty short duration: {best_params.get('penalty_short_duration')}")
+
+        return result
     
     def get_model_artifacts(self) -> Dict[str, Any]:
         """

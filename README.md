@@ -104,7 +104,7 @@ ACGI/
 ### Prerequisites
 
 - Python 3.9 or higher
-- macOS (as specified)
+- macOS / Linux / Windows (PowerShell)
 - 8GB RAM minimum (16GB recommended for large datasets)
 
 ### Setup
@@ -118,8 +118,13 @@ cd /Users/lab1/Documents/ACGI
 2. **Create and activate virtual environment:**
 
 ```bash
-python3 -m venv venv
-source venv/bin/activate
+# macOS / Linux
+python3 -m venv .venv
+source .venv/bin/activate
+
+# Windows (PowerShell)
+# py -3.12 -m venv .venv-win
+# .\.venv-win\Scripts\Activate.ps1
 ```
 
 3. **Install dependencies:**
@@ -131,7 +136,7 @@ pip install -r requirements.txt
 4. **Verify installation:**
 
 ```bash
-python3 -c "import pandas, numpy, mlxtend, networkx, sklearn; print('✓ All dependencies installed')"
+python -c "import pandas, numpy, mlxtend, networkx, sklearn; print('✓ All dependencies installed')"
 ```
 
 ---
@@ -143,7 +148,7 @@ python3 -c "import pandas, numpy, mlxtend, networkx, sklearn; print('✓ All dep
 Run the complete pipeline (all 3 phases):
 
 ```bash
-python3 main.py --phase all
+python main.py --phase all
 ```
 
 ### Run Individual Phases
@@ -151,25 +156,25 @@ python3 main.py --phase all
 **Phase 1: Data Processing**
 
 ```bash
-python3 main.py --phase 1
+python main.py --phase 1
 ```
 
 **Phase 2: Training**
 
 ```bash
-python3 main.py --phase 2
+python main.py --phase 2
 ```
 
 **Phase 3: Evaluation**
 
 ```bash
-python3 main.py --phase 3
+python main.py --phase 3
 ```
 
 ### Custom Paths
 
 ```bash
-python3 main.py \
+python main.py \
     --phase all \
     --config /path/to/config.yaml \
     --input /path/to/output_raw.ndjson \
@@ -406,7 +411,7 @@ pip install --upgrade -r requirements.txt
 
 ```bash
 # Check matplotlib backend
-python3 -c "import matplotlib; print(matplotlib.get_backend())"
+python -c "import matplotlib; print(matplotlib.get_backend())"
 # If issues, set backend in code or install GUI backend
 ```
 
@@ -424,14 +429,14 @@ pytest tests/
 ### Validate Output Files
 
 ```bash
-python3 -c "import json; json.load(open('outputs/rules.json')); print('✓ Valid JSON')"
+python -c "import json; json.load(open('outputs/rules.json')); print('✓ Valid JSON')"
 ```
 
 ### Check Data Quality
 
 ```bash
 # View first record
-python3 -c "import json; print(json.load(open('outputs/train.json'))[0])"
+python -c "import json; print(json.load(open('outputs/train.json'))[0])"
 ```
 
 ---
@@ -544,8 +549,12 @@ For issues or questions:
 
 **Happy Recommending! 🚀**
 
-ทดสอบ python3 src/compare_and_test.py
-รันทั้งหมด python3 main.py --phase all
+Windows (PowerShell) shortcuts:
 
+- Run all: `python main.py --phase all`
 
-/workspaces/ACGI/.venv/bin/python main.py --phase all
+Note: On Windows, prefer `python` (or `py -3.12`) instead of `python3`.
+
+## ทดสอบ python ablation_report.py --config config.yaml --input "C:\Users\admin\Desktop\Parinya\ป.เอก\projuct\ACGI\output_raw.ndjson" > outputs\ablation_full.txt
+
+## เพิ่มกฎให้ plaintext email / missing fields กลายเป็น legal issues ที่นับใน Legal_flagged ด้วย

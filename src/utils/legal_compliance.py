@@ -27,6 +27,14 @@ def _get_field(record: Dict[str, Any], field_path: str) -> Optional[Any]:
     return current
 
 
+def _has_value(value: Optional[Any]) -> bool:
+    if value is None:
+        return False
+    if isinstance(value, str):
+        return value.strip() != ""
+    return True
+
+
 class PDPACompliance:
     """
     Personal Data Protection Act B.E. 2562 (PDPA, 2019)
@@ -231,15 +239,17 @@ class ComputerCrimeActChecker:
     
     # SQL injection patterns
     SQL_INJECTION_PATTERNS = [
-        r"(\bUNION\b.*\bSELECT\b)",
-        r"(\bSELECT\b.*\bFROM\b.*\bWHERE\b)",
-        r"(\bDROP\b.*\bTABLE\b)",
-        r"(\bINSERT\b.*\bINTO\b)",
-        r"(\bDELETE\b.*\bFROM\b)",
-        r"(--\s*$)",
-        r"(;\s*DROP)",
+        r"(\bUNION\b\s+\bSELECT\b)",
+        r"(\bSELECT\b\s+.+\bFROM\b\s+.+)",
+        r"(\bINSERT\b\s+\bINTO\b)",
+        r"(\bUPDATE\b\s+.+\bSET\b)",
+        r"(\bDELETE\b\s+\bFROM\b)",
+        r"(\bDROP\b\s+\bTABLE\b)",
         r"(\bOR\b\s+\d+\s*=\s*\d+)",
-        r"('\s*OR\s*'1'\s*=\s*'1)",
+        r"(\bOR\b\s+['\"]?\w+['\"]?\s*=\s*['\"]?\w+['\"]?)",
+        r"(--[^\n]*)",
+        r"(#.*$)",
+        r"(;\s*(DROP|SELECT|INSERT|UPDATE|DELETE)\b)",
     ]
     
     # XSS attack patterns
@@ -264,7 +274,18 @@ class ComputerCrimeActChecker:
         self.config = config or {}
         self.action = self.config.get('action', 'reject')
         self.enabled_patterns = set(self.config.get('patterns', []))
+        self.max_scan_length = int(self.config.get('max_scan_length', 2048))
         self.detected_attacks = []
+
+    def _normalize_input(self, input_str: str) -> Tuple[str, bool]:
+        normalized = str(input_str)
+        normalized = normalized.replace("\x00", "")
+        normalized = normalized.strip()
+        truncated = False
+        if self.max_scan_length > 0 and len(normalized) > self.max_scan_length:
+            normalized = normalized[: self.max_scan_length]
+            truncated = True
+        return normalized, truncated
     
     def detect_sql_injection(self, input_str: str) -> Tuple[bool, Optional[str]]:
         """
@@ -278,13 +299,17 @@ class ComputerCrimeActChecker:
         """
         if not input_str:
             return False, None
-        
-        input_upper = str(input_str).upper()
-        
+
+        normalized, truncated = self._normalize_input(input_str)
+        input_upper = normalized.upper()
+
         for pattern in self.SQL_INJECTION_PATTERNS:
             if re.search(pattern, input_upper, re.IGNORECASE):
                 return True, pattern
-        
+
+        if truncated:
+            return True, "INPUT_TRUNCATED"
+
         return False, None
     
     def detect_xss_attack(self, input_str: str) -> Tuple[bool, Optional[str]]:
@@ -299,13 +324,17 @@ class ComputerCrimeActChecker:
         """
         if not input_str:
             return False, None
-        
-        input_lower = str(input_str).lower()
-        
+
+        normalized, truncated = self._normalize_input(input_str)
+        input_lower = normalized.lower()
+
         for pattern in self.XSS_PATTERNS:
             if re.search(pattern, input_lower, re.IGNORECASE):
                 return True, pattern
-        
+
+        if truncated:
+            return True, "INPUT_TRUNCATED"
+
         return False, None
     
     def detect_excessive_requests(self, user_id: str, request_count: int, 
@@ -409,7 +438,7 @@ class CybersecurityActChecker:
         issues = []
 
         for field in self.fields:
-            if not _get_field(record, field):
+            if not _has_value(_get_field(record, field)):
                 issues.append(f"CYBERSECURITY_ACT: missing {field}")
 
         return len(issues) == 0, issues
@@ -434,7 +463,7 @@ class RoyalDecreeTechCrimeChecker:
                 value = record.get(field)
             else:
                 value = _get_field(record, field)
-            if not value:
+            if not _has_value(value):
                 issues.append(f"ROYAL_DECREE_2566: missing {field}")
 
         return len(issues) == 0, issues
@@ -510,6 +539,7 @@ class ComplianceEngine:
             'gdpr_issues': 0,
             'flagged_records': 0
         }
+        self.legal_issue_log: List[Dict[str, Any]] = []
 
     def _get_rule_config(self, law_name: str, rule_type: str) -> Dict[str, Any]:
         for law in self.legal_config:
@@ -552,20 +582,6 @@ class ComplianceEngine:
             if self.computer_crime.action == 'reject':
                 is_clean = False
 
-        cyber_ok, cyber_issues = self.cybersecurity.check_record(record)
-        if not cyber_ok:
-            self.stats['cybersecurity_issues'] += len(cyber_issues)
-            issues.extend(cyber_issues)
-            if self.cybersecurity.action == 'reject':
-                is_clean = False
-
-        royal_ok, royal_issues = self.royal_decree.check_record(record)
-        if not royal_ok:
-            self.stats['royal_decree_issues'] += len(royal_issues)
-            issues.extend(royal_issues)
-            if self.royal_decree.action == 'reject':
-                is_clean = False
-
         gdpr_ok, gdpr_issues = self.gdpr.check_record(record, processed_record)
         if not gdpr_ok:
             self.stats['gdpr_issues'] += len(gdpr_issues)
@@ -584,7 +600,11 @@ class ComplianceEngine:
         # Flag if issues found
         if issues:
             self.stats['flagged_records'] += 1
-        
+            self.legal_issue_log.append({
+                'record': record.get('name', 'unknown'),
+                'issues': issues,
+                'timestamp': datetime.now().isoformat()
+            })
         return processed_record, is_clean, issues
     
     def generate_audit_log(self) -> Dict[str, Any]:
@@ -598,6 +618,7 @@ class ComplianceEngine:
             'statistics': self.stats,
             'consent_log': self.pdpa.get_consent_log(),
             'attack_log': self.computer_crime.get_attack_log(),
+            'legal_issue_log': self.legal_issue_log,
             'timestamp': datetime.now().isoformat()
         }
     

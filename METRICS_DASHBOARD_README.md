@@ -90,7 +90,7 @@ Dashboard เฉพาะส่วน **Evaluation** ที่แสดงสม
 run_metrics_dashboard.bat
 
 # หรือรันด้วย command line
-& ".venv\Scripts\python.exe" -m streamlit run metrics_dashboard.py --server.port 8502
+& ".venv-win\Scripts\python.exe" -m streamlit run metrics_dashboard.py --server.port 8502
 ```
 
 ### Linux/Mac

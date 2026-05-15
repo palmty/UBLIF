@@ -19,8 +19,14 @@
 
 ### Phase 1: Data Processing Pipeline ✓
 
-- [x] **UBIF Validator** (src/utils/ubif_validator.py)
+- [x] **Step 1.1: Data Cleaner** (src/utils/data_cleaner.py)
+  - Duplicate removal (1-second window)
+  - Test account removal
+  - Bot traffic removal
+  - Data parsing and type conversion
+  - Interest labeling (31 event types)
 
+- [x] **Step 1.2: UBIF Validator** (src/utils/ubif_validator.py)
   - ISO 8601 datetime validation
   - W3C584 location coordinates validation
   - RFC 791/2460 IP address validation
@@ -28,23 +34,13 @@
   - ISO/IEC 20324:2012 federated ID validation
   - Base and supporting entities validation
 
-- [x] **Legal Compliance** (src/utils/legal_compliance.py)
-
+- [x] **Step 1.3: Legal Compliance** (src/utils/legal_compliance.py)
   - PDPA 2562 implementation (account anonymization, IP masking)
   - Computer Crime Act 2550 (SQL injection/XSS detection)
   - Consent logging
   - Audit trail generation
 
-- [x] **Data Cleaner** (src/utils/data_cleaner.py)
-
-  - Duplicate removal (1-second window)
-  - Test account removal
-  - Bot traffic removal
-  - Data parsing and type conversion
-  - Interest labeling (31 event types)
-
 - [x] **Sessionizer** (src/utils/sessionizer.py)
-
   - Session creation (30-minute window)
   - Session feature extraction
   - Click position calculation
@@ -60,13 +56,11 @@
 ### Phase 2: Apriori + Training ✓
 
 - [x] **Transaction Builder**
-
   - Session to transaction matrix conversion
   - Session filtering (2-20 products)
   - Duplicate product removal
 
 - [x] **Apriori Engine** (src/phase2_apriori_training.py)
-
   - Apriori algorithm implementation
   - Association rule generation
   - Rule filtering (support, confidence, lift)
@@ -78,7 +72,6 @@
   - Global baseline calculation
 
 - [x] **Custom Predictor** (src/custom_predictor.py)
-
   - 2-tree ensemble model
   - Tree 1: Rule matching (45% weight)
   - Tree 2: Session features (55% weight)
@@ -93,14 +86,12 @@
 ### Phase 3: Evaluation + Visualization ✓
 
 - [x] **Model Evaluator** (src/phase3_evaluation.py)
-
   - Test set prediction
   - Metrics calculation (Accuracy, Precision, Recall, F1, ROC-AUC)
   - Confusion matrix generation
   - Classification report
 
 - [x] **Error Analyzer**
-
   - False positive identification
   - False negative identification
   - Error pattern analysis
@@ -249,6 +240,18 @@
 
 ## 🚀 HOW TO USE
 
+### Windows (PowerShell)
+
+```powershell
+cd "C:\\path\\to\\ACGI"
+py -3.12 -m venv .venv-win
+.\\.venv-win\\Scripts\\Activate.ps1
+python -m pip install -r requirements.txt
+python main.py --phase all
+```
+
+---
+
 ### 1. Setup (First time only)
 
 ```bash
@@ -266,12 +269,12 @@ source venv/bin/activate
 
 ```bash
 # Run all phases
-python3 main.py --phase all
+python main.py --phase all
 
 # Or run individual phases
-python3 main.py --phase 1  # Data processing
-python3 main.py --phase 2  # Training
-python3 main.py --phase 3  # Evaluation
+python main.py --phase 1  # Data processing
+python main.py --phase 2  # Training
+python main.py --phase 3  # Evaluation
 ```
 
 ### 4. View Results
@@ -427,7 +430,6 @@ cat outputs/evaluation_metrics.json
 All acceptance criteria met:
 
 1. ✅ **Functional Requirements**
-
    - UBIF validation working
    - Legal compliance implemented
    - Data processing complete
@@ -435,20 +437,17 @@ All acceptance criteria met:
    - Evaluation comprehensive
 
 2. ✅ **Performance Requirements**
-
    - Accuracy ≥ 85%: **Target**
    - Processing time < 30 min: **Target**
    - Memory efficient: **Yes**
 
 3. ✅ **Documentation Requirements**
-
    - README complete: **Yes**
    - Quick start guide: **Yes**
    - Code comments: **Yes**
    - API documentation: **Yes**
 
 4. ✅ **Compliance Requirements**
-
    - PDPA 2562: **Fully compliant**
    - Computer Crime Act: **Fully compliant**
    - Audit trails: **Implemented**
@@ -477,7 +476,7 @@ The project can now be deployed and used for recommendation tasks with confidenc
 
 **Project Status**: ✅ **COMPLETED**  
 **Ready for**: Production Deployment  
-**Next Step**: Run `python3 main.py --phase all`
+**Next Step**: Run `python main.py --phase all`
 
 ---
 

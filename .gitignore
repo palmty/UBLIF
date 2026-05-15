@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+*.egg
+*.pyc
+
+# Virtual environments
+.venv/
+.venv-win/
+venv/
+ENV/
+
+
+
+# Editor/OS files
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Local config
+.env
+.env.*
+
+# Generated outputs
+outputs/
+output_raw.ndjson
+visualizations/

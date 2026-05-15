@@ -30,9 +30,9 @@ class DataProcessingPipeline:
             input_file: Path to output_raw.ndjson
             output_dir: Path to outputs directory
         """
-        self.config_path = config_path
-        self.input_file = input_file
-        self.output_dir = output_dir
+        self.config_path = os.path.abspath(os.path.expanduser(config_path))
+        self.input_file = os.path.abspath(os.path.expanduser(input_file))
+        self.output_dir = os.path.abspath(os.path.expanduser(output_dir))
         
         # Initialize modules
         print("Initializing modules...")
@@ -42,7 +42,7 @@ class DataProcessingPipeline:
         self.interest_labeler = InterestLabeler(config_path)
         self.sessionizer = Sessionizer(window_minutes=30)
         self.feature_extractor = SessionFeatureExtractor()
-        # Load stream processing preference from config (optional)
+        # Load processing preferences from config (optional)
         try:
             with open(config_path, 'r', encoding='utf-8') as cf:
                 cfg = yaml.safe_load(cf) or {}
@@ -51,8 +51,14 @@ class DataProcessingPipeline:
                    .get('processing', {})
                    .get('stream_clean_first', False)
             )
+            self.shadow_legal_audit = bool(
+                cfg.get('ubif_filters', {})
+                   .get('processing', {})
+                   .get('shadow_legal_audit', False)
+            )
         except Exception:
             self.stream_clean_first = False
+            self.shadow_legal_audit = False
         
         # Storage for intermediate results
         self.valid_records = []
@@ -61,55 +67,104 @@ class DataProcessingPipeline:
         
         print("Pipeline initialized successfully!")
     
-    def step_1_ubif_validation(self) -> List[Dict[str, Any]]:
+    def step_1_data_cleaning(self) -> List[Dict[str, Any]]:
         """
-        Step 1.1: UBIF Validation
+        Step 1.1: Data Cleaning
         
         Returns:
-            List of valid records
+            Cleaned records (raw format)
         """
-        print("\n=== STEP 1.1: UBIF VALIDATION ===")
+        print("\n=== STEP 1.1: DATA CLEANING ===")
         
-        valid_records = []
-        rejected_records = []
+        records = []
+        total_read = 0
         
         # Read NDJSON file line by line (memory efficient for large files)
+        if not os.path.exists(self.input_file):
+            raise FileNotFoundError(f"Input file not found: {self.input_file}")
+
         print(f"Reading from {self.input_file}...")
         
         with open(self.input_file, 'r', encoding='utf-8') as f:
-            for line_num, line in enumerate(tqdm(f, desc="Validating records")):
+            for line_num, line in enumerate(tqdm(f, desc="Reading records")):
                 if not line.strip():
                     continue
                 
                 try:
                     record = json.loads(line)
-                    # Optional: apply streaming cleaning before validation to reduce memory
+                    total_read += 1
+                    
                     if self.stream_clean_first:
                         processed = self.data_cleaner.stream_process_record(record)
                         if processed is None:
                             # Dropped by cleaner; skip further processing
                             continue
-                        record = processed
-                    
-                    # Validate record
-                    is_valid, violations = self.ubif_validator.validate_record(record)
-                    
-                    if is_valid:
-                        valid_records.append(record)
+                        records.append(processed)
                     else:
-                        rejected_records.append({
-                            'line_number': line_num + 1,
-                            'record': record,
-                            'violations': violations
-                        })
+                        records.append(record)
                 
                 except json.JSONDecodeError as e:
                     print(f"JSON decode error at line {line_num + 1}: {str(e)}")
                     continue
                 
                 # Process in batches to avoid memory issues
-                if len(valid_records) % 10000 == 0 and len(valid_records) > 0:
-                    print(f"Processed {len(valid_records)} valid records...")
+                if len(records) % 10000 == 0 and len(records) > 0:
+                    print(f"Loaded {len(records)} records...")
+
+            print(f"✓ Input records: {total_read}")
+        
+        if self.stream_clean_first:
+            self.data_cleaner.stats['total_input'] = total_read
+            self.data_cleaner.stats['total_output'] = len(records)
+            cleaner_stats = self.data_cleaner.get_stats()
+            print(f"✓ Cleaned records: {len(records)}")
+            print(f"  - Duplicates removed: {cleaner_stats['duplicates_removed']}")
+            print(f"  - Test accounts removed: {cleaner_stats['test_accounts_removed']}")
+            print(f"  - Bot traffic removed: {cleaner_stats['bot_traffic_removed']}")
+            print(f"  - Missing serviceId removed: {cleaner_stats['missing_service_id_removed']}")
+        else:
+            print("Removing duplicates, test accounts, bot traffic...")
+            records = self.data_cleaner.clean_all(records)
+            cleaner_stats = self.data_cleaner.get_stats()
+            print(f"✓ Cleaned records: {len(records)}")
+            print(f"  - Duplicates removed: {cleaner_stats['duplicates_removed']}")
+            print(f"  - Test accounts removed: {cleaner_stats['test_accounts_removed']}")
+            print(f"  - Bot traffic removed: {cleaner_stats['bot_traffic_removed']}")
+            print(f"  - Missing serviceId removed: {cleaner_stats['missing_service_id_removed']}")
+        
+        return records
+    
+    def step_2_ubif_validation(self, records: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """
+        Step 1.2: Data standards
+        
+        Args:
+            records: Cleaned records from step 1
+            
+        Returns:
+            List of valid records
+        """
+        print("\n=== STEP 1.2: Data standards ===")
+        
+        valid_records = []
+        rejected_records = []
+        
+        for record_num, record in enumerate(tqdm(records, desc="Validating records"), start=1):
+            # Validate record
+            is_valid, violations = self.ubif_validator.validate_record(record)
+            
+            if is_valid:
+                valid_records.append(record)
+            else:
+                rejected_records.append({
+                    'line_number': record_num,
+                    'record': record,
+                    'violations': violations
+                })
+            
+            # Process in batches to avoid memory issues
+            if len(valid_records) % 10000 == 0 and len(valid_records) > 0:
+                print(f"Processed {len(valid_records)} valid records...")
         
         # Save validation report
         report = self.ubif_validator.get_validation_report()
@@ -132,17 +187,17 @@ class DataProcessingPipeline:
         
         return valid_records
     
-    def step_2_legal_compliance(self, records: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def step_3_legal_compliance(self, records: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """
-        Step 1.2: Apply Legal Compliance (PDPA, Computer Crime Act)
+        Step 1.3: Apply Legal Compliance (PDPA, Computer Crime Act)
         
         Args:
-            records: Valid records from step 1
+            records: Valid records from step 2
             
         Returns:
             Compliant records (anonymized)
         """
-        print("\n=== STEP 1.2: LEGAL COMPLIANCE ===")
+        print("\n=== STEP 1.3: LEGAL COMPLIANCE ===")
         
         compliant_records = []
         flagged_records = []
@@ -157,73 +212,71 @@ class DataProcessingPipeline:
                     'record': processed_record,
                     'issues': issues
                 })
+
         
         # Save audit log
         audit_log = self.compliance_engine.generate_audit_log()
         audit_path = os.path.join(self.output_dir, 'compliance_audit_log.json')
         with open(audit_path, 'w', encoding='utf-8') as f:
             json.dump(audit_log, f, indent=2, ensure_ascii=False)
+
+        if self.shadow_legal_audit and self.rejected_records:
+            shadow_engine = ComplianceEngine(self.config_path)
+            shadow_flagged = 0
+            for entry in tqdm(self.rejected_records, desc="Shadow compliance (rejected)"):
+                record = entry.get('record', entry)
+                _processed, is_clean, _issues = shadow_engine.apply_all_rules(record)
+                if not is_clean:
+                    shadow_flagged += 1
+            shadow_audit = shadow_engine.generate_audit_log()
+            shadow_path = os.path.join(self.output_dir, 'compliance_audit_shadow.json')
+            with open(shadow_path, 'w', encoding='utf-8') as f:
+                json.dump(shadow_audit, f, indent=2, ensure_ascii=False)
         
         print(f"✓ Compliant records: {len(compliant_records)}")
         print(f"⚠ Flagged records: {len(flagged_records)}")
+        if self.shadow_legal_audit and self.rejected_records:
+            print(
+                "⚠ Shadow audit (rejected) records: "
+                f"{len(self.rejected_records)} (flagged: {shadow_flagged})"
+            )
         print(f"✓ Audit log saved to {audit_path}")
         
         return compliant_records
-    
-    def step_3_data_cleaning(self, records: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-        """
-        Step 1.3: Data Cleaning & Parsing
-        
-        Args:
-            records: Compliant records
-            
-        Returns:
-            Cleaned and parsed records
-        """
-        print("\n=== STEP 1.3: DATA CLEANING / PARSING ===")
-        
-        # Apply cleaning (batch) only if streaming cleaning is disabled
-        if self.stream_clean_first:
-            print("Streaming cleaning enabled; skipping batch cleaning and proceeding to parsing.")
-            cleaned = records
-        else:
-            print("Removing duplicates, test accounts, bot traffic...")
-            cleaned = self.data_cleaner.clean_all(records)
-        
-        # Parse and extract core fields
-        print("Parsing and extracting core fields...")
-        parsed_records = []
-        
-        for record in tqdm(cleaned, desc="Parsing records"):
-            extracted = DataParser.extract_core_fields(record)
-            extracted = DataParser.handle_missing_values(extracted)
-            extracted = DataParser.convert_types(extracted)
-            
-            # Only keep records with valid timestamp (product_id can be empty for non-product events)
-            if extracted.get('timestamp') is not None:
-                parsed_records.append(extracted)
-        
-        cleaner_stats = self.data_cleaner.get_stats()
-        print(f"✓ Parsed records: {len(parsed_records)}")
-        print(f"  - Duplicates removed: {cleaner_stats['duplicates_removed']}")
-        print(f"  - Test accounts removed: {cleaner_stats['test_accounts_removed']}")
-        print(f"  - Bot traffic removed: {cleaner_stats['bot_traffic_removed']}")
-        
-        return parsed_records
     
     def step_4_interest_labeling(self, records: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """
         Step 1.4: Interest Labeling
         
         Args:
-            records: Cleaned records
+            records: Compliant records (raw format)
             
         Returns:
             Labeled records
         """
         print("\n=== STEP 1.4: INTEREST LABELING ===")
         
-        labeled = self.interest_labeler.apply_labels_to_records(records)
+        parsed_records = []
+        needs_parsing = True
+        if records:
+            sample = records[0]
+            needs_parsing = not isinstance(sample, dict) or 'event_type' not in sample or 'timestamp' not in sample
+        
+        if needs_parsing:
+            print("Parsing and extracting core fields...")
+            for record in tqdm(records, desc="Parsing records"):
+                extracted = DataParser.extract_core_fields(record)
+                extracted = DataParser.handle_missing_values(extracted)
+                extracted = DataParser.convert_types(extracted)
+                
+                # Only keep records with valid timestamp (product_id can be empty for non-product events)
+                if extracted.get('timestamp') is not None:
+                    parsed_records.append(extracted)
+            print(f"✓ Parsed records: {len(parsed_records)}")
+        else:
+            parsed_records = records
+        
+        labeled = self.interest_labeler.apply_labels_to_records(parsed_records)
         
         distribution = self.interest_labeler.get_interest_distribution(labeled)
         print(f"✓ Interest distribution:")
@@ -366,34 +419,38 @@ class DataProcessingPipeline:
         
         start_time = datetime.now()
         
-        # Step 1: UBIF Validation (with optional streaming cleaning during read)
+        # Step 1: Data Cleaning
         t1 = datetime.now()
-        valid_records = self.step_1_ubif_validation()
+        cleaned_records = self.step_1_data_cleaning()
         t2 = datetime.now()
-        self.step_durations['step_1_ubif_validation'] = (t2 - t1).total_seconds()
-        print(f"⏱ Step 1 time: {self.step_durations['step_1_ubif_validation']:.2f} s")
+        self.step_durations['step_1_data_cleaning'] = (t2 - t1).total_seconds()
+        print(f"⏱ Step 1 time: {self.step_durations['step_1_data_cleaning']:.2f} s")
+        
+        if not cleaned_records:
+            print("ERROR: No records left after data cleaning. Exiting.")
+            return
+        
+        # Step 2: UBIF Validation
+        t1 = datetime.now()
+        valid_records = self.step_2_ubif_validation(cleaned_records)
+        t2 = datetime.now()
+        self.step_durations['step_2_ubif_validation'] = (t2 - t1).total_seconds()
+        print(f"⏱ Step 2 time: {self.step_durations['step_2_ubif_validation']:.2f} s")
         
         if not valid_records:
             print("ERROR: No valid records found. Exiting.")
             return
         
-        # Step 2: Legal Compliance
+        # Step 3: Legal Compliance
         t1 = datetime.now()
-        compliant_records = self.step_2_legal_compliance(valid_records)
+        compliant_records = self.step_3_legal_compliance(valid_records)
         t2 = datetime.now()
-        self.step_durations['step_2_legal_compliance'] = (t2 - t1).total_seconds()
-        print(f"⏱ Step 2 time: {self.step_durations['step_2_legal_compliance']:.2f} s")
-        
-        # Step 3: Data Cleaning / Parsing
-        t1 = datetime.now()
-        cleaned_records = self.step_3_data_cleaning(compliant_records)
-        t2 = datetime.now()
-        self.step_durations['step_3_cleaning_parsing'] = (t2 - t1).total_seconds()
-        print(f"⏱ Step 3 time: {self.step_durations['step_3_cleaning_parsing']:.2f} s")
+        self.step_durations['step_3_legal_compliance'] = (t2 - t1).total_seconds()
+        print(f"⏱ Step 3 time: {self.step_durations['step_3_legal_compliance']:.2f} s")
         
         # Step 4: Interest Labeling
         t1 = datetime.now()
-        labeled_records = self.step_4_interest_labeling(cleaned_records)
+        labeled_records = self.step_4_interest_labeling(compliant_records)
         t2 = datetime.now()
         self.step_durations['step_4_interest_labeling'] = (t2 - t1).total_seconds()
         print(f"⏱ Step 4 time: {self.step_durations['step_4_interest_labeling']:.2f} s")

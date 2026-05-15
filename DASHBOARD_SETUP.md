@@ -32,10 +32,10 @@ run_dashboard.bat
 
 ```bash
 # ใช้ virtual environment
-& "c:\Users\admin\Desktop\Parinya\?.???\projuct\ACGI\.venv\Scripts\python.exe" -m streamlit run dashboard.py
+& ".\\.venv-win\\Scripts\\python.exe" -m streamlit run dashboard.py
 
 # หรือหาก activate venv แล้ว
-.venv\Scripts\activate
+\.\\.venv-win\\Scripts\\Activate.ps1
 streamlit run dashboard.py
 ```
 

@@ -236,15 +236,15 @@ def create_pipeline_order_and_definitions(metrics):
     if metrics.get('stream_clean_first', False):
         st.info(
             "Runtime mode: stream_clean_first = true\n\n"
-            "Actual execution order: Streaming cleaning (duplicate/test/bot/missing serviceId) "
+            "Actual execution order: Streaming data cleaning (duplicate/test/bot/missing serviceId) "
             "→ UBIF validation (Algorithm 2) → Legal compliance (Algorithm 3) "
             "→ Parsing/Labeling/Sessionization/Split"
         )
     else:
         st.info(
             "Runtime mode: stream_clean_first = false\n\n"
-            "Actual execution order: UBIF validation (Algorithm 2) → Legal compliance (Algorithm 3) "
-            "→ Batch data cleaning/parsing → Labeling/Sessionization/Split"
+            "Actual execution order: Batch data cleaning → UBIF validation (Algorithm 2) "
+            "→ Legal compliance (Algorithm 3) → Parsing/Labeling/Sessionization/Split"
         )
 
     st.subheader("📘 Term Definitions")
@@ -379,12 +379,13 @@ def create_processing_timeline(data):
     if step_durations:
         # แปลง step names เป็นภาษาไทย
         step_names_th = {
-            'step_1_ubif_validation': 'UBIF Validation',
-            'step_2_legal_compliance': 'Legal Compliance',
-            'step_3_cleaning_parsing': 'Data Cleaning/Parsing',
+            'step_1_data_cleaning': 'Data Cleaning',
+            'step_2_ubif_validation': 'UBIF Validation',
+            'step_3_legal_compliance': 'Legal Compliance',
             'step_4_interest_labeling': 'Interest Labeling',
             'step_5_sessionization': 'Sessionization',
-            'step_6_temporal_split': 'Temporal Split'
+            'step_6_temporal_split': 'Temporal Split',
+            'step_7_save_outputs': 'Saving Outputs'
         }
         
         steps = []

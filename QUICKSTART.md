@@ -2,6 +2,28 @@
 
 ## 🚀 Quick Start (5 minutes)
 
+### Windows (PowerShell)
+
+```powershell
+cd "C:\\path\\to\\ACGI"
+
+# Create venv
+py -3.12 -m venv .venv-win
+
+# Activate venv
+.\\.venv-win\\Scripts\\Activate.ps1
+
+# Install dependencies
+python -m pip install -r requirements.txt
+
+# Run all phases
+python main.py --phase all
+```
+
+---
+
+### macOS / Linux
+
 ### 1. Setup Environment
 
 ```bash
@@ -24,7 +46,7 @@ source venv/bin/activate
 
 ```bash
 # Run all phases (30-60 minutes for full dataset)
-python3 main.py --phase all
+python main.py --phase all
 ```
 
 ### 4. View Results
