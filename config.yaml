@@ -267,3 +267,6 @@ ubif_filters:
     output_file: "ubif_validation_report.json"
     log_rejected: true
     log_flagged: true
+
+apriori:
+  history_path: ""

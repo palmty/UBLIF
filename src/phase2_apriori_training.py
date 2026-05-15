@@ -185,11 +185,27 @@ class IncrementalAprioriUpdater:
     Incrementally update frequent itemsets and association rules
     """
 
-    def __init__(self, min_support: float, min_confidence: float, min_lift: float, max_len: int):
+    def __init__(
+        self,
+        min_support: float,
+        min_confidence: float,
+        min_lift: float,
+        max_len: int,
+        border_ratio: float = 0.7,
+        sliding_window_days: int = 30,
+        new_item_ratio_multiplier: float = 2.0,
+        new_item_ratio_floor: float = 0.01,
+        dense_matrix_max_cells: int = 50000000
+    ):
         self.min_support = min_support
         self.min_confidence = min_confidence
         self.min_lift = min_lift
         self.max_len = max_len
+        self.border_ratio = border_ratio
+        self.sliding_window_days = sliding_window_days
+        self.new_item_ratio_multiplier = new_item_ratio_multiplier
+        self.new_item_ratio_floor = new_item_ratio_floor
+        self.dense_matrix_max_cells = dense_matrix_max_cells
 
     @staticmethod
     def _itemset_key(itemset: Set[str]) -> str:
@@ -225,9 +241,118 @@ class IncrementalAprioriUpdater:
                     counts[key] += 1
         return counts
 
+    @staticmethod
+    def _count_singletons(transactions: List[List[str]]) -> Dict[str, int]:
+        counts = defaultdict(int)
+        for txn in transactions:
+            for item in set(txn):
+                counts[str(item)] += 1
+        return counts
+
+    @staticmethod
+    def _extract_known_items(
+        metadata: Dict[str, Any],
+        old_rules: List[Dict[str, Any]],
+        old_counts: Dict[str, int]
+    ) -> Set[str]:
+        known_items = set(metadata.get('known_items', []))
+        if not known_items and old_counts:
+            for key in old_counts.keys():
+                for item in key.split('|'):
+                    if item:
+                        known_items.add(item)
+        if not known_items and old_rules:
+            for rule in old_rules:
+                known_items.update(rule.get('antecedents', []))
+                known_items.update(rule.get('consequents', []))
+        return known_items
+
+    def _compute_window_stats(self, transaction_timestamps: Optional[List[int]]) -> Dict[str, Any]:
+        if not transaction_timestamps:
+            return {}
+
+        timestamps = [int(ts) for ts in transaction_timestamps if ts]
+        if not timestamps:
+            return {}
+
+        window_seconds = int(self.sliding_window_days * 86400)
+        window_end = max(timestamps)
+        window_start = window_end - window_seconds
+        window_txn = sum(1 for ts in timestamps if ts >= window_start)
+
+        return {
+            'window_seconds': window_seconds,
+            'window_start': window_start,
+            'window_end': window_end,
+            'window_txn': window_txn
+        }
+
+    def _generate_new_itemsets_via_counts(
+        self,
+        transactions: List[List[str]],
+        min_support_new: float
+    ) -> List[Set[str]]:
+        n_txn = len(transactions)
+        if n_txn == 0:
+            return []
+
+        min_count = max(int(np.ceil(min_support_new * n_txn)), 1)
+        singleton_counts = self._count_singletons(transactions)
+        frequent_items = [item for item, count in singleton_counts.items() if count >= min_count]
+        if not frequent_items:
+            return []
+
+        frequent_itemsets = [{item} for item in frequent_items]
+        if self.max_len < 2:
+            return frequent_itemsets
+
+        frequent_items_set = set(frequent_items)
+        for k in range(2, self.max_len + 1):
+            counts = defaultdict(int)
+            for txn in transactions:
+                filtered = [item for item in set(txn) if item in frequent_items_set]
+                if len(filtered) < k:
+                    continue
+                for combo in combinations(sorted(filtered), k):
+                    counts[combo] += 1
+            level_itemsets = [set(combo) for combo, count in counts.items() if count >= min_count]
+            if not level_itemsets:
+                break
+            frequent_itemsets.extend(level_itemsets)
+
+        return frequent_itemsets
+
+    def detect_frequent_new_items(self, transactions_new: List[List[str]], rules_path: str) -> List[str]:
+        old_rules, metadata, old_counts = self._load_old_rules(rules_path)
+        if not old_rules and not old_counts and not metadata:
+            return []
+
+        known_items = self._extract_known_items(metadata, old_rules, old_counts)
+        singleton_counts = self._count_singletons(transactions_new)
+        n_new = len(transactions_new)
+        if n_new == 0:
+            return []
+
+        new_items = [item for item in singleton_counts.keys() if item not in known_items]
+        new_item_threshold = max(self.min_support * self.new_item_ratio_multiplier, self.new_item_ratio_floor)
+
+        frequent_new_items = [
+            item for item in new_items
+            if (singleton_counts.get(item, 0) / n_new) >= new_item_threshold
+        ]
+
+        return frequent_new_items
+
     def _generate_new_itemsets(self, transactions: List[List[str]], min_support_new: float) -> List[Set[str]]:
         if not transactions:
             return []
+
+        n_txn = len(transactions)
+        unique_items = {item for txn in transactions for item in txn}
+        n_items = len(unique_items)
+        combo_factor = min(self.max_len, 3)
+        if n_txn * n_items * combo_factor > self.dense_matrix_max_cells:
+            return self._generate_new_itemsets_via_counts(transactions, min_support_new)
 
         try:
             te = TransactionEncoder()
@@ -245,13 +370,27 @@ class IncrementalAprioriUpdater:
             df,
             min_support=min_support_new,
             use_colnames=True,
-            max_len=self.max_len
+            max_len=self.max_len,
+            low_memory=True
         )
 
         return [set(items) for items in frequent_itemsets['itemsets'].tolist()]
 
-    def update_rules(self, transactions_new: List[List[str]], rules_path: str) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
+    def update_rules(
+        self,
+        transactions_new: List[List[str]],
+        rules_path: str,
+        transaction_timestamps: Optional[List[int]] = None,
+        transactions_history: Optional[List[List[str]]] = None
+    ) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
         old_rules, metadata, old_counts = self._load_old_rules(rules_path)
+        incremental_round = int(metadata.get('incremental_round', 0)) + 1
+        old_rule_keys = set()
+        for rule in old_rules:
+            rule_itemset = set(rule.get('antecedents', [])) | set(rule.get('consequents', []))
+            key = self._itemset_key(rule_itemset)
+            if key:
+                old_rule_keys.add(key)
         n_old = int(metadata.get('total_transactions', 0))
         n_new = len(transactions_new)
         total_txn = n_old + n_new
@@ -262,9 +401,39 @@ class IncrementalAprioriUpdater:
         old_itemsets = [set(r.get('antecedents', [])) | set(r.get('consequents', [])) for r in old_rules]
         new_counts = self._count_itemsets(transactions_new, old_itemsets)
 
-        # New candidate generation using incremental threshold
-        min_support_new = (self.min_support * total_txn) / max(n_new, 1)
+        known_items = self._extract_known_items(metadata, old_rules, old_counts)
+        singleton_counts = self._count_singletons(transactions_new)
+        new_items = [item for item in singleton_counts.keys() if item not in known_items]
+        new_item_threshold = max(self.min_support * self.new_item_ratio_multiplier, self.new_item_ratio_floor)
+        frequent_new_items = [
+            item for item in new_items
+            if (singleton_counts.get(item, 0) / max(n_new, 1)) >= new_item_threshold
+        ]
+
+        window_stats = self._compute_window_stats(transaction_timestamps)
+        if window_stats:
+            min_support_new = (self.min_support * max(window_stats['window_txn'], 1)) / max(n_new, 1)
+            min_support_strategy = 'sliding_window'
+        else:
+            min_support_new = (self.min_support * total_txn) / max(n_new, 1)
+            min_support_strategy = 'total_txn_scaled'
+
+        min_support_new = min(max(min_support_new, 0.0), 1.0)
+        min_support_border_new = min_support_new * self.border_ratio
+
         candidate_itemsets = self._generate_new_itemsets(transactions_new, min_support_new)
+        border_candidate_itemsets = []
+        if min_support_border_new < min_support_new:
+            border_candidate_itemsets = self._generate_new_itemsets(transactions_new, min_support_border_new)
+
+        if frequent_new_items:
+            border_candidate_itemsets.extend([{item} for item in frequent_new_items])
+
+        combined_itemsets = {}
+        for itemset in candidate_itemsets + border_candidate_itemsets:
+            combined_itemsets[frozenset(itemset)] = set(itemset)
+        candidate_itemsets = list(combined_itemsets.values())
+
         candidate_counts = self._count_itemsets(transactions_new, candidate_itemsets)
 
         # Merge counts and prune
@@ -275,6 +444,25 @@ class IncrementalAprioriUpdater:
 
         for key, count_new in candidate_counts.items():
             merged_counts[key] = merged_counts.get(key, 0) + count_new
+
+        selective_scan_applied = False
+        selective_scan_needed = bool(frequent_new_items) and not transactions_history
+        selective_scan_items = []
+        selective_scan_history_txn = 0
+        if frequent_new_items and transactions_history:
+            frequent_set = set(frequent_new_items)
+            scan_itemsets = [itemset for itemset in candidate_itemsets if itemset & frequent_set]
+            if scan_itemsets:
+                history_transactions = [
+                    txn for txn in transactions_history
+                    if frequent_set.intersection(txn)
+                ]
+                selective_scan_history_txn = len(history_transactions)
+                history_counts = self._count_itemsets(history_transactions, scan_itemsets)
+                for key, count_old in history_counts.items():
+                    merged_counts[key] = merged_counts.get(key, 0) + count_old
+                selective_scan_applied = True
+                selective_scan_items = frequent_new_items
 
         # Ensure subset supports exist for association_rules
         missing_subset_keys = set()
@@ -295,6 +483,22 @@ class IncrementalAprioriUpdater:
             subset_counts = self._count_itemsets(transactions_new, subset_itemsets)
             for subset_key, count_new in subset_counts.items():
                 merged_counts[subset_key] = merged_counts.get(subset_key, 0) + count_new
+
+        old_border_support_counts = metadata.get('border_support_counts', {})
+        border_total_prev = len(old_border_support_counts) if isinstance(old_border_support_counts, dict) else 0
+        border_crossed_keys = []
+        if border_total_prev:
+            for key in old_border_support_counts.keys():
+                support = merged_counts.get(key, 0) / total_txn
+                if support >= self.min_support:
+                    border_crossed_keys.append(key)
+
+        border_lower = self.border_ratio * self.min_support
+        border_support_counts = {}
+        for key, count in merged_counts.items():
+            support = count / total_txn
+            if border_lower <= support < self.min_support:
+                border_support_counts[key] = count
 
         all_itemsets = []
         for key, count in merged_counts.items():
@@ -320,9 +524,19 @@ class IncrementalAprioriUpdater:
             ]
 
         rules_list = []
+        rule_birth_rounds = metadata.get('rule_birth_rounds', {})
+        if not isinstance(rule_birth_rounds, dict):
+            rule_birth_rounds = {}
+        rule_birth_rounds_next = {}
         for _, row in rules_df.iterrows():
             rule_itemset = set(row['antecedents']) | set(row['consequents'])
             key = self._itemset_key(rule_itemset)
+            birth_round = int(rule_birth_rounds.get(key, incremental_round))
+            rule_birth_rounds_next[key] = birth_round
+            rule_age_rounds = max(incremental_round - birth_round + 1, 1)
+            support_count_prev = int(old_counts.get(key, 0))
+            support_count_now = int(round(row['support'] * total_txn))
+            support_momentum = (support_count_now - support_count_prev) / max(support_count_prev, 1)
             rules_list.append({
                 'antecedents': list(row['antecedents']),
                 'consequents': list(row['consequents']),
@@ -331,23 +545,55 @@ class IncrementalAprioriUpdater:
                 'lift': float(row['lift']),
                 'antecedent_len': len(row['antecedents']),
                 'consequent_len': len(row['consequents']),
-                'support_count': int(round(row['support'] * total_txn)),
-                'itemset_key': key
+                'support_count': support_count_now,
+                'support_count_prev': support_count_prev,
+                'support_momentum': float(support_momentum),
+                'itemset_key': key,
+                'rule_birth_round': birth_round,
+                'rule_age_rounds': rule_age_rounds
             })
+
+        new_rule_keys = {rule['itemset_key'] for rule in rules_list if rule.get('itemset_key')}
+        if old_rule_keys:
+            rule_change_ratio = (len(new_rule_keys - old_rule_keys) + len(old_rule_keys - new_rule_keys)) / max(len(old_rule_keys), 1)
+        else:
+            rule_change_ratio = 1.0 if new_rule_keys else 0.0
 
         updated_metadata = {
             'total_transactions': total_txn,
             'support_counts': merged_counts,
+            'border_support_counts': border_support_counts,
+            'border_ratio': self.border_ratio,
+            'border_support_lower': border_lower,
+            'min_support_strategy': min_support_strategy,
+            'min_support_new': min_support_new,
+            'min_support': self.min_support,
+            'incremental_round': incremental_round,
+            'rule_birth_rounds': rule_birth_rounds_next,
+            'rule_change_ratio': rule_change_ratio,
             'n_old': n_old,
-            'n_new': n_new
+            'n_new': n_new,
+            'known_items': sorted({item for key in merged_counts.keys() for item in key.split('|') if item}),
+            'new_items_detected': sorted(new_items),
+            'frequent_new_items': sorted(frequent_new_items),
+            'new_item_threshold': new_item_threshold,
+            'selective_scan_applied': selective_scan_applied,
+            'selective_scan_needed': selective_scan_needed,
+            'selective_scan_items': sorted(selective_scan_items),
+            'selective_scan_history_txn': selective_scan_history_txn,
+            'border_total_prev': border_total_prev,
+            'border_crossed_count': len(border_crossed_keys)
         }
+
+        if window_stats:
+            updated_metadata.update(window_stats)
 
         return rules_list, updated_metadata
 
 
 class XGBoostRuleRanker:
     """
-    Rank rules by XGBoost gain using new session data
+    Rank rules by XGBoost gain using rule property features
     """
 
     def __init__(self, min_gain: float = 0.0, max_rules: int = 5000):
@@ -358,28 +604,71 @@ class XGBoostRuleRanker:
     def _rule_itemset(rule: Dict[str, Any]) -> Set[str]:
         return set(rule.get('antecedents', [])) | set(rule.get('consequents', []))
 
-    def _build_feature_matrix(
+    def _build_rule_property_matrix(
         self,
         transactions: List[List[str]],
-        rules: List[Dict[str, Any]]
-    ) -> Tuple[np.ndarray, List[str]]:
+        rules: List[Dict[str, Any]],
+        labels: List[float]
+    ) -> Tuple[np.ndarray, np.ndarray, List[Dict[str, float]]]:
         rule_itemsets = [self._rule_itemset(rule) for rule in rules]
-        feature_names = [f"rule_{i}" for i in range(len(rules))]
+        match_counts = [0] * len(rules)
+        label_sums = [0.0] * len(rules)
+        label_sq_sums = [0.0] * len(rules)
 
-        x = np.zeros((len(transactions), len(feature_names)), dtype=float)
-        for i, txn in enumerate(transactions):
+        for txn, label in zip(transactions, labels):
             txn_set = set(txn)
-            for j, itemset in enumerate(rule_itemsets):
+            for i, itemset in enumerate(rule_itemsets):
                 if itemset and itemset.issubset(txn_set):
-                    x[i, j] = 1.0
+                    match_counts[i] += 1
+                    label_sums[i] += float(label)
+                    label_sq_sums[i] += float(label) ** 2
 
-        return x, feature_names
+        n_txn = len(transactions)
+        features = []
+        targets = []
+        stats = []
+
+        for i, rule in enumerate(rules):
+            match_count = match_counts[i]
+            match_rate = match_count / max(n_txn, 1)
+            match_label_mean = label_sums[i] / max(match_count, 1)
+            label_variance = 0.0
+            if match_count > 1:
+                label_variance = (label_sq_sums[i] / match_count) - (match_label_mean ** 2)
+                if label_variance < 0:
+                    label_variance = 0.0
+            match_miss_count = n_txn - match_count
+
+            stats.append({
+                'match_count': float(match_count),
+                'match_rate': float(match_rate),
+                'match_label_mean': float(match_label_mean),
+                'label_variance': float(label_variance),
+                'match_miss_count': float(match_miss_count)
+            })
+
+            features.append([
+                float(rule.get('support', 0.0)),
+                float(rule.get('confidence', 0.0)),
+                float(rule.get('lift', 0.0)),
+                float(rule.get('support_count', 0)),
+                float(rule.get('support_momentum', 0.0)),
+                float(rule.get('antecedent_len', 0)),
+                float(rule.get('consequent_len', 0)),
+                float(rule.get('rule_age_rounds', 1)),
+                float(match_rate),
+                float(match_miss_count),
+                float(label_variance)
+            ])
+            targets.append(match_label_mean)
+
+        return np.array(features, dtype=float), np.array(targets, dtype=float), stats
 
     def rank_rules(
         self,
         rules: List[Dict[str, Any]],
         transactions: List[List[str]],
-        labels: List[int]
+        labels: List[float]
     ) -> List[Dict[str, Any]]:
         if not rules or not transactions:
             return rules
@@ -387,46 +676,80 @@ class XGBoostRuleRanker:
         if len(rules) > self.max_rules:
             rules = rules[:self.max_rules]
 
-        x, feature_names = self._build_feature_matrix(transactions, rules)
-        y = np.array(labels, dtype=float)
+        x, y, stats = self._build_rule_property_matrix(transactions, rules, labels)
 
-        if xgb is None:
-            # Fallback: rank by support * confidence * lift
-            scores = [r.get('support', 0.0) * r.get('confidence', 0.0) * r.get('lift', 0.0) for r in rules]
-            ranked = sorted(range(len(rules)), key=lambda i: scores[i], reverse=True)
-            for rank, idx in enumerate(ranked, start=1):
-                rules[idx]['xgboost_gain'] = float(scores[idx])
-                rules[idx]['importance_rank'] = rank
-                rules[idx]['priority'] = 'high' if scores[idx] > 0 else 'low'
-            return rules
+        if x.size > 0:
+            stats_cols = slice(0, 3)
+            means = x[:, stats_cols].mean(axis=0)
+            stds = x[:, stats_cols].std(axis=0)
+            stds[stds == 0] = 1.0
+            x[:, stats_cols] = (x[:, stats_cols] - means) / stds
 
-        group = [len(y)]
-        model = xgb.XGBRanker(
-            objective='rank:pairwise',
-            eval_metric='ndcg',
-            learning_rate=0.1,
-            max_depth=6,
-            n_estimators=200,
-            subsample=0.9,
-            colsample_bytree=0.8,
-            tree_method='hist'
-        )
-        model.fit(x, y, group=group)
+        nonzero_targets = y[y > 0]
+        if nonzero_targets.size > 0:
+            match_label_threshold = float(np.quantile(nonzero_targets, 0.75))
+        else:
+            match_label_threshold = 0.0
+        y_class = np.zeros_like(y, dtype=int)
+        if match_label_threshold > 0:
+            y_class[y >= match_label_threshold] = 1
+        else:
+            y_class[y > 0] = 1
 
-        booster = model.get_booster()
-        gain_scores = booster.get_score(importance_type='gain')
+        if xgb is None or len(np.unique(y_class)) < 2:
+            scores = []
+            for i, rule in enumerate(rules):
+                match_rate = stats[i]['match_rate']
+                match_label_mean = stats[i]['match_label_mean']
+                score = match_label_mean * match_rate * rule.get('confidence', 0.0) * rule.get('lift', 0.0)
+                scores.append(float(score))
+        else:
+            model = xgb.XGBClassifier(
+                objective='binary:logistic',
+                eval_metric='auc',
+                learning_rate=0.1,
+                max_depth=6,
+                n_estimators=200,
+                subsample=0.9,
+                colsample_bytree=0.8,
+                tree_method='hist'
+            )
+            if len(y_class) >= 20:
+                rng = np.random.RandomState(42)
+                indices = rng.permutation(len(y_class))
+                split = int(len(indices) * 0.8)
+                train_idx = indices[:split]
+                val_idx = indices[split:]
+                try:
+                    model.fit(
+                        x[train_idx],
+                        y_class[train_idx],
+                        eval_set=[(x[val_idx], y_class[val_idx])],
+                        early_stopping_rounds=20,
+                        verbose=False
+                    )
+                except TypeError:
+                    model.fit(
+                        x[train_idx],
+                        y_class[train_idx],
+                        eval_set=[(x[val_idx], y_class[val_idx])],
+                        verbose=False
+                    )
+            else:
+                model.fit(x, y_class)
+            scores = [float(pred) for pred in model.predict_proba(x)[:, 1]]
 
-        rule_gains = []
-        for i in range(len(rules)):
-            key = f"f{i}"
-            rule_gains.append(float(gain_scores.get(key, 0.0)))
-
-        ranked = sorted(range(len(rules)), key=lambda i: rule_gains[i], reverse=True)
+        ranked = sorted(range(len(rules)), key=lambda i: scores[i], reverse=True)
         for rank, idx in enumerate(ranked, start=1):
-            gain = rule_gains[idx]
+            gain = scores[idx]
             rules[idx]['xgboost_gain'] = gain
             rules[idx]['importance_rank'] = rank
             rules[idx]['priority'] = 'high' if gain > self.min_gain else 'low'
+            rules[idx]['match_count'] = int(stats[idx]['match_count'])
+            rules[idx]['match_rate'] = float(stats[idx]['match_rate'])
+            rules[idx]['match_label_mean'] = float(stats[idx]['match_label_mean'])
+            rules[idx]['match_miss_count'] = int(stats[idx]['match_miss_count'])
+            rules[idx]['label_variance'] = float(stats[idx]['label_variance'])
 
         return rules
 
@@ -577,52 +900,11 @@ class AprioriEngine:
         if not rules or not train_records:
             return rules
 
-        if xgb is None:
-            # Fallback: rank by support * confidence * lift
-            scores = [r.get('support', 0.0) * r.get('confidence', 0.0) * r.get('lift', 0.0) for r in rules]
-            ranked = sorted(range(len(rules)), key=lambda i: scores[i], reverse=True)
-            for rank, idx in enumerate(ranked, start=1):
-                rules[idx]['xgboost_gain'] = float(scores[idx])
-                rules[idx]['importance_rank'] = rank
-            return rules
+        transactions = [list(dict.fromkeys(record.get('previous_products', []))) for record in train_records]
+        labels = [float(record.get('interest', 0)) for record in train_records]
 
-        rule_features = []
-        labels = []
-
-        for record in train_records:
-            prev_items = set(record.get('previous_products', []))
-            row = []
-            for rule in rules:
-                antecedents = set(rule.get('antecedents', []))
-                is_match = 1 if antecedents.issubset(prev_items) else 0
-                row.append(is_match)
-
-            rule_features.append(row)
-            labels.append(record.get('interest', 0))
-
-        x = pd.DataFrame(rule_features)
-        y = np.array(labels)
-
-        ranker = xgb.XGBClassifier(
-            n_estimators=50,
-            max_depth=3,
-            learning_rate=0.1,
-            objective='binary:logistic'
-        )
-        ranker.fit(x, y)
-
-        importances = ranker.feature_importances_
-
-        for i, rule in enumerate(rules):
-            rule['xgboost_gain'] = float(importances[i])
-
-        ranked_rules = [r for r in rules if r.get('xgboost_gain', 0.0) > 0]
-        ranked_rules.sort(key=lambda x: x['xgboost_gain'], reverse=True)
-
-        for rank, rule in enumerate(ranked_rules, start=1):
-            rule['importance_rank'] = rank
-
-        return ranked_rules
+        ranker = XGBoostRuleRanker(min_gain=0.0, max_rules=len(rules))
+        return ranker.rank_rules(rules, transactions, labels)
 
 
 class StatisticsCalculator:
@@ -723,6 +1005,24 @@ class Phase2Pipeline:
         # Load config
         with open(config_path, 'r', encoding='utf-8') as f:
             config = yaml.safe_load(f)
+
+        apriori_config = config.get('apriori', {}) if isinstance(config, dict) else {}
+        self.apriori_history_path = apriori_config.get('history_path')
+
+        labeling_config = config.get('labeling', {}) if isinstance(config, dict) else {}
+        self.label_weights = labeling_config.get(
+            'weights',
+            {'click': 1.0, 'add_to_cart': 2.0, 'purchase': 3.0}
+        )
+        self.label_event_map = labeling_config.get(
+            'event_type_map',
+            {
+                'purchase': ['purchase', 'order', 'checkout', 'paid'],
+                'add_to_cart': ['add_to_cart', 'addtocart', 'cart', 'basket'],
+                'click': ['click']
+            }
+        )
+        self.label_source_field = labeling_config.get('source_field', 'event_type')
         
         # Extract Apriori parameters (use defaults if not in config)
         # STRATEGY: Product-level recommendations (serviceId specific)
@@ -734,10 +1034,16 @@ class Phase2Pipeline:
         
         print("Phase 2 Pipeline initialized!")
     
-    def _build_sessions_with_features(self, records: List[Dict[str, Any]], min_products: int, max_products: int) -> Tuple[List[List[str]], List[Dict[str, float]], List[int]]:
+    def _build_sessions_with_features(
+        self,
+        records: List[Dict[str, Any]],
+        min_products: int,
+        max_products: int
+    ) -> Tuple[List[List[str]], List[Dict[str, float]], List[float], List[int]]:
         sessions = defaultdict(list)
         session_features = defaultdict(lambda: defaultdict(list))
-        session_labels = defaultdict(int)
+        session_labels = defaultdict(float)
+        session_timestamps = defaultdict(list)
 
         for record in records:
             session_id = record.get('session_id')
@@ -751,11 +1057,16 @@ class Phase2Pipeline:
             session_features[session_id]['bounce_penalty'].append(record.get('bounce_penalty', 0.0))
             session_features[session_id]['session_depth'].append(record.get('session_depth', 0.0))
             session_features[session_id]['click_position'].append(record.get('click_position', 0.0))
-            session_labels[session_id] = max(session_labels[session_id], int(record.get('interest', 0)))
+            session_labels[session_id] = max(
+                session_labels[session_id],
+                self._derive_label_weight(record)
+            )
+            session_timestamps[session_id].append(int(record.get('timestamp', 0) or 0))
 
         transactions = []
         features = []
         labels = []
+        timestamps = []
 
         for session_id, products in sessions.items():
             unique_products = list(dict.fromkeys(products))
@@ -770,8 +1081,71 @@ class Phase2Pipeline:
                     'session_length': float(len(unique_products))
                 })
                 labels.append(session_labels[session_id])
+                timestamps.append(max(session_timestamps[session_id]) if session_timestamps[session_id] else 0)
 
-        return transactions, features, labels
+        return transactions, features, labels, timestamps
+
+    def _derive_label_weight(self, record: Dict[str, Any]) -> float:
+        event_value = str(record.get(self.label_source_field, '')).lower()
+        for label_key, patterns in self.label_event_map.items():
+            for pattern in patterns:
+                if pattern and pattern in event_value:
+                    return float(self.label_weights.get(label_key, 0.0))
+        return 0.0
+
+    def _build_history_transactions_for_items(
+        self,
+        records: List[Dict[str, Any]],
+        items: Set[str],
+        min_products: int,
+        max_products: int
+    ) -> List[List[str]]:
+        if not items:
+            return []
+
+        builder = TransactionBuilder(min_products=min_products, max_products=max_products)
+        sessions = builder.group_by_session(records)
+        filtered_sessions = {
+            session_id: products
+            for session_id, products in sessions.items()
+            if items.intersection(products)
+        }
+        filtered_sessions = builder.filter_sessions(filtered_sessions)
+        return builder.create_transaction_matrix(filtered_sessions)
+
+    def _append_training_log(self, rules_metadata: Optional[Dict[str, Any]]) -> None:
+        if not rules_metadata:
+            return
+
+        log_path = os.path.join(self.output_dir, 'training_log.txt')
+        timestamp = datetime.now().isoformat()
+        selective_scan_applied = int(bool(rules_metadata.get('selective_scan_applied')))
+        selective_scan_history_txn = int(rules_metadata.get('selective_scan_history_txn', 0))
+        border_total_prev = int(rules_metadata.get('border_total_prev', 0))
+        border_crossed = int(rules_metadata.get('border_crossed_count', 0))
+        border_crossed_ratio = border_crossed / max(border_total_prev, 1)
+        border_total_now = len(rules_metadata.get('border_support_counts', {}))
+        n_new = int(rules_metadata.get('n_new', 0))
+        min_support_strategy = rules_metadata.get('min_support_strategy', 'unknown')
+        min_support_new = rules_metadata.get('min_support_new', 0.0)
+        min_support = rules_metadata.get('min_support', self.min_support)
+
+        log_line = (
+            f"{timestamp}\t"
+            f"n_new={n_new}\t"
+            f"selective_scan={selective_scan_applied}\t"
+            f"selective_scan_history_txn={selective_scan_history_txn}\t"
+            f"border_prev={border_total_prev}\t"
+            f"border_crossed={border_crossed}\t"
+            f"border_crossed_ratio={border_crossed_ratio:.4f}\t"
+            f"border_now={border_total_now}\t"
+            f"min_support={min_support}\t"
+            f"min_support_new={min_support_new:.6f}\t"
+            f"min_support_strategy={min_support_strategy}"
+        )
+
+        with open(log_path, 'a', encoding='utf-8') as f:
+            f.write(log_line + "\n")
 
     def run_full_pipeline(self) -> None:
         """Run complete Phase 2 pipeline"""
@@ -789,7 +1163,7 @@ class Phase2Pipeline:
         transaction_builder.stats['total_records'] = len(train_records)
         transactions = transaction_builder.prepare_transactions_from_records(train_records)
 
-        transactions_new, session_features, labels_new = self._build_sessions_with_features(
+        transactions_new, session_features, labels_new, session_timestamps = self._build_sessions_with_features(
             train_records,
             transaction_builder.min_products,
             transaction_builder.max_products
@@ -808,7 +1182,44 @@ class Phase2Pipeline:
             min_lift=self.min_lift,
             max_len=self.max_len
         )
-        rules_list, rules_metadata = updater.update_rules(transactions_new, rules_path)
+
+        transactions_history = None
+        if self.apriori_history_path:
+            try:
+                history_path = os.path.abspath(self.apriori_history_path)
+                train_path = os.path.abspath(self.train_path)
+            except Exception:
+                history_path = self.apriori_history_path
+                train_path = self.train_path
+
+            if os.path.exists(history_path) and history_path != train_path:
+                frequent_new_items = updater.detect_frequent_new_items(transactions_new, rules_path)
+                if frequent_new_items:
+                    with open(history_path, 'r', encoding='utf-8') as f:
+                        history_records = json.load(f)
+                    transactions_history = self._build_history_transactions_for_items(
+                        history_records,
+                        set(frequent_new_items),
+                        transaction_builder.min_products,
+                        transaction_builder.max_products
+                    )
+
+        rules_list, rules_metadata = updater.update_rules(
+            transactions_new,
+            rules_path,
+            transaction_timestamps=session_timestamps,
+            transactions_history=transactions_history
+        )
+
+        if rules_metadata is not None:
+            rules_metadata.update({
+                'label_strategy': 'event_type_weighted',
+                'label_source_field': self.label_source_field,
+                'label_weights': self.label_weights,
+                'label_event_map': self.label_event_map
+            })
+
+        self._append_training_log(rules_metadata)
         
         if not rules_list:
             print("ERROR: No rules generated. Try lowering min_support or min_confidence.")
