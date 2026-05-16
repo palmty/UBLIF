@@ -3,11 +3,11 @@
   "prediction": {
     "method": "custom_gradient_boosting",
     "weights": {
-      "rule_matching": 0.8,
-      "session_features": 0.2
+      "rule_matching": 0.7,
+      "session_features": 0.3
     },
     "activation": "sigmoid",
-    "threshold": 0.55
+    "threshold": 0.45
   },
   "normalization": {
     "graph_stats": {},

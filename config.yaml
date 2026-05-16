@@ -270,3 +270,33 @@ ubif_filters:
 
 apriori:
   history_path: ""
+
+labeling:
+  source_field: "event_type"
+  weights:
+    click: 1.0
+    add_to_cart: 2.0
+    purchase: 3.0
+  event_type_map:
+    purchase: ["purchase", "order", "checkout", "paid"]
+    add_to_cart: ["add_to_cart", "addtocart", "cart", "basket"]
+    click: ["click"]
+
+xgboost_ranker:
+  max_rules: 5000
+  eval_split: 0.2
+  early_stopping_rounds: 20
+  random_state: 42
+  params:
+    learning_rate: 0.1
+    max_depth: 6
+    n_estimators: 200
+    subsample: 0.9
+    colsample_bytree: 0.8
+    min_child_weight: 1
+    reg_alpha: 0
+    reg_lambda: 1
+  tuning:
+    enabled: false
+    trials: 20
+    param_grid: []

@@ -596,9 +596,23 @@ class XGBoostRuleRanker:
     Rank rules by XGBoost gain using rule property features
     """
 
-    def __init__(self, min_gain: float = 0.0, max_rules: int = 5000):
+    def __init__(
+        self,
+        min_gain: float = 0.0,
+        max_rules: int = 5000,
+        xgb_params: Optional[Dict[str, Any]] = None,
+        tuning: Optional[Dict[str, Any]] = None,
+        eval_split: float = 0.2,
+        early_stopping_rounds: int = 20,
+        random_state: int = 42
+    ):
         self.min_gain = min_gain
         self.max_rules = max_rules
+        self.xgb_params = xgb_params or {}
+        self.tuning = tuning or {}
+        self.eval_split = eval_split
+        self.early_stopping_rounds = early_stopping_rounds
+        self.random_state = random_state
 
     @staticmethod
     def _rule_itemset(rule: Dict[str, Any]) -> Set[str]:
@@ -664,6 +678,59 @@ class XGBoostRuleRanker:
 
         return np.array(features, dtype=float), np.array(targets, dtype=float), stats
 
+    def _train_classifier(self, x: np.ndarray, y_class: np.ndarray, params: Dict[str, Any]) -> Tuple[Any, Optional[float]]:
+        base_params = {
+            'objective': 'binary:logistic',
+            'eval_metric': 'auc',
+            'learning_rate': 0.1,
+            'max_depth': 6,
+            'n_estimators': 200,
+            'subsample': 0.9,
+            'colsample_bytree': 0.8,
+            'tree_method': 'hist',
+            'random_state': self.random_state
+        }
+        base_params.update(self.xgb_params)
+        base_params.update(params)
+
+        model = xgb.XGBClassifier(**base_params)
+
+        if self.eval_split > 0 and len(y_class) >= 20:
+            rng = np.random.RandomState(self.random_state)
+            indices = rng.permutation(len(y_class))
+            split = int(len(indices) * (1 - self.eval_split))
+            train_idx = indices[:split]
+            val_idx = indices[split:]
+            x_train, y_train = x[train_idx], y_class[train_idx]
+            x_val, y_val = x[val_idx], y_class[val_idx]
+
+            try:
+                model.fit(
+                    x_train,
+                    y_train,
+                    eval_set=[(x_val, y_val)],
+                    early_stopping_rounds=self.early_stopping_rounds,
+                    verbose=False
+                )
+            except TypeError:
+                model.fit(
+                    x_train,
+                    y_train,
+                    eval_set=[(x_val, y_val)],
+                    verbose=False
+                )
+
+            y_val_prob = model.predict_proba(x_val)[:, 1]
+            if len(np.unique(y_val)) > 1:
+                val_auc = roc_auc_score(y_val, y_val_prob)
+            else:
+                val_auc = None
+
+            return model, val_auc
+
+        model.fit(x, y_class)
+        return model, None
+
     def rank_rules(
         self,
         rules: List[Dict[str, Any]],
@@ -704,39 +771,27 @@ class XGBoostRuleRanker:
                 score = match_label_mean * match_rate * rule.get('confidence', 0.0) * rule.get('lift', 0.0)
                 scores.append(float(score))
         else:
-            model = xgb.XGBClassifier(
-                objective='binary:logistic',
-                eval_metric='auc',
-                learning_rate=0.1,
-                max_depth=6,
-                n_estimators=200,
-                subsample=0.9,
-                colsample_bytree=0.8,
-                tree_method='hist'
-            )
-            if len(y_class) >= 20:
-                rng = np.random.RandomState(42)
-                indices = rng.permutation(len(y_class))
-                split = int(len(indices) * 0.8)
-                train_idx = indices[:split]
-                val_idx = indices[split:]
-                try:
-                    model.fit(
-                        x[train_idx],
-                        y_class[train_idx],
-                        eval_set=[(x[val_idx], y_class[val_idx])],
-                        early_stopping_rounds=20,
-                        verbose=False
-                    )
-                except TypeError:
-                    model.fit(
-                        x[train_idx],
-                        y_class[train_idx],
-                        eval_set=[(x[val_idx], y_class[val_idx])],
-                        verbose=False
-                    )
-            else:
-                model.fit(x, y_class)
+            tuning_enabled = bool(self.tuning.get('enabled'))
+            param_grid = self.tuning.get('param_grid', [])
+            trials = int(self.tuning.get('trials', len(param_grid))) if param_grid else 0
+
+            best_params = {}
+            best_auc = -1.0
+
+            if tuning_enabled and param_grid:
+                for params in param_grid[:max(trials, 1)]:
+                    model, val_auc = self._train_classifier(x, y_class, params)
+                    if val_auc is None:
+                        val_auc = -1.0
+                    if val_auc > best_auc:
+                        best_auc = val_auc
+                        best_params = params
+
+            original_eval_split = self.eval_split
+            self.eval_split = 0.0
+            model, _ = self._train_classifier(x, y_class, best_params)
+            self.eval_split = original_eval_split
+
             scores = [float(pred) for pred in model.predict_proba(x)[:, 1]]
 
         ranked = sorted(range(len(rules)), key=lambda i: scores[i], reverse=True)
@@ -1023,6 +1078,14 @@ class Phase2Pipeline:
             }
         )
         self.label_source_field = labeling_config.get('source_field', 'event_type')
+
+        xgb_ranker_config = config.get('xgboost_ranker', {}) if isinstance(config, dict) else {}
+        self.xgb_ranker_params = xgb_ranker_config.get('params', {})
+        self.xgb_ranker_tuning = xgb_ranker_config.get('tuning', {})
+        self.xgb_ranker_max_rules = int(xgb_ranker_config.get('max_rules', 5000))
+        self.xgb_ranker_eval_split = float(xgb_ranker_config.get('eval_split', 0.2))
+        self.xgb_ranker_early_stopping_rounds = int(xgb_ranker_config.get('early_stopping_rounds', 20))
+        self.xgb_ranker_random_state = int(xgb_ranker_config.get('random_state', 42))
         
         # Extract Apriori parameters (use defaults if not in config)
         # STRATEGY: Product-level recommendations (serviceId specific)
@@ -1227,7 +1290,15 @@ class Phase2Pipeline:
         
         # Step 2.3: Ranking & Pruning via XGBoost
         print("\n=== STEP 2.3: XGBOOST RANKING ===")
-        ranker = XGBoostRuleRanker(min_gain=0.0, max_rules=5000)
+        ranker = XGBoostRuleRanker(
+            min_gain=0.0,
+            max_rules=self.xgb_ranker_max_rules,
+            xgb_params=self.xgb_ranker_params,
+            tuning=self.xgb_ranker_tuning,
+            eval_split=self.xgb_ranker_eval_split,
+            early_stopping_rounds=self.xgb_ranker_early_stopping_rounds,
+            random_state=self.xgb_ranker_random_state
+        )
         rules_list = ranker.rank_rules(rules_list, transactions_new, labels_new)
 
         # Step 2.4: Load train records (no graph construction)

@@ -1,39 +1,39 @@
 {
-  "total_input_records": 43740,
-  "valid_records": 43740,
+  "total_input_records": 43736,
+  "valid_records": 43736,
   "rejected_records": 0,
-  "train_records": 34990,
+  "train_records": 34988,
   "test_records": 8748,
   "train_interest_distribution": {
-    "interest": 21144,
+    "interest": 21142,
     "no_interest": 13846
   },
   "test_interest_distribution": {
-    "interest": 4549,
-    "no_interest": 4199
+    "interest": 4550,
+    "no_interest": 4198
   },
   "session_statistics": {
-    "total_records": 43738,
-    "total_sessions": 9425,
-    "avg_session_length": 4.640636604774536,
+    "total_records": 43736,
+    "total_sessions": 9423,
+    "avg_session_length": 4.641409317627082,
     "min_session_length": 1,
     "max_session_length": 128
   },
   "cleaning_statistics": {
-    "total_input": 104165,
+    "total_input": 104160,
     "duplicates_removed": 2943,
     "test_accounts_removed": 0,
     "bot_traffic_removed": 0,
-    "missing_service_id_removed": 57482,
-    "total_output": 43740
+    "missing_service_id_removed": 57481,
+    "total_output": 43736
   },
   "step_durations_seconds": {
-    "step_1_data_cleaning": 0.839816,
-    "step_2_ubif_validation": 0.29361,
-    "step_3_legal_compliance": 1.599604,
-    "step_4_interest_labeling": 1.157318,
-    "step_5_sessionization": 21.619934,
-    "step_6_temporal_split": 0.081092
+    "step_1_data_cleaning": 0.888352,
+    "step_2_ubif_validation": 0.289609,
+    "step_3_legal_compliance": 1.511124,
+    "step_4_interest_labeling": 0.941376,
+    "step_5_sessionization": 21.26657,
+    "step_6_temporal_split": 0.072976
   },
-  "generated_at": "2026-05-11T08:47:09.803205"
+  "generated_at": "2026-05-15T17:50:10.810737"
 }

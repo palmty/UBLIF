@@ -483,7 +483,7 @@
     "product_id": "574",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9986736536559553,
+    "probability": 0.9987719098765581,
     "session_id": "88a6e781a2f8",
     "category": "Marketplace-rcbt-sip"
   },
@@ -539,7 +539,7 @@
     "product_id": "151",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9985226103258387,
+    "probability": 0.9985583274315794,
     "session_id": "ada6c71c4fc3",
     "category": "Marketplace-rcbt-sip"
   },
@@ -627,7 +627,7 @@
     "product_id": "536",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9986736536559553,
+    "probability": 0.9987051777639285,
     "session_id": "8aac0d6f6dc6",
     "category": "Marketplace-rcbt-sip"
   },
@@ -691,7 +691,7 @@
     "product_id": "153",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9986736536559553,
+    "probability": 0.9986935286538288,
     "session_id": "8247afaa5d15",
     "category": "Marketplace-rcbt-sip"
   },
@@ -723,7 +723,7 @@
     "product_id": "588",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9985226103258387,
+    "probability": 0.9985577191910805,
     "session_id": "e83c0580b8c3",
     "category": "Marketplace-rcbt-sip"
   },
@@ -755,7 +755,7 @@
     "product_id": "547",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9990403674366753,
+    "probability": 0.9990532873472723,
     "session_id": "e83c0580b8c3",
     "category": "Marketplace-rcbt-sip"
   },
@@ -867,7 +867,7 @@
     "product_id": "166",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9990403674366753,
+    "probability": 0.999057858882134,
     "session_id": "740ebd69d5c4",
     "category": "Marketplace-rcbt-sip"
   },
@@ -883,7 +883,7 @@
     "product_id": "155",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9992266459961371,
+    "probability": 0.989789384587873,
     "session_id": "740ebd69d5c4",
     "category": "Marketplace-rcbt-sip"
   },
@@ -1635,7 +1635,7 @@
     "product_id": "123",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9993057611413573,
+    "probability": 0.9993105585643928,
     "session_id": "94e0c7abed74",
     "category": "Marketplace-rcbt-sip"
   },
@@ -1747,7 +1747,7 @@
     "product_id": "14",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9986736536559553,
+    "probability": 0.9999998954917795,
     "session_id": "dc74e86938d6",
     "category": "Marketplace-rcbt-sip"
   },
@@ -1771,7 +1771,7 @@
     "product_id": "114",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9990403674366753,
+    "probability": 0.9990878909876766,
     "session_id": "dc74e86938d6",
     "category": "Marketplace-rcbt-sip"
   },
@@ -1811,7 +1811,7 @@
     "product_id": "298",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9985226103258387,
+    "probability": 0.9985846069451197,
     "session_id": "51fa324af50a",
     "category": "Marketplace-rcbt-sip"
   },
@@ -2259,7 +2259,7 @@
     "product_id": "10",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.998931040497558,
+    "probability": 0.9989334500452776,
     "session_id": "94fa81b1fec9",
     "category": "Marketplace-rcbt-sip"
   },
@@ -2283,7 +2283,7 @@
     "product_id": "17",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9992266459961371,
+    "probability": 0.9992278628642062,
     "session_id": "94fa81b1fec9",
     "category": "Marketplace-rcbt-sip"
   },
@@ -2299,7 +2299,7 @@
     "product_id": "18",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.999376787749712,
+    "probability": 0.999999950615893,
     "session_id": "94fa81b1fec9",
     "category": "Marketplace-rcbt-sip"
   },
@@ -2315,7 +2315,7 @@
     "product_id": "23",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9994977950883686,
+    "probability": 0.9994992575610601,
     "session_id": "94fa81b1fec9",
     "category": "Marketplace-rcbt-sip"
   },
@@ -2403,7 +2403,7 @@
     "product_id": "22",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9988092732407773,
+    "probability": 0.9989580997426657,
     "session_id": "693e784cce24",
     "category": "Marketplace-rcbt-sip"
   },
@@ -2411,7 +2411,7 @@
     "product_id": "45",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.998931040497558,
+    "probability": 0.998953501870724,
     "session_id": "693e784cce24",
     "category": "Marketplace-rcbt-sip"
   },
@@ -2595,7 +2595,7 @@
     "product_id": "19",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9991385226972894,
+    "probability": 0.9991511046836207,
     "session_id": "879d3ae6d828",
     "category": "Marketplace-rcbt-sip"
   },
@@ -2627,7 +2627,7 @@
     "product_id": "54",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.999376787749712,
+    "probability": 0.9993796866391287,
     "session_id": "879d3ae6d828",
     "category": "Marketplace-rcbt-sip"
   },
@@ -2955,7 +2955,7 @@
     "product_id": "180",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.999376787749712,
+    "probability": 0.9999999497870514,
     "session_id": "fbf6299c8a82",
     "category": "Marketplace-rcbt-sip"
   },
@@ -2963,7 +2963,7 @@
     "product_id": "180",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9994405517930601,
+    "probability": 0.9999999549274714,
     "session_id": "fbf6299c8a82",
     "category": "Marketplace-rcbt-sip"
   },
@@ -2971,7 +2971,7 @@
     "product_id": "180",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9994977950883686,
+    "probability": 0.9999999595416543,
     "session_id": "fbf6299c8a82",
     "category": "Marketplace-rcbt-sip"
   },
@@ -3075,7 +3075,7 @@
     "product_id": "194",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9981670610575072,
+    "probability": 0.9999998413320513,
     "session_id": "16623421b26c",
     "category": "RCBT-SIP"
   },
@@ -5043,7 +5043,7 @@
     "product_id": "22",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9990403674366753,
+    "probability": 0.9990913845111644,
     "session_id": "67d55f46906d",
     "category": "Marketplace-rcbt-sip"
   },
@@ -5347,7 +5347,7 @@
     "product_id": "186",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9993057611413573,
+    "probability": 0.9993132302701571,
     "session_id": "61e8a03aa1b9",
     "category": "Marketplace-rcbt-sip"
   },
@@ -6451,7 +6451,7 @@
     "product_id": "10",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9986736536559553,
+    "probability": 0.9986766426122212,
     "session_id": "6fd8749a462a",
     "category": "Marketplace-rcbt-sip"
   },
@@ -6467,7 +6467,7 @@
     "product_id": "17",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.998931040497558,
+    "probability": 0.9999999153735032,
     "session_id": "6fd8749a462a",
     "category": "Marketplace-rcbt-sip"
   },
@@ -6603,7 +6603,7 @@
     "product_id": "256",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9998293968770993,
+    "probability": 0.9999999768620546,
     "session_id": "6fd8749a462a",
     "category": "Marketplace-rcbt-sip"
   },
@@ -6939,7 +6939,7 @@
     "product_id": "166",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9999981714766484,
+    "probability": 0.9999300197780553,
     "session_id": "6fd8749a462a",
     "category": "Marketplace-rcbt-sip"
   },
@@ -6963,7 +6963,7 @@
     "product_id": "164",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9999986775193735,
+    "probability": 0.9999986903323633,
     "session_id": "6fd8749a462a",
     "category": "Marketplace-rcbt-sip"
   },
@@ -6971,7 +6971,7 @@
     "product_id": "153",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9999988129047331,
+    "probability": 0.9999988144546725,
     "session_id": "6fd8749a462a",
     "category": "Marketplace-rcbt-sip"
   },
@@ -7011,7 +7011,7 @@
     "product_id": "161",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9999993082219651,
+    "probability": 0.9999999994512656,
     "session_id": "6fd8749a462a",
     "category": "Marketplace-rcbt-sip"
   },
@@ -7051,7 +7051,7 @@
     "product_id": "168",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9999995968674429,
+    "probability": 0.999999999960554,
     "session_id": "6fd8749a462a",
     "category": "Marketplace-rcbt-sip"
   },
@@ -7083,7 +7083,7 @@
     "product_id": "156",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9999945751087589,
+    "probability": 0.9999938718677783,
     "session_id": "6fd8749a462a",
     "category": "Marketplace-rcbt-sip"
   },
@@ -7091,7 +7091,7 @@
     "product_id": "151",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9999997650751674,
+    "probability": 0.999999766644335,
     "session_id": "6fd8749a462a",
     "category": "Marketplace-rcbt-sip"
   },
@@ -7099,7 +7099,7 @@
     "product_id": "368",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.999999789124982,
+    "probability": 0.9999997963568727,
     "session_id": "6fd8749a462a",
     "category": "Marketplace-rcbt-sip"
   },
@@ -7211,7 +7211,7 @@
     "product_id": "332",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9999999535086724,
+    "probability": 0.9999999546695345,
     "session_id": "6fd8749a462a",
     "category": "Marketplace-rcbt-sip"
   },
@@ -7219,7 +7219,7 @@
     "product_id": "335",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9999999582681012,
+    "probability": 0.9999999593101229,
     "session_id": "6fd8749a462a",
     "category": "Marketplace-rcbt-sip"
   },
@@ -7275,7 +7275,7 @@
     "product_id": "327",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9999999804051688,
+    "probability": 0.9999999806938188,
     "session_id": "6fd8749a462a",
     "category": "Marketplace-rcbt-sip"
   },
@@ -7323,7 +7323,7 @@
     "product_id": "298",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9999999897501218,
+    "probability": 0.9999999899482507,
     "session_id": "6fd8749a462a",
     "category": "Marketplace-rcbt-sip"
   },
@@ -7419,7 +7419,7 @@
     "product_id": "15",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9990403674366753,
+    "probability": 0.9999998534686602,
     "session_id": "7904c05e8f86",
     "category": "Marketplace-rcbt-sip"
   },
@@ -7427,7 +7427,7 @@
     "product_id": "22",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9991385226972894,
+    "probability": 0.9991843257909856,
     "session_id": "7904c05e8f86",
     "category": "Marketplace-rcbt-sip"
   },
@@ -7435,7 +7435,7 @@
     "product_id": "16",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9992266459961371,
+    "probability": 0.9999999384368992,
     "session_id": "7904c05e8f86",
     "category": "Marketplace-rcbt-sip"
   },
@@ -7443,7 +7443,7 @@
     "product_id": "19",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9993057611413573,
+    "probability": 0.9993370858240914,
     "session_id": "7904c05e8f86",
     "category": "Marketplace-rcbt-sip"
   },
@@ -7451,7 +7451,7 @@
     "product_id": "21",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.999376787749712,
+    "probability": 0.9993789567661079,
     "session_id": "7904c05e8f86",
     "category": "Marketplace-rcbt-sip"
   },
@@ -7467,7 +7467,7 @@
     "product_id": "12",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9994977950883686,
+    "probability": 0.9995007353726486,
     "session_id": "7904c05e8f86",
     "category": "Marketplace-rcbt-sip"
   },
@@ -7499,7 +7499,7 @@
     "product_id": "45",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9996739064148445,
+    "probability": 0.9996954822009608,
     "session_id": "7904c05e8f86",
     "category": "Marketplace-rcbt-sip"
   },
@@ -7507,7 +7507,7 @@
     "product_id": "48",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9997072796270657,
+    "probability": 0.9997095583593851,
     "session_id": "7904c05e8f86",
     "category": "Marketplace-rcbt-sip"
   },
@@ -7515,7 +7515,7 @@
     "product_id": "44",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9997372382411699,
+    "probability": 0.9997392838163028,
     "session_id": "7904c05e8f86",
     "category": "Marketplace-rcbt-sip"
   },
@@ -7523,7 +7523,7 @@
     "product_id": "30",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9997641314492288,
+    "probability": 0.999766947547532,
     "session_id": "7904c05e8f86",
     "category": "Marketplace-rcbt-sip"
   },
@@ -7539,7 +7539,7 @@
     "product_id": "23",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9998099436734837,
+    "probability": 0.9998130210492314,
     "session_id": "7904c05e8f86",
     "category": "Marketplace-rcbt-sip"
   },
@@ -7547,7 +7547,7 @@
     "product_id": "10",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9998293968770993,
+    "probability": 0.9998296745156603,
     "session_id": "7904c05e8f86",
     "category": "Marketplace-rcbt-sip"
   },
@@ -7555,7 +7555,7 @@
     "product_id": "22",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.999846859254236,
+    "probability": 0.9998481322575564,
     "session_id": "7904c05e8f86",
     "category": "Marketplace-rcbt-sip"
   },
@@ -7667,7 +7667,7 @@
     "product_id": "609",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.999966233243242,
+    "probability": 0.9999663010420909,
     "session_id": "7904c05e8f86",
     "category": "Marketplace-rcbt-sip"
   },
@@ -7731,7 +7731,7 @@
     "product_id": "625",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9999857679519605,
+    "probability": 0.9999994261046329,
     "session_id": "7904c05e8f86",
     "category": "Marketplace-rcbt-sip"
   },
@@ -7843,7 +7843,7 @@
     "product_id": "602",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.999996862245489,
+    "probability": 0.9999968977051348,
     "session_id": "7904c05e8f86",
     "category": "Marketplace-rcbt-sip"
   },
@@ -7867,7 +7867,7 @@
     "product_id": "608",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9999977306163188,
+    "probability": 0.9999978717427451,
     "session_id": "7904c05e8f86",
     "category": "Marketplace-rcbt-sip"
   },
@@ -7923,7 +7923,7 @@
     "product_id": "4",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9999989344303993,
+    "probability": 0.9999999999102391,
     "session_id": "7904c05e8f86",
     "category": "Marketplace-rcbt-sip"
   },
@@ -7939,7 +7939,7 @@
     "product_id": "5",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9999991414327785,
+    "probability": 0.999999999927139,
     "session_id": "7904c05e8f86",
     "category": "Marketplace-rcbt-sip"
   },
@@ -7947,7 +7947,7 @@
     "product_id": "3",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9999992293263009,
+    "probability": 0.9999992344340848,
     "session_id": "7904c05e8f86",
     "category": "Marketplace-rcbt-sip"
   },
@@ -8019,7 +8019,7 @@
     "product_id": "116",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9999997084342478,
+    "probability": 0.9999997177054449,
     "session_id": "7904c05e8f86",
     "category": "Marketplace-rcbt-sip"
   },
@@ -8075,7 +8075,7 @@
     "product_id": "115",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9999998474845833,
+    "probability": 0.9999998523342635,
     "session_id": "7904c05e8f86",
     "category": "Marketplace-rcbt-sip"
   },
@@ -8099,7 +8099,7 @@
     "product_id": "114",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.999999877112941,
+    "probability": 0.9999999999891349,
     "session_id": "7904c05e8f86",
     "category": "Marketplace-rcbt-sip"
   },
@@ -8163,7 +8163,7 @@
     "product_id": "123",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9999999283877774,
+    "probability": 0.9999999288829833,
     "session_id": "7904c05e8f86",
     "category": "Marketplace-rcbt-sip"
   },
@@ -8267,7 +8267,7 @@
     "product_id": "57",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9999999824111389,
+    "probability": 0.9999999824896199,
     "session_id": "7904c05e8f86",
     "category": "Marketplace-rcbt-sip"
   },
@@ -8299,7 +8299,7 @@
     "product_id": "48",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9999999885811462,
+    "probability": 0.999999988670064,
     "session_id": "7904c05e8f86",
     "category": "Marketplace-rcbt-sip"
   },
@@ -8315,7 +8315,7 @@
     "product_id": "45",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9999999907994265,
+    "probability": 0.9999999912080774,
     "session_id": "7904c05e8f86",
     "category": "Marketplace-rcbt-sip"
   },
@@ -8323,7 +8323,7 @@
     "product_id": "44",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9999999917413113,
+    "probability": 0.9999999919064088,
     "session_id": "7904c05e8f86",
     "category": "Marketplace-rcbt-sip"
   },
@@ -8427,7 +8427,7 @@
     "product_id": "115",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9999999977402236,
+    "probability": 0.999999997852236,
     "session_id": "7904c05e8f86",
     "category": "Marketplace-rcbt-sip"
   },
@@ -8499,7 +8499,7 @@
     "product_id": "116",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9991385226972894,
+    "probability": 0.999181189323309,
     "session_id": "2cc272d38fb5",
     "category": "Marketplace-rcbt-sip"
   },
@@ -8563,7 +8563,7 @@
     "product_id": "111",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9996367296867819,
+    "probability": 0.9999999707384912,
     "session_id": "2cc272d38fb5",
     "category": "Marketplace-rcbt-sip"
   },
@@ -8707,7 +8707,7 @@
     "product_id": "194",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9999479888278034,
+    "probability": 0.9999999955056826,
     "session_id": "2cc272d38fb5",
     "category": "Marketplace-rcbt-sip"
   },
@@ -8787,7 +8787,7 @@
     "product_id": "186",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9999823366319299,
+    "probability": 0.9999825267946245,
     "session_id": "2cc272d38fb5",
     "category": "Marketplace-rcbt-sip"
   },
@@ -8843,7 +8843,7 @@
     "product_id": "195",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9999917062496261,
+    "probability": 0.9999999993095661,
     "session_id": "2cc272d38fb5",
     "category": "Marketplace-rcbt-sip"
   },
@@ -8883,7 +8883,7 @@
     "product_id": "114",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9999951668147382,
+    "probability": 0.9999999996108253,
     "session_id": "2cc272d38fb5",
     "category": "Marketplace-rcbt-sip"
   },
@@ -8899,7 +8899,7 @@
     "product_id": "179",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9999961057283577,
+    "probability": 0.9999961743521546,
     "session_id": "2cc272d38fb5",
     "category": "Marketplace-rcbt-sip"
   },
@@ -8907,7 +8907,7 @@
     "product_id": "115",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9999965043929124,
+    "probability": 0.9999966776621164,
     "session_id": "2cc272d38fb5",
     "category": "Marketplace-rcbt-sip"
   },
@@ -8979,7 +8979,7 @@
     "product_id": "104",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9999986775193735,
+    "probability": 0.9999999998935125,
     "session_id": "2cc272d38fb5",
     "category": "Marketplace-rcbt-sip"
   },
@@ -9003,7 +9003,7 @@
     "product_id": "180",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9999990435152162,
+    "probability": 0.9999999999229829,
     "session_id": "2cc272d38fb5",
     "category": "Marketplace-rcbt-sip"
   },
@@ -9123,7 +9123,7 @@
     "product_id": "57",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9999998107127605,
+    "probability": 0.9999998117619106,
     "session_id": "2cc272d38fb5",
     "category": "Marketplace-rcbt-sip"
   },
@@ -9139,7 +9139,7 @@
     "product_id": "53",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9999983535477269,
+    "probability": 0.9999974301419455,
     "session_id": "2cc272d38fb5",
     "category": "Marketplace-rcbt-sip"
   },
@@ -9147,7 +9147,7 @@
     "product_id": "54",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9999998630979509,
+    "probability": 0.999999863617216,
     "session_id": "2cc272d38fb5",
     "category": "Marketplace-rcbt-sip"
   },
@@ -9163,7 +9163,7 @@
     "product_id": "48",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9999998896931832,
+    "probability": 0.9999977576397041,
     "session_id": "2cc272d38fb5",
     "category": "Marketplace-rcbt-sip"
   },
@@ -9203,7 +9203,7 @@
     "product_id": "165",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9999999357188923,
+    "probability": 0.9999999363416873,
     "session_id": "2cc272d38fb5",
     "category": "Marketplace-rcbt-sip"
   },
@@ -9211,7 +9211,7 @@
     "product_id": "153",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9999999422995034,
+    "probability": 0.9999999431652632,
     "session_id": "2cc272d38fb5",
     "category": "Marketplace-rcbt-sip"
   },
@@ -9219,7 +9219,7 @@
     "product_id": "151",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9999999482064417,
+    "probability": 0.999999948749154,
     "session_id": "2cc272d38fb5",
     "category": "Marketplace-rcbt-sip"
   },
@@ -9227,7 +9227,7 @@
     "product_id": "166",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9999999535086724,
+    "probability": 0.9999999537803846,
     "session_id": "2cc272d38fb5",
     "category": "Marketplace-rcbt-sip"
   },
@@ -9235,7 +9235,7 @@
     "product_id": "186",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9999999582681012,
+    "probability": 0.9999999587173919,
     "session_id": "2cc272d38fb5",
     "category": "Marketplace-rcbt-sip"
   },
@@ -9243,7 +9243,7 @@
     "product_id": "155",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9999999625402959,
+    "probability": 0.9999999630824039,
     "session_id": "2cc272d38fb5",
     "category": "Marketplace-rcbt-sip"
   },
@@ -9251,7 +9251,7 @@
     "product_id": "179",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9999999663751356,
+    "probability": 0.9999999666418835,
     "session_id": "2cc272d38fb5",
     "category": "Marketplace-rcbt-sip"
   },
@@ -9299,7 +9299,7 @@
     "product_id": "177",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.998931040497558,
+    "probability": 0.9999999108013451,
     "session_id": "53e4712a1a64",
     "category": "Marketplace-rcbt-sip"
   },
@@ -9323,7 +9323,7 @@
     "product_id": "194",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9992266459961371,
+    "probability": 0.999999933125767,
     "session_id": "53e4712a1a64",
     "category": "Marketplace-rcbt-sip"
   },
@@ -9331,7 +9331,7 @@
     "product_id": "181",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9993057611413573,
+    "probability": 0.9993122574910044,
     "session_id": "53e4712a1a64",
     "category": "Marketplace-rcbt-sip"
   },
@@ -9339,7 +9339,7 @@
     "product_id": "193",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.999376787749712,
+    "probability": 0.9999999480872259,
     "session_id": "53e4712a1a64",
     "category": "Marketplace-rcbt-sip"
   },
@@ -9355,7 +9355,7 @@
     "product_id": "178",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9994977950883686,
+    "probability": 0.9999999595416543,
     "session_id": "53e4712a1a64",
     "category": "Marketplace-rcbt-sip"
   },
@@ -9547,7 +9547,7 @@
     "product_id": "181",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9999623823656311,
+    "probability": 0.9999627346022913,
     "session_id": "53e4712a1a64",
     "category": "Marketplace-rcbt-sip"
   },
@@ -9603,7 +9603,7 @@
     "product_id": "179",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9999823366319299,
+    "probability": 0.9999999985777033,
     "session_id": "53e4712a1a64",
     "category": "Marketplace-rcbt-sip"
   },
@@ -9611,7 +9611,7 @@
     "product_id": "177",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9999841448447043,
+    "probability": 0.9999999987233072,
     "session_id": "53e4712a1a64",
     "category": "Marketplace-rcbt-sip"
   },
@@ -9651,7 +9651,7 @@
     "product_id": "186",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9999907603748348,
+    "probability": 0.9999908598488794,
     "session_id": "53e4712a1a64",
     "category": "Marketplace-rcbt-sip"
   },
@@ -9683,7 +9683,7 @@
     "product_id": "255",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9999940015292637,
+    "probability": 0.9999999991865949,
     "session_id": "53e4712a1a64",
     "category": "Marketplace-rcbt-sip"
   },
@@ -9707,7 +9707,7 @@
     "product_id": "185",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.999995661597384,
+    "probability": 0.9999957380475026,
     "session_id": "53e4712a1a64",
     "category": "Marketplace-rcbt-sip"
   },
@@ -9771,7 +9771,7 @@
     "product_id": "238",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9999981714766484,
+    "probability": 0.9999981755200235,
     "session_id": "53e4712a1a64",
     "category": "Marketplace-rcbt-sip"
   },
@@ -9811,7 +9811,7 @@
     "product_id": "265",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9999989344303993,
+    "probability": 0.9999989424268612,
     "session_id": "53e4712a1a64",
     "category": "Marketplace-rcbt-sip"
   },
@@ -9827,7 +9827,7 @@
     "product_id": "180",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9999991414327785,
+    "probability": 0.9999999999308673,
     "session_id": "53e4712a1a64",
     "category": "Marketplace-rcbt-sip"
   },
@@ -9835,7 +9835,7 @@
     "product_id": "184",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9999992293263009,
+    "probability": 0.9999992342531236,
     "session_id": "53e4712a1a64",
     "category": "Marketplace-rcbt-sip"
   },
@@ -9883,7 +9883,7 @@
     "product_id": "164",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9980304918750141,
+    "probability": 0.9981029162589339,
     "session_id": "dc0f33e49bcb",
     "category": "Marketplace-rcbt-sip"
   },
@@ -10371,7 +10371,7 @@
     "product_id": "161",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9985226103258387,
+    "probability": 0.9985286824626898,
     "session_id": "f48726698591",
     "category": "Marketplace-rcbt-sip"
   },
@@ -10555,7 +10555,7 @@
     "product_id": "38",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9983543946373641,
+    "probability": 0.9984005653965868,
     "session_id": "b30834bc578b",
     "category": "Marketplace-rcbt-sip"
   },
@@ -10603,7 +10603,7 @@
     "product_id": "181",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9991385226972894,
+    "probability": 0.9991465826465006,
     "session_id": "b30834bc578b",
     "category": "Marketplace-rcbt-sip"
   },
@@ -10651,7 +10651,7 @@
     "product_id": "178",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9983543946373641,
+    "probability": 0.9985929248535677,
     "session_id": "89ff681658b6",
     "category": "Marketplace-rcbt-sip"
   },
@@ -12115,7 +12115,7 @@
     "product_id": "18",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9981670610575072,
+    "probability": 0.9999998541939926,
     "session_id": "ba3bd0980dbf",
     "category": "RCBT-SIP"
   },
@@ -12123,7 +12123,7 @@
     "product_id": "18",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9983543946373641,
+    "probability": 0.9999998691205021,
     "session_id": "ba3bd0980dbf",
     "category": "RCBT-SIP"
   },
@@ -14211,7 +14211,7 @@
     "product_id": "22",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9993057611413573,
+    "probability": 0.9993426783379453,
     "session_id": "5cbd05edfd5c",
     "category": "Marketplace-rcbt-sip"
   },
@@ -14659,7 +14659,7 @@
     "product_id": "19",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9983543946373641,
+    "probability": 0.9984261851702986,
     "session_id": "0c93765615a8",
     "category": "Marketplace-rcbt-sip"
   },
@@ -14707,7 +14707,7 @@
     "product_id": "10",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9991385226972894,
+    "probability": 0.9673670680658357,
     "session_id": "0c93765615a8",
     "category": "Marketplace-rcbt-sip"
   },
@@ -14723,7 +14723,7 @@
     "product_id": "22",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9993057611413573,
+    "probability": 0.9993925703751528,
     "session_id": "0c93765615a8",
     "category": "Marketplace-rcbt-sip"
   },
@@ -15091,7 +15091,7 @@
     "product_id": "22",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9992266459961371,
+    "probability": 0.9992677671769993,
     "session_id": "0e0caaf4afc9",
     "category": "Marketplace-rcbt-sip"
   },
@@ -15331,7 +15331,7 @@
     "product_id": "180",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9992266459961371,
+    "probability": 0.9999999376805907,
     "session_id": "5ae1e9573024",
     "category": "Marketplace-rcbt-sip"
   },
@@ -16043,7 +16043,7 @@
     "product_id": "153",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9993057611413573,
+    "probability": 0.9993113291552865,
     "session_id": "c0a2eae5a6b9",
     "category": "Marketplace-rcbt-sip"
   },
@@ -16323,7 +16323,7 @@
     "product_id": "153",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9992266459961371,
+    "probability": 0.9992382408504176,
     "session_id": "4ec6fd297ae5",
     "category": "Marketplace-rcbt-sip"
   },
@@ -16587,7 +16587,7 @@
     "product_id": "180",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9991385226972894,
+    "probability": 0.9886381178064161,
     "session_id": "4b446f9e65de",
     "category": "Marketplace-rcbt-sip"
   },
@@ -17371,7 +17371,7 @@
     "product_id": "597",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9991385226972894,
+    "probability": 0.999147886370446,
     "session_id": "99360a9568dd",
     "category": "Marketplace-rcbt-sip"
   },
@@ -17515,7 +17515,7 @@
     "product_id": "180",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9991385226972894,
+    "probability": 0.9991536906266942,
     "session_id": "0cad2ab93836",
     "category": "Marketplace-rcbt-sip"
   },
@@ -18331,7 +18331,7 @@
     "product_id": "165",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9980304918750141,
+    "probability": 0.9999997702042638,
     "session_id": "993b8018b65d",
     "category": "Marketplace-rcbt-sip"
   },
@@ -18843,7 +18843,7 @@
     "product_id": "178",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9985226103258387,
+    "probability": 0.9998673317797746,
     "session_id": "7845ffa84882",
     "category": "RCBT-SIP"
   },
@@ -19667,7 +19667,7 @@
     "product_id": "179",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9986736536559553,
+    "probability": 0.9986969958056716,
     "session_id": "eeeb19fdcc2b",
     "category": "Marketplace-rcbt-sip"
   },
@@ -19851,7 +19851,7 @@
     "product_id": "298",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9985226103258387,
+    "probability": 0.9985846069451197,
     "session_id": "2582dd47d13c",
     "category": "Marketplace-rcbt-sip"
   },
@@ -20507,7 +20507,7 @@
     "product_id": "327",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9991385226972894,
+    "probability": 0.9991600152267167,
     "session_id": "3913c933bcb3",
     "category": "Marketplace-rcbt-sip"
   },
@@ -20755,7 +20755,7 @@
     "product_id": "327",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9983543946373641,
+    "probability": 0.998395418534815,
     "session_id": "c4dca13bae4c",
     "category": "Marketplace-rcbt-sip"
   },
@@ -20835,7 +20835,7 @@
     "product_id": "327",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9985226103258387,
+    "probability": 0.9985594467638517,
     "session_id": "2eb901fee37c",
     "category": "Marketplace-rcbt-sip"
   },
@@ -21331,7 +21331,7 @@
     "product_id": "23",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9988092732407773,
+    "probability": 0.9988127383786544,
     "session_id": "fbe4b141414b",
     "category": "Marketplace-rcbt-sip"
   },
@@ -21339,7 +21339,7 @@
     "product_id": "22",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.998931040497558,
+    "probability": 0.9989878638464029,
     "session_id": "fbe4b141414b",
     "category": "Marketplace-rcbt-sip"
   },
@@ -21515,7 +21515,7 @@
     "product_id": "18",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9994977950883686,
+    "probability": 0.9871419561340989,
     "session_id": "364cc6d6993f",
     "category": "Marketplace-rcbt-sip"
   },
@@ -21963,7 +21963,7 @@
     "product_id": "242",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9990403674366753,
+    "probability": 0.9999998429834096,
     "session_id": "772546c014e6",
     "category": "Marketplace-rcbt-sip"
   },
@@ -22707,7 +22707,7 @@
     "product_id": "180",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9983543946373641,
+    "probability": 0.9999998672758582,
     "session_id": "6ab8e9f0f1cc",
     "category": "Marketplace-rcbt-sip"
   },
@@ -22715,7 +22715,7 @@
     "product_id": "180",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9985226103258387,
+    "probability": 0.9999998808631461,
     "session_id": "6ab8e9f0f1cc",
     "category": "Marketplace-rcbt-sip"
   },
@@ -22731,7 +22731,7 @@
     "product_id": "180",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9988092732407773,
+    "probability": 0.9999999040072286,
     "session_id": "6ab8e9f0f1cc",
     "category": "Marketplace-rcbt-sip"
   },
@@ -22859,7 +22859,7 @@
     "product_id": "185",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.998931040497558,
+    "probability": 0.9989498577020185,
     "session_id": "e6f162b301ee",
     "category": "Marketplace-rcbt-sip"
   },
@@ -22867,7 +22867,7 @@
     "product_id": "369",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9990403674366753,
+    "probability": 0.9990732472326255,
     "session_id": "e6f162b301ee",
     "category": "Marketplace-rcbt-sip"
   },
@@ -22931,7 +22931,7 @@
     "product_id": "195",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.998931040497558,
+    "probability": 0.9999999109173267,
     "session_id": "819492e689a9",
     "category": "Marketplace-rcbt-sip"
   },
@@ -23155,7 +23155,7 @@
     "product_id": "44",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9990403674366753,
+    "probability": 0.9513544911254382,
     "session_id": "7a0a429d7b2b",
     "category": "Marketplace-rcbt-sip"
   },
@@ -23291,7 +23291,7 @@
     "product_id": "10",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9983543946373641,
+    "probability": 0.9983581018693537,
     "session_id": "8d82fa38eefa",
     "category": "Marketplace-rcbt-sip"
   },
@@ -23299,7 +23299,7 @@
     "product_id": "17",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9985226103258387,
+    "probability": 0.9985249333546404,
     "session_id": "8d82fa38eefa",
     "category": "Marketplace-rcbt-sip"
   },
@@ -23307,7 +23307,7 @@
     "product_id": "18",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9986736536559553,
+    "probability": 0.9999998948246882,
     "session_id": "8d82fa38eefa",
     "category": "Marketplace-rcbt-sip"
   },
@@ -23387,7 +23387,7 @@
     "product_id": "22",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9983543946373641,
+    "probability": 0.9985599935171661,
     "session_id": "f99dd0df2ca9",
     "category": "Marketplace-rcbt-sip"
   },
@@ -23403,7 +23403,7 @@
     "product_id": "16",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9986736536559553,
+    "probability": 0.9987487931939473,
     "session_id": "f99dd0df2ca9",
     "category": "Marketplace-rcbt-sip"
   },
@@ -23419,7 +23419,7 @@
     "product_id": "22",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.998931040497558,
+    "probability": 0.9990379211898691,
     "session_id": "f99dd0df2ca9",
     "category": "Marketplace-rcbt-sip"
   },
@@ -23435,7 +23435,7 @@
     "product_id": "19",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9991385226972894,
+    "probability": 0.9991723518339721,
     "session_id": "f99dd0df2ca9",
     "category": "Marketplace-rcbt-sip"
   },
@@ -23563,7 +23563,7 @@
     "product_id": "177",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9990403674366753,
+    "probability": 0.9999999226552341,
     "session_id": "ffc77f90ebca",
     "category": "Marketplace-rcbt-sip"
   },
@@ -23659,7 +23659,7 @@
     "product_id": "54",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.998931040497558,
+    "probability": 0.9989360105854731,
     "session_id": "ac57a0ad8c49",
     "category": "Marketplace-rcbt-sip"
   },
@@ -23675,7 +23675,7 @@
     "product_id": "51",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9991385226972894,
+    "probability": 0.99914261953614,
     "session_id": "ac57a0ad8c49",
     "category": "Marketplace-rcbt-sip"
   },
@@ -23691,7 +23691,7 @@
     "product_id": "53",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9950317288510402,
+    "probability": 0.988429485795897,
     "session_id": "ac57a0ad8c49",
     "category": "Marketplace-rcbt-sip"
   },
@@ -23707,7 +23707,7 @@
     "product_id": "45",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9994405517930601,
+    "probability": 0.9994775592785123,
     "session_id": "ac57a0ad8c49",
     "category": "Marketplace-rcbt-sip"
   },
@@ -23739,7 +23739,7 @@
     "product_id": "574",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9996367296867819,
+    "probability": 0.9996636649116962,
     "session_id": "ac57a0ad8c49",
     "category": "Marketplace-rcbt-sip"
   },
@@ -23819,7 +23819,7 @@
     "product_id": "153",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9991385226972894,
+    "probability": 0.9991514376573574,
     "session_id": "8ef0d24503ed",
     "category": "Marketplace-rcbt-sip"
   },
@@ -23859,7 +23859,7 @@
     "product_id": "57",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9994977950883686,
+    "probability": 0.9995000347920302,
     "session_id": "8ef0d24503ed",
     "category": "Marketplace-rcbt-sip"
   },
@@ -23867,7 +23867,7 @@
     "product_id": "194",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9995491838349304,
+    "probability": 0.9999999610291566,
     "session_id": "8ef0d24503ed",
     "category": "Marketplace-rcbt-sip"
   },
@@ -24051,7 +24051,7 @@
     "product_id": "155",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9994405517930601,
+    "probability": 0.9925942428483376,
     "session_id": "18c091369354",
     "category": "Marketplace-rcbt-sip"
   },
@@ -24171,7 +24171,7 @@
     "product_id": "588",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9990403674366753,
+    "probability": 0.9990631838035765,
     "session_id": "76e42df45755",
     "category": "Marketplace-rcbt-sip"
   },
@@ -24195,7 +24195,7 @@
     "product_id": "547",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9993057611413573,
+    "probability": 0.9993151104016653,
     "session_id": "76e42df45755",
     "category": "Marketplace-rcbt-sip"
   },
@@ -24507,7 +24507,7 @@
     "product_id": "588",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9994405517930601,
+    "probability": 0.9994538585184807,
     "session_id": "fc3891815282",
     "category": "Marketplace-rcbt-sip"
   },
@@ -24539,7 +24539,7 @@
     "product_id": "547",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9985226103258387,
+    "probability": 0.9985424908343211,
     "session_id": "c760df43d1e3",
     "category": "Marketplace-rcbt-sip"
   },
@@ -24747,7 +24747,7 @@
     "product_id": "48",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9994977950883686,
+    "probability": 0.9898891043451288,
     "session_id": "f07441364dca",
     "category": "Marketplace-rcbt-sip"
   },
@@ -25435,7 +25435,7 @@
     "product_id": "603",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9326021819461608,
+    "probability": 0.9788765322578238,
     "session_id": "06044588b156",
     "category": "Marketplace-rcbt-sip"
   },
@@ -25483,7 +25483,7 @@
     "product_id": "612",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.999376787749712,
+    "probability": 0.9994535736879566,
     "session_id": "06044588b156",
     "category": "Marketplace-rcbt-sip"
   },
@@ -25515,7 +25515,7 @@
     "product_id": "607",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9983543946373641,
+    "probability": 0.9983617439281314,
     "session_id": "9d1e94ac4730",
     "category": "Marketplace-rcbt-sip"
   },
@@ -26595,7 +26595,7 @@
     "product_id": "177",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9988092732407773,
+    "probability": 0.9988530925412727,
     "session_id": "ee77142f0fb3",
     "category": "Marketplace-rcbt-sip"
   },
@@ -26683,7 +26683,7 @@
     "product_id": "44",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.999376787749712,
+    "probability": 0.9678706111350236,
     "session_id": "5e71b01e37f0",
     "category": "Marketplace-rcbt-sip"
   },
@@ -26715,7 +26715,7 @@
     "product_id": "21",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9986736536559553,
+    "probability": 0.9986782666107237,
     "session_id": "5d6df84703f2",
     "category": "Marketplace-rcbt-sip"
   },
@@ -26795,7 +26795,7 @@
     "product_id": "22",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9983543946373641,
+    "probability": 0.9983810019743371,
     "session_id": "7165ad3a44da",
     "category": "Marketplace-rcbt-sip"
   },
@@ -26811,7 +26811,7 @@
     "product_id": "10",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9986736536559553,
+    "probability": 0.950605311691887,
     "session_id": "7165ad3a44da",
     "category": "Marketplace-rcbt-sip"
   },
@@ -26827,7 +26827,7 @@
     "product_id": "18",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.998931040497558,
+    "probability": 0.9989336245802625,
     "session_id": "7165ad3a44da",
     "category": "Marketplace-rcbt-sip"
   },
@@ -26859,7 +26859,7 @@
     "product_id": "21",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9986736536559553,
+    "probability": 0.9986846921674154,
     "session_id": "8a31339481de",
     "category": "Marketplace-rcbt-sip"
   },
@@ -26931,7 +26931,7 @@
     "product_id": "17",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9983543946373641,
+    "probability": 0.9984573410036378,
     "session_id": "3a272d6668b9",
     "category": "Marketplace-rcbt-sip"
   },
@@ -26955,7 +26955,7 @@
     "product_id": "18",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9988092732407773,
+    "probability": 0.9999999055917366,
     "session_id": "3a272d6668b9",
     "category": "Marketplace-rcbt-sip"
   },
@@ -27011,7 +27011,7 @@
     "product_id": "16",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9983543946373641,
+    "probability": 0.9149534222591893,
     "session_id": "0c5965cfefd9",
     "category": "Marketplace-rcbt-sip"
   },
@@ -27027,7 +27027,7 @@
     "product_id": "19",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9986736536559553,
+    "probability": 0.9987659730371737,
     "session_id": "0c5965cfefd9",
     "category": "Marketplace-rcbt-sip"
   },
@@ -27171,7 +27171,7 @@
     "product_id": "54",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9985226103258387,
+    "probability": 0.99852947659934,
     "session_id": "a56111ff9527",
     "category": "Marketplace-rcbt-sip"
   },
@@ -27179,7 +27179,7 @@
     "product_id": "51",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9986736536559553,
+    "probability": 0.9986799583038387,
     "session_id": "a56111ff9527",
     "category": "Marketplace-rcbt-sip"
   },
@@ -27187,7 +27187,7 @@
     "product_id": "53",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9915046333210067,
+    "probability": 0.9803080574553309,
     "session_id": "a56111ff9527",
     "category": "Marketplace-rcbt-sip"
   },
@@ -27587,7 +27587,7 @@
     "product_id": "114",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9992266459961371,
+    "probability": 0.9999999376805907,
     "session_id": "9f9f68f1e411",
     "category": "Marketplace-rcbt-sip"
   },
@@ -27843,7 +27843,7 @@
     "product_id": "179",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9980304918750141,
+    "probability": 0.9980651309927593,
     "session_id": "fe8eb63382f5",
     "category": "Marketplace-rcbt-sip"
   },
@@ -28331,7 +28331,7 @@
     "product_id": "177",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9983543946373641,
+    "probability": 0.9999998672758582,
     "session_id": "ce442ba9d59b",
     "category": "Marketplace-rcbt-sip"
   },
@@ -28339,7 +28339,7 @@
     "product_id": "151",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9985226103258387,
+    "probability": 0.9985583274315794,
     "session_id": "ce442ba9d59b",
     "category": "Marketplace-rcbt-sip"
   },
@@ -28395,7 +28395,7 @@
     "product_id": "153",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9988092732407773,
+    "probability": 0.9988271183967905,
     "session_id": "9ad7a915d82e",
     "category": "Marketplace-rcbt-sip"
   },
@@ -29019,7 +29019,7 @@
     "product_id": "30",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9988092732407773,
+    "probability": 0.998860094226704,
     "session_id": "77454a38cc70",
     "category": "Marketplace-rcbt-sip"
   },
@@ -29043,7 +29043,7 @@
     "product_id": "10",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9991385226972894,
+    "probability": 0.999155868589922,
     "session_id": "77454a38cc70",
     "category": "Marketplace-rcbt-sip"
   },
@@ -29091,7 +29091,7 @@
     "product_id": "44",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9988092732407773,
+    "probability": 0.9403258345173742,
     "session_id": "11357cd3dbf9",
     "category": "Marketplace-rcbt-sip"
   },
@@ -29123,7 +29123,7 @@
     "product_id": "123",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9985226103258387,
+    "probability": 0.9985328116376141,
     "session_id": "0af1099ece2b",
     "category": "Marketplace-rcbt-sip"
   },
@@ -29139,7 +29139,7 @@
     "product_id": "114",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9988092732407773,
+    "probability": 0.9988682282246992,
     "session_id": "0af1099ece2b",
     "category": "Marketplace-rcbt-sip"
   },
@@ -29235,7 +29235,7 @@
     "product_id": "22",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9992266459961371,
+    "probability": 0.9992391608906099,
     "session_id": "215aa6f1d544",
     "category": "Marketplace-rcbt-sip"
   },
@@ -29259,7 +29259,7 @@
     "product_id": "104",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9994405517930601,
+    "probability": 0.9999999549274714,
     "session_id": "215aa6f1d544",
     "category": "Marketplace-rcbt-sip"
   },
@@ -29451,7 +29451,7 @@
     "product_id": "10",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.998931040497558,
+    "probability": 0.9989334500452776,
     "session_id": "dee42988e104",
     "category": "Marketplace-rcbt-sip"
   },
@@ -29467,7 +29467,7 @@
     "product_id": "17",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9991385226972894,
+    "probability": 0.9991398781075033,
     "session_id": "dee42988e104",
     "category": "Marketplace-rcbt-sip"
   },
@@ -29491,7 +29491,7 @@
     "product_id": "22",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9985226103258387,
+    "probability": 0.9987072198642976,
     "session_id": "eb6d625f1f59",
     "category": "Marketplace-rcbt-sip"
   },
@@ -29499,7 +29499,7 @@
     "product_id": "16",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9986736536559553,
+    "probability": 0.9987487931939473,
     "session_id": "eb6d625f1f59",
     "category": "Marketplace-rcbt-sip"
   },
@@ -29515,7 +29515,7 @@
     "product_id": "19",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.998931040497558,
+    "probability": 0.9989730088261424,
     "session_id": "eb6d625f1f59",
     "category": "Marketplace-rcbt-sip"
   },
@@ -29699,7 +29699,7 @@
     "product_id": "54",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9985226103258387,
+    "probability": 0.99852947659934,
     "session_id": "508562f71ed5",
     "category": "Marketplace-rcbt-sip"
   },
@@ -29715,7 +29715,7 @@
     "product_id": "51",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9988092732407773,
+    "probability": 0.9988149340001959,
     "session_id": "508562f71ed5",
     "category": "Marketplace-rcbt-sip"
   },
@@ -29723,7 +29723,7 @@
     "product_id": "53",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9923676866721195,
+    "probability": 0.9822882636517837,
     "session_id": "508562f71ed5",
     "category": "Marketplace-rcbt-sip"
   },
@@ -30355,7 +30355,7 @@
     "product_id": "48",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9983543946373641,
+    "probability": 0.9675786419616987,
     "session_id": "357827676e54",
     "category": "Marketplace-rcbt-sip"
   },
@@ -30443,7 +30443,7 @@
     "product_id": "45",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9985226103258387,
+    "probability": 0.9985594467638517,
     "session_id": "357827676e54",
     "category": "Marketplace-rcbt-sip"
   },
@@ -30459,7 +30459,7 @@
     "product_id": "45",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9986736536559553,
+    "probability": 0.9987067289386756,
     "session_id": "357827676e54",
     "category": "Marketplace-rcbt-sip"
   },
@@ -30467,7 +30467,7 @@
     "product_id": "45",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9988092732407773,
+    "probability": 0.9988389704908786,
     "session_id": "357827676e54",
     "category": "Marketplace-rcbt-sip"
   },
@@ -30499,7 +30499,7 @@
     "product_id": "3",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9991385226972894,
+    "probability": 0.9838684234533172,
     "session_id": "357827676e54",
     "category": "Marketplace-rcbt-sip"
   },
@@ -30507,7 +30507,7 @@
     "product_id": "3",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9992266459961371,
+    "probability": 0.9854958992358149,
     "session_id": "357827676e54",
     "category": "Marketplace-rcbt-sip"
   },
@@ -30515,7 +30515,7 @@
     "product_id": "3",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9993057611413573,
+    "probability": 0.9869613588619995,
     "session_id": "357827676e54",
     "category": "Marketplace-rcbt-sip"
   },
@@ -30891,7 +30891,7 @@
     "product_id": "48",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9996367296867819,
+    "probability": 0.9926667725183702,
     "session_id": "357827676e54",
     "category": "Marketplace-rcbt-sip"
   },
@@ -30915,7 +30915,7 @@
     "product_id": "179",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9985226103258387,
+    "probability": 0.9985369032441979,
     "session_id": "4abbc8fd82c0",
     "category": "Marketplace-rcbt-sip"
   },
@@ -30955,7 +30955,7 @@
     "product_id": "180",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9988092732407773,
+    "probability": 0.9999999040072286,
     "session_id": "4abbc8fd82c0",
     "category": "Marketplace-rcbt-sip"
   },
@@ -31067,7 +31067,7 @@
     "product_id": "21",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9986736536559553,
+    "probability": 0.9986782666107237,
     "session_id": "f2ec296f4683",
     "category": "RCBT-SIP"
   },
@@ -32131,7 +32131,7 @@
     "product_id": "21",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9986736536559553,
+    "probability": 0.9986782666107237,
     "session_id": "b76cc6d09aff",
     "category": "Marketplace-rcbt-sip"
   },
@@ -32595,7 +32595,7 @@
     "product_id": "185",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9986736536559553,
+    "probability": 0.9986879145295885,
     "session_id": "17e7e983414c",
     "category": "Marketplace-rcbt-sip"
   },
@@ -33171,7 +33171,7 @@
     "product_id": "566",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9988092732407773,
+    "probability": 0.9991447694942261,
     "session_id": "de21ed609fd5",
     "category": "Marketplace-rcbt-sip"
   },
@@ -33315,7 +33315,7 @@
     "product_id": "53",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9938412441970095,
+    "probability": 0.989714114032308,
     "session_id": "0025fc82a627",
     "category": "Marketplace-rcbt-sip"
   },
@@ -33347,7 +33347,7 @@
     "product_id": "177",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9985226103258387,
+    "probability": 0.9999998808631461,
     "session_id": "45d075a14d7f",
     "category": "Marketplace-rcbt-sip"
   },
@@ -33395,7 +33395,7 @@
     "product_id": "165",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9992266459961371,
+    "probability": 0.9992439749067072,
     "session_id": "45d075a14d7f",
     "category": "Marketplace-rcbt-sip"
   },
@@ -33403,7 +33403,7 @@
     "product_id": "153",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9993057611413573,
+    "probability": 0.9993161706383575,
     "session_id": "45d075a14d7f",
     "category": "Marketplace-rcbt-sip"
   },
@@ -33427,7 +33427,7 @@
     "product_id": "151",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9985226103258387,
+    "probability": 0.9985583274315794,
     "session_id": "4f9283535a91",
     "category": "Marketplace-rcbt-sip"
   },
@@ -33435,7 +33435,7 @@
     "product_id": "179",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9986736536559553,
+    "probability": 0.9986923855131343,
     "session_id": "4f9283535a91",
     "category": "Marketplace-rcbt-sip"
   },
@@ -33619,7 +33619,7 @@
     "product_id": "607",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9986736536559553,
+    "probability": 0.9986795790183833,
     "session_id": "f820e043476a",
     "category": "Marketplace-rcbt-sip"
   },
@@ -34555,7 +34555,7 @@
     "product_id": "155",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.998931040497558,
+    "probability": 0.9859372641124294,
     "session_id": "ed90a2072f2b",
     "category": "Marketplace-rcbt-sip"
   },
@@ -34571,7 +34571,7 @@
     "product_id": "178",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9991385226972894,
+    "probability": 0.9991427867224222,
     "session_id": "ed90a2072f2b",
     "category": "Marketplace-rcbt-sip"
   },
@@ -34747,7 +34747,7 @@
     "product_id": "116",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9985226103258387,
+    "probability": 0.9985695211203159,
     "session_id": "b69a50e5f00f",
     "category": "Marketplace-rcbt-sip"
   },
@@ -34835,7 +34835,7 @@
     "product_id": "547",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9983543946373641,
+    "probability": 0.9983765350615844,
     "session_id": "b084d99a9dda",
     "category": "Marketplace-rcbt-sip"
   },
@@ -35051,7 +35051,7 @@
     "product_id": "369",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9985226103258387,
+    "probability": 0.9985732046471911,
     "session_id": "cb7e34028793",
     "category": "Marketplace-rcbt-sip"
   },
@@ -35171,7 +35171,7 @@
     "product_id": "186",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9986736536559553,
+    "probability": 0.9986879145295885,
     "session_id": "802cfd8232d6",
     "category": "Marketplace-rcbt-sip"
   },
@@ -35339,7 +35339,7 @@
     "product_id": "164",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9983543946373641,
+    "probability": 0.9321574276571867,
     "session_id": "5bd4d402cd62",
     "category": "Marketplace-rcbt-sip"
   },
@@ -35987,7 +35987,7 @@
     "product_id": "54",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9983543946373641,
+    "probability": 0.9983592156654669,
     "session_id": "60927391c217",
     "category": "Marketplace-rcbt-sip"
   },
@@ -37011,7 +37011,7 @@
     "product_id": "256",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9986736536559553,
+    "probability": 0.9999998199069295,
     "session_id": "dc94f056c085",
     "category": "Marketplace-rcbt-sip"
   },
@@ -37995,7 +37995,7 @@
     "product_id": "166",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9986736536559553,
+    "probability": 0.9986978205662489,
     "session_id": "7905363be166",
     "category": "Marketplace-rcbt-sip"
   },
@@ -38035,7 +38035,7 @@
     "product_id": "22",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9992266459961371,
+    "probability": 0.9992677671769993,
     "session_id": "7905363be166",
     "category": "Marketplace-rcbt-sip"
   },
@@ -38043,7 +38043,7 @@
     "product_id": "153",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9993057611413573,
+    "probability": 0.9993107430916812,
     "session_id": "7905363be166",
     "category": "Marketplace-rcbt-sip"
   },
@@ -38131,7 +38131,7 @@
     "product_id": "193",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9986736536559553,
+    "probability": 0.9999998894392848,
     "session_id": "d9dae8c96c2f",
     "category": "Marketplace-rcbt-sip"
   },
@@ -38155,7 +38155,7 @@
     "product_id": "165",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9990403674366753,
+    "probability": 0.9990626952587801,
     "session_id": "d9dae8c96c2f",
     "category": "Marketplace-rcbt-sip"
   },
@@ -38195,7 +38195,7 @@
     "product_id": "193",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9994405517930601,
+    "probability": 0.9999999534016613,
     "session_id": "d9dae8c96c2f",
     "category": "Marketplace-rcbt-sip"
   },
@@ -38211,7 +38211,7 @@
     "product_id": "195",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9995491838349304,
+    "probability": 0.9999999624540731,
     "session_id": "d9dae8c96c2f",
     "category": "Marketplace-rcbt-sip"
   },
@@ -38219,7 +38219,7 @@
     "product_id": "155",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9995953162927044,
+    "probability": 0.9995975676982242,
     "session_id": "d9dae8c96c2f",
     "category": "Marketplace-rcbt-sip"
   },
@@ -38227,7 +38227,7 @@
     "product_id": "178",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9996367296867819,
+    "probability": 0.9999999707384912,
     "session_id": "d9dae8c96c2f",
     "category": "Marketplace-rcbt-sip"
   },
@@ -38235,7 +38235,7 @@
     "product_id": "180",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9996739064148445,
+    "probability": 0.9999999737340621,
     "session_id": "d9dae8c96c2f",
     "category": "Marketplace-rcbt-sip"
   },
@@ -38299,7 +38299,7 @@
     "product_id": "179",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9990403674366753,
+    "probability": 0.9990469796311515,
     "session_id": "b13ef3b2b48a",
     "category": "Marketplace-rcbt-sip"
   },
@@ -38323,7 +38323,7 @@
     "product_id": "187",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9993057611413573,
+    "probability": 0.9993107169174406,
     "session_id": "b13ef3b2b48a",
     "category": "Marketplace-rcbt-sip"
   },
@@ -38355,7 +38355,7 @@
     "product_id": "151",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9995491838349304,
+    "probability": 0.9919198951561293,
     "session_id": "b13ef3b2b48a",
     "category": "Marketplace-rcbt-sip"
   },
@@ -38435,7 +38435,7 @@
     "product_id": "161",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.998931040497558,
+    "probability": 0.9989354357580454,
     "session_id": "d158601ec646",
     "category": "Marketplace-rcbt-sip"
   },
@@ -39899,7 +39899,7 @@
     "product_id": "44",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9988092732407773,
+    "probability": 0.9403258345173742,
     "session_id": "65879c3a3162",
     "category": "Marketplace-rcbt-sip"
   },
@@ -39923,7 +39923,7 @@
     "product_id": "3",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9991385226972894,
+    "probability": 0.9838684234533172,
     "session_id": "65879c3a3162",
     "category": "Marketplace-rcbt-sip"
   },
@@ -39939,7 +39939,7 @@
     "product_id": "114",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9993057611413573,
+    "probability": 0.9993401503725923,
     "session_id": "65879c3a3162",
     "category": "Marketplace-rcbt-sip"
   },
@@ -40059,7 +40059,7 @@
     "product_id": "21",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.999376787749712,
+    "probability": 0.9993819780522141,
     "session_id": "7294bbd24366",
     "category": "Marketplace-rcbt-sip"
   },
@@ -40275,7 +40275,7 @@
     "product_id": "10",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9993057611413573,
+    "probability": 0.973538745554827,
     "session_id": "258951a66095",
     "category": "Marketplace-rcbt-sip"
   },
@@ -40283,7 +40283,7 @@
     "product_id": "17",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.999376787749712,
+    "probability": 0.9993803883338921,
     "session_id": "258951a66095",
     "category": "Marketplace-rcbt-sip"
   },
@@ -40299,7 +40299,7 @@
     "product_id": "16",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9983543946373641,
+    "probability": 0.9985291232901772,
     "session_id": "094f2a407230",
     "category": "Marketplace-rcbt-sip"
   },
@@ -40307,7 +40307,7 @@
     "product_id": "19",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9985226103258387,
+    "probability": 0.9985805912117767,
     "session_id": "094f2a407230",
     "category": "Marketplace-rcbt-sip"
   },
@@ -40771,7 +40771,7 @@
     "product_id": "115",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9991385226972894,
+    "probability": 0.999181189323309,
     "session_id": "7ea3fd6a6bfa",
     "category": "Marketplace-rcbt-sip"
   },
@@ -40907,7 +40907,7 @@
     "product_id": "12",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9985226103258387,
+    "probability": 0.9985681971390762,
     "session_id": "337d7eeb037b",
     "category": "Marketplace-rcbt-sip"
   },
@@ -40915,7 +40915,7 @@
     "product_id": "19",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9986736536559553,
+    "probability": 0.9988304122312445,
     "session_id": "337d7eeb037b",
     "category": "Marketplace-rcbt-sip"
   },
@@ -40939,7 +40939,7 @@
     "product_id": "15",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9990403674366753,
+    "probability": 0.9999999207503817,
     "session_id": "337d7eeb037b",
     "category": "Marketplace-rcbt-sip"
   },
@@ -41107,7 +41107,7 @@
     "product_id": "57",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9988092732407773,
+    "probability": 0.9988158651913541,
     "session_id": "e144136171a5",
     "category": "Marketplace-rcbt-sip"
   },
@@ -41187,7 +41187,7 @@
     "product_id": "54",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9995953162927044,
+    "probability": 0.9995968506265157,
     "session_id": "e144136171a5",
     "category": "Marketplace-rcbt-sip"
   },
@@ -41411,7 +41411,7 @@
     "product_id": "48",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9998766054240137,
+    "probability": 0.9974975496513168,
     "session_id": "bc20910d2692",
     "category": "Marketplace-rcbt-sip"
   },
@@ -41755,7 +41755,7 @@
     "product_id": "114",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9998625344853643,
+    "probability": 0.999999988929621,
     "session_id": "67dd7c2aa12e",
     "category": "Marketplace-rcbt-sip"
   },
@@ -43515,7 +43515,7 @@
     "product_id": "369",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9988092732407773,
+    "probability": 0.998850061880481,
     "session_id": "8116293de915",
     "category": "Marketplace-rcbt-sip"
   },
@@ -45435,7 +45435,7 @@
     "product_id": "21",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9987204928655371,
+    "probability": 0.9987249431242704,
     "session_id": "e2fe5747a112",
     "category": "RCBT-SIP"
   },
@@ -45443,7 +45443,7 @@
     "product_id": "21",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9988513286261541,
+    "probability": 0.9988553243460844,
     "session_id": "e2fe5747a112",
     "category": "RCBT-SIP"
   },
@@ -47739,7 +47739,7 @@
     "product_id": "18",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9988092732407773,
+    "probability": 0.9999999055917366,
     "session_id": "c23a3d45c7a4",
     "category": "Marketplace-rcbt-sip"
   },
@@ -47747,7 +47747,7 @@
     "product_id": "21",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.998931040497558,
+    "probability": 0.9989347592308371,
     "session_id": "c23a3d45c7a4",
     "category": "Marketplace-rcbt-sip"
   },
@@ -47755,7 +47755,7 @@
     "product_id": "22",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.998407892747674,
+    "probability": 0.9984812410321351,
     "session_id": "c23a3d45c7a4",
     "category": "Marketplace-rcbt-sip"
   },
@@ -48411,7 +48411,7 @@
     "product_id": "5",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9994405517930601,
+    "probability": 0.9999999535946077,
     "session_id": "ea4438a86135",
     "category": "RCBT-SIP"
   },
@@ -48419,7 +48419,7 @@
     "product_id": "5",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9994977950883686,
+    "probability": 0.999999958345239,
     "session_id": "ea4438a86135",
     "category": "RCBT-SIP"
   },
@@ -48811,7 +48811,7 @@
     "product_id": "164",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9985226103258387,
+    "probability": 0.938676732050474,
     "session_id": "39e2bd513cad",
     "category": "Marketplace-rcbt-sip"
   },
@@ -48979,7 +48979,7 @@
     "product_id": "111",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9986736536559553,
+    "probability": 0.9999998930594708,
     "session_id": "eb33d84ddc16",
     "category": "Marketplace-rcbt-sip"
   },
@@ -49163,7 +49163,7 @@
     "product_id": "156",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.973208333379055,
+    "probability": 0.9698399957490843,
     "session_id": "6f8054b1b20d",
     "category": "Marketplace-rcbt-sip"
   },
@@ -49171,7 +49171,7 @@
     "product_id": "115",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9988092732407773,
+    "probability": 0.9988682282246992,
     "session_id": "6f8054b1b20d",
     "category": "Marketplace-rcbt-sip"
   },
@@ -50315,7 +50315,7 @@
     "product_id": "165",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9990403674366753,
+    "probability": 0.9991714880518668,
     "session_id": "35993f73198e",
     "category": "Marketplace-rcbt-sip"
   },
@@ -50835,7 +50835,7 @@
     "product_id": "71",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9986736536559553,
+    "probability": 0.9999989465157948,
     "session_id": "6b922e3aac58",
     "category": "Marketplace-rcbt-sip"
   },
@@ -52235,7 +52235,7 @@
     "product_id": "45",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9995491838349304,
+    "probability": 0.9995790083403644,
     "session_id": "eda2310dc6fa",
     "category": "RCBT-SIP"
   },
@@ -52251,7 +52251,7 @@
     "product_id": "44",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9996367296867819,
+    "probability": 0.9970107045443584,
     "session_id": "eda2310dc6fa",
     "category": "RCBT-SIP"
   },
@@ -53139,7 +53139,7 @@
     "product_id": "165",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9994405517930601,
+    "probability": 0.9994535735970951,
     "session_id": "1edb4d830fe9",
     "category": "Marketplace-rcbt-sip"
   },
@@ -55067,7 +55067,7 @@
     "product_id": "5",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9990403674366753,
+    "probability": 0.9999999203680311,
     "session_id": "aaa036d14006",
     "category": "RCBT-SIP"
   },
@@ -55075,7 +55075,7 @@
     "product_id": "5",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9991385226972894,
+    "probability": 0.9999999285201464,
     "session_id": "aaa036d14006",
     "category": "RCBT-SIP"
   },
@@ -55515,7 +55515,7 @@
     "product_id": "19",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9990403674366753,
+    "probability": 0.9990543816363792,
     "session_id": "4ca85d500991",
     "category": "Home"
   },
@@ -57219,7 +57219,7 @@
     "product_id": "179",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9994405517930601,
+    "probability": 0.9999999549274714,
     "session_id": "478a7174891c",
     "category": "Marketplace-rcbt-sip"
   },
@@ -57307,7 +57307,7 @@
     "product_id": "151",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9983543946373641,
+    "probability": 0.9984623254428281,
     "session_id": "4e6c47e399b3",
     "category": "Marketplace-rcbt-sip"
   },
@@ -57315,7 +57315,7 @@
     "product_id": "153",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9985226103258387,
+    "probability": 0.9985229206266414,
     "session_id": "4e6c47e399b3",
     "category": "Marketplace-rcbt-sip"
   },
@@ -57323,7 +57323,7 @@
     "product_id": "164",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9986736536559553,
+    "probability": 0.9986864872368417,
     "session_id": "4e6c47e399b3",
     "category": "Marketplace-rcbt-sip"
   },
@@ -57667,7 +57667,7 @@
     "product_id": "178",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9985226103258387,
+    "probability": 0.9999998808631461,
     "session_id": "3aba38d579c8",
     "category": "Marketplace-rcbt-sip"
   },
@@ -57715,7 +57715,7 @@
     "product_id": "178",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9983543946373641,
+    "probability": 0.9985929248535677,
     "session_id": "529e38c84652",
     "category": "Marketplace-rcbt-sip"
   },
@@ -57795,7 +57795,7 @@
     "product_id": "574",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9991385226972894,
+    "probability": 0.9992023687549128,
     "session_id": "b318d2d774d9",
     "category": "Marketplace-rcbt-sip"
   },
@@ -57803,7 +57803,7 @@
     "product_id": "522",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9992266459961371,
+    "probability": 0.9992810727773154,
     "session_id": "b318d2d774d9",
     "category": "Marketplace-rcbt-sip"
   },
@@ -57811,7 +57811,7 @@
     "product_id": "517",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9993057611413573,
+    "probability": 0.9993072294166172,
     "session_id": "b318d2d774d9",
     "category": "Marketplace-rcbt-sip"
   },
@@ -57915,7 +57915,7 @@
     "product_id": "588",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9994405517930601,
+    "probability": 0.9994538585184807,
     "session_id": "5b3d3147c443",
     "category": "Marketplace-rcbt-sip"
   },
@@ -57939,7 +57939,7 @@
     "product_id": "547",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9995953162927044,
+    "probability": 0.9996007676943338,
     "session_id": "5b3d3147c443",
     "category": "Marketplace-rcbt-sip"
   },
@@ -58043,7 +58043,7 @@
     "product_id": "564",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9994977950883686,
+    "probability": 0.9995516062989721,
     "session_id": "a3a58f8b8dfc",
     "category": "Marketplace-rcbt-sip"
   },
@@ -58187,7 +58187,7 @@
     "product_id": "53",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9973949701147625,
+    "probability": 0.9956388268095677,
     "session_id": "84f3e6b4577b",
     "category": "Marketplace-rcbt-sip"
   },
@@ -58307,7 +58307,7 @@
     "product_id": "559",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9995953162927044,
+    "probability": 0.9996066842223006,
     "session_id": "fca67b5b7e04",
     "category": "Marketplace-rcbt-sip"
   },
@@ -58419,7 +58419,7 @@
     "product_id": "195",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9994405517930601,
+    "probability": 0.9999999534016613,
     "session_id": "e95c14369023",
     "category": "Marketplace-rcbt-sip"
   },
@@ -58771,7 +58771,7 @@
     "product_id": "166",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9993057611413573,
+    "probability": 0.9993184184944082,
     "session_id": "9ab9589da5ea",
     "category": "Marketplace-rcbt-sip"
   },
@@ -58787,7 +58787,7 @@
     "product_id": "151",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9994405517930601,
+    "probability": 0.9994445633832292,
     "session_id": "9ab9589da5ea",
     "category": "Marketplace-rcbt-sip"
   },
@@ -58931,7 +58931,7 @@
     "product_id": "238",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9995491838349304,
+    "probability": 0.9995501802686002,
     "session_id": "03ca09658880",
     "category": "Marketplace-rcbt-sip"
   },
@@ -59131,7 +59131,7 @@
     "product_id": "335",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9996739064148445,
+    "probability": 0.9996820461971957,
     "session_id": "9291341f9a51",
     "category": "Marketplace-rcbt-sip"
   },
@@ -59619,7 +59619,7 @@
     "product_id": "51",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9805330534715803,
+    "probability": 0.9803699761803807,
     "session_id": "6d171e71b126",
     "category": "Marketplace-rcbt-sip"
   },
@@ -59875,7 +59875,7 @@
     "product_id": "369",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9986736536559553,
+    "probability": 0.9987190820202547,
     "session_id": "214f835abf92",
     "category": "Marketplace-rcbt-sip"
   },
@@ -59891,7 +59891,7 @@
     "product_id": "368",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.998931040497558,
+    "probability": 0.9989676622809442,
     "session_id": "214f835abf92",
     "category": "Marketplace-rcbt-sip"
   },
@@ -59963,7 +59963,7 @@
     "product_id": "180",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9992266459961371,
+    "probability": 0.9992375739599753,
     "session_id": "f2386aa369ac",
     "category": "Marketplace-rcbt-sip"
   },
@@ -60451,7 +60451,7 @@
     "product_id": "117",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9990403674366753,
+    "probability": 0.999059774090616,
     "session_id": "c29dd41000cc",
     "category": "Marketplace-rcbt-sip"
   },
@@ -60459,7 +60459,7 @@
     "product_id": "4",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9991385226972894,
+    "probability": 0.988871168823996,
     "session_id": "c29dd41000cc",
     "category": "Marketplace-rcbt-sip"
   },
@@ -60659,7 +60659,7 @@
     "product_id": "22",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.998931040497558,
+    "probability": 0.9989597914528138,
     "session_id": "7099871b7b11",
     "category": "Marketplace-rcbt-sip"
   },
@@ -61219,7 +61219,7 @@
     "product_id": "116",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9983543946373641,
+    "probability": 0.9984066381749197,
     "session_id": "97a9915b540f",
     "category": "Marketplace-rcbt-sip"
   },
@@ -61251,7 +61251,7 @@
     "product_id": "22",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.998931040497558,
+    "probability": 0.9989483340289582,
     "session_id": "97a9915b540f",
     "category": "Marketplace-rcbt-sip"
   },
@@ -61259,7 +61259,7 @@
     "product_id": "10",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9990403674366753,
+    "probability": 0.9637801555942737,
     "session_id": "97a9915b540f",
     "category": "Marketplace-rcbt-sip"
   },
@@ -61267,7 +61267,7 @@
     "product_id": "17",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9991385226972894,
+    "probability": 0.9991434986686397,
     "session_id": "97a9915b540f",
     "category": "Marketplace-rcbt-sip"
   },
@@ -61275,7 +61275,7 @@
     "product_id": "16",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9992266459961371,
+    "probability": 0.9999999385467264,
     "session_id": "97a9915b540f",
     "category": "Marketplace-rcbt-sip"
   },
@@ -61379,7 +61379,7 @@
     "product_id": "115",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9990403674366753,
+    "probability": 0.9990878909876766,
     "session_id": "57c247df5c43",
     "category": "Marketplace-rcbt-sip"
   },
@@ -61443,7 +61443,7 @@
     "product_id": "22",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9988092732407773,
+    "probability": 0.9988285344018006,
     "session_id": "b89e591cc754",
     "category": "Marketplace-rcbt-sip"
   },
@@ -61467,7 +61467,7 @@
     "product_id": "45",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9991385226972894,
+    "probability": 0.9991566280583696,
     "session_id": "b89e591cc754",
     "category": "Marketplace-rcbt-sip"
   },
@@ -61627,7 +61627,7 @@
     "product_id": "179",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9991385226972894,
+    "probability": 0.9769380697668356,
     "session_id": "e745c811f2fb",
     "category": "Marketplace-rcbt-sip"
   },
@@ -61747,7 +61747,7 @@
     "product_id": "116",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9994405517930601,
+    "probability": 0.9994500964853645,
     "session_id": "67cb44cdfa6b",
     "category": "Marketplace-rcbt-sip"
   },
@@ -61755,7 +61755,7 @@
     "product_id": "155",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9994977950883686,
+    "probability": 0.9995456784728014,
     "session_id": "67cb44cdfa6b",
     "category": "Marketplace-rcbt-sip"
   },
@@ -61763,7 +61763,7 @@
     "product_id": "178",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9995491838349304,
+    "probability": 0.9995659336382776,
     "session_id": "67cb44cdfa6b",
     "category": "Marketplace-rcbt-sip"
   },
@@ -61907,7 +61907,7 @@
     "product_id": "177",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9993057611413573,
+    "probability": 0.999999942091395,
     "session_id": "a4c522177395",
     "category": "Marketplace-rcbt-sip"
   },
@@ -61915,7 +61915,7 @@
     "product_id": "193",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.999376787749712,
+    "probability": 0.9999999480872259,
     "session_id": "a4c522177395",
     "category": "Marketplace-rcbt-sip"
   },
@@ -62043,7 +62043,7 @@
     "product_id": "151",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9994405517930601,
+    "probability": 0.9994772817868539,
     "session_id": "9dc146d3eab3",
     "category": "Marketplace-rcbt-sip"
   },
@@ -62203,7 +62203,7 @@
     "product_id": "12",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9988092732407773,
+    "probability": 0.9988460249129016,
     "session_id": "849ce9f02222",
     "category": "Marketplace-rcbt-sip"
   },
@@ -62211,7 +62211,7 @@
     "product_id": "19",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.998931040497558,
+    "probability": 0.9990574076800364,
     "session_id": "849ce9f02222",
     "category": "Marketplace-rcbt-sip"
   },
@@ -62219,7 +62219,7 @@
     "product_id": "15",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9990403674366753,
+    "probability": 0.9999999207503817,
     "session_id": "849ce9f02222",
     "category": "Marketplace-rcbt-sip"
   },
@@ -62371,7 +62371,7 @@
     "product_id": "51",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9885627706930438,
+    "probability": 0.9884661682102471,
     "session_id": "4169506ab973",
     "category": "Marketplace-rcbt-sip"
   },
@@ -62419,7 +62419,7 @@
     "product_id": "57",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9995491838349304,
+    "probability": 0.999550944637184,
     "session_id": "4169506ab973",
     "category": "Marketplace-rcbt-sip"
   },
@@ -62539,7 +62539,7 @@
     "product_id": "18",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9995953162927044,
+    "probability": 0.9996108358826592,
     "session_id": "e799d0b7e688",
     "category": "Marketplace-rcbt-sip"
   },
@@ -62755,7 +62755,7 @@
     "product_id": "48",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9993057611413573,
+    "probability": 0.9860740754571007,
     "session_id": "5410c22fe8ad",
     "category": "Marketplace-rcbt-sip"
   },
@@ -63483,7 +63483,7 @@
     "product_id": "521",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9991385226972894,
+    "probability": 0.9991991464120817,
     "session_id": "09ed6ec5b98f",
     "category": "Marketplace-rcbt-sip"
   },
@@ -63579,7 +63579,7 @@
     "product_id": "528",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9991385226972894,
+    "probability": 0.9991418883912873,
     "session_id": "b9173568c67c",
     "category": "Marketplace-rcbt-sip"
   },
@@ -65323,7 +65323,7 @@
     "product_id": "180",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9985226103258387,
+    "probability": 0.9806602645263539,
     "session_id": "5c2a16a71081",
     "category": "Marketplace-rcbt-sip"
   },
@@ -65787,7 +65787,7 @@
     "product_id": "178",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9988092732407773,
+    "probability": 0.9999999040072286,
     "session_id": "19bdddae7fc5",
     "category": "Marketplace-rcbt-sip"
   },
@@ -66051,7 +66051,7 @@
     "product_id": "155",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9985226103258387,
+    "probability": 0.9985308208210029,
     "session_id": "48a8f1a11ac7",
     "category": "Marketplace-rcbt-sip"
   },
@@ -66067,7 +66067,7 @@
     "product_id": "166",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9988092732407773,
+    "probability": 0.9988185343972945,
     "session_id": "48a8f1a11ac7",
     "category": "Marketplace-rcbt-sip"
   },
@@ -66107,7 +66107,7 @@
     "product_id": "177",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9986736536559553,
+    "probability": 0.9999998892953395,
     "session_id": "3c2ac4da61d8",
     "category": "Marketplace-rcbt-sip"
   },
@@ -66123,7 +66123,7 @@
     "product_id": "153",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.998931040497558,
+    "probability": 0.9989491213086262,
     "session_id": "3c2ac4da61d8",
     "category": "Marketplace-rcbt-sip"
   },
@@ -66131,7 +66131,7 @@
     "product_id": "151",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9990403674366753,
+    "probability": 0.9990623517036405,
     "session_id": "3c2ac4da61d8",
     "category": "Marketplace-rcbt-sip"
   },
@@ -66139,7 +66139,7 @@
     "product_id": "195",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9991385226972894,
+    "probability": 0.9997683500833899,
     "session_id": "3c2ac4da61d8",
     "category": "Marketplace-rcbt-sip"
   },
@@ -66475,7 +66475,7 @@
     "product_id": "185",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9985226103258387,
+    "probability": 0.9985384928404344,
     "session_id": "6967e4eec875",
     "category": "Marketplace-rcbt-sip"
   },
@@ -68259,7 +68259,7 @@
     "product_id": "22",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9985226103258387,
+    "probability": 0.9985623306932168,
     "session_id": "8450a3945ef2",
     "category": "Marketplace-rcbt-sip"
   },
@@ -68307,7 +68307,7 @@
     "product_id": "178",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9985226103258387,
+    "probability": 0.9999998808631461,
     "session_id": "1dfe3e1f9b3a",
     "category": "Marketplace-rcbt-sip"
   },
@@ -69235,7 +69235,7 @@
     "product_id": "369",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9986736536559553,
+    "probability": 0.9987190820202547,
     "session_id": "9731e51e16b4",
     "category": "Marketplace-rcbt-sip"
   },
@@ -69243,7 +69243,7 @@
     "product_id": "368",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9988092732407773,
+    "probability": 0.998850061880481,
     "session_id": "9731e51e16b4",
     "category": "Marketplace-rcbt-sip"
   },
@@ -69291,7 +69291,7 @@
     "product_id": "104",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9985226103258387,
+    "probability": 0.9999998808631461,
     "session_id": "347b1b89bb55",
     "category": "Marketplace-rcbt-sip"
   },
@@ -69323,7 +69323,7 @@
     "product_id": "181",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.9990403674366753,
+    "probability": 0.9990493448490352,
     "session_id": "347b1b89bb55",
     "category": "Marketplace-rcbt-sip"
   },
@@ -69387,7 +69387,7 @@
     "product_id": "185",
     "true_label": 1,
     "predicted_label": 1,
-    "probability": 0.998931040497558,
+    "probability": 0.9989425368786428,
     "session_id": "7f3e8bb8594f",
     "category": "Marketplace-rcbt-sip"
   },
@@ -69507,7 +69507,7 @@
     "product_id": "115",
     "true_label": 0,
     "predicted_label": 1,
-    "probability": 0.9983543946373641,
+    "probability": 0.9984358361941219,
     "session_id": "afb91b7b9e77",
     "category": "Marketplace-rcbt-sip"
   },
