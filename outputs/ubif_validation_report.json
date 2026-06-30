@@ -1,8 +1,10 @@
 {
-  "total_records_processed": 43736,
-  "valid_records": 43736,
-  "rejected_records": 0,
-  "rejection_rate": 0.0,
-  "violation_summary": {},
-  "timestamp": "2026-06-30T14:14:51.772690"
+  "total_records_processed": 43843,
+  "valid_records": 43840,
+  "rejected_records": 3,
+  "rejection_rate": 6.842597449992017e-05,
+  "violation_summary": {
+    "Datetime out of range: 1970-01-01T00:00:00Z": 3
+  },
+  "timestamp": "2026-06-30T15:23:58.023163"
 }
