@@ -136,6 +136,64 @@ streamlit run metrics_dashboard.py
 streamlit run dashboard.py
 ```
 
+### Near Real-time Worker (API Polling)
+
+This project now includes a near real-time worker that polls an events API,
+normalizes incoming records to the pipeline schema, performs checkpoint/dedup,
+and runs incremental Phase 1 processing.
+
+1. Set API key in environment variable:
+
+```bash
+# Linux/macOS
+export RCBT_API_KEY="your_api_key_here"
+
+# Windows (PowerShell)
+$env:RCBT_API_KEY="your_api_key_here"
+```
+
+2. Run worker:
+
+```bash
+# Cross-platform
+python scripts/realtime_worker.py
+
+# Or pass API key directly (quick test)
+python scripts/realtime_worker.py --api-key "your_api_key_here"
+
+# Windows shortcut
+run_realtime_worker.bat
+
+# Linux/macOS shortcut
+./run_realtime_worker.sh
+```
+
+3. Optional tuning parameters:
+
+```bash
+python scripts/realtime_worker.py \
+  --poll-interval 2 \
+  --pipeline-min-interval 10 \
+  --pipeline-batch-size 200
+```
+
+4. One-cycle dry run:
+
+```bash
+python scripts/realtime_worker.py --once
+
+# One-cycle with direct API key
+python scripts/realtime_worker.py --once --api-key "your_api_key_here"
+```
+
+Worker outputs:
+
+- `output_raw.ndjson` append-only normalized raw events
+- `outputs/realtime_state.json` checkpoint + dedup state
+- `outputs/realtime_batches/` incremental batch files
+- `outputs/realtime/` latest incremental pipeline outputs
+- `outputs/realtime_UBLDF.ndjson` cumulative incremental UBLDF rows
+
 ---
 
 ## 🔧 Configuration
