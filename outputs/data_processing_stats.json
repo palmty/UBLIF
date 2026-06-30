@@ -1,33 +1,33 @@
 {
-  "total_input_records": 43736,
-  "valid_records": 43736,
-  "rejected_records": 0,
-  "output_records": 43736,
+  "total_input_records": 43843,
+  "valid_records": 43840,
+  "rejected_records": 3,
+  "output_records": 43840,
   "interest_distribution": {
     "interest": 25692,
-    "no_interest": 18044
+    "no_interest": 18148
   },
   "session_statistics": {
-    "total_records": 43736,
-    "total_sessions": 9423,
-    "avg_session_length": 4.641409317627082,
+    "total_records": 43840,
+    "total_sessions": 9443,
+    "avg_session_length": 4.642592396484168,
     "min_session_length": 1,
     "max_session_length": 128
   },
   "cleaning_statistics": {
-    "total_input": 104160,
-    "duplicates_removed": 2943,
+    "total_input": 104309,
+    "duplicates_removed": 2985,
     "test_accounts_removed": 0,
     "bot_traffic_removed": 0,
     "missing_service_id_removed": 57481,
-    "total_output": 43736
+    "total_output": 43843
   },
   "step_durations_seconds": {
-    "step_1_data_cleaning": 1.097904,
-    "step_2_ubif_validation": 0.39261,
-    "step_3_legal_compliance": 2.679844,
-    "step_4_interest_labeling": 1.237416,
-    "step_5_sessionization": 26.946765
+    "step_1_data_cleaning": 1.366438,
+    "step_2_ubif_validation": 0.355386,
+    "step_3_legal_compliance": 2.023942,
+    "step_4_interest_labeling": 1.173588,
+    "step_5_sessionization": 24.263188
   },
-  "generated_at": "2026-06-30T14:15:23.056431"
+  "generated_at": "2026-06-30T15:24:25.888851"
 }
