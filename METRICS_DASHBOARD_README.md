@@ -135,7 +135,7 @@ streamlit run metrics_dashboard.py --server.port 8502
 
 - **15+ Interactive Charts**: Line, Bar, Pie, Treemap, Heatmap, Histogram
 - **6 หมวดการวิเคราะห์**: Temporal, Behavioral, Session, Click Position, Anomaly Detection, Interest Prediction
-- **Real-time Analysis**: วิเคราะห์จากข้อมูลจริง 10,000 records จาก train.json
+- **Real-time Analysis**: วิเคราะห์จากข้อมูลจริง 10,000 records จาก UBLDF.json
 - **Advanced Visualizations**: Dual-axis charts, Color-coded patterns, Hover details
 - **Anomaly Detection**: ตรวจจับค่าผิดปกติด้วยวิธี IQR
 - **Behavioral Insights**: เข้าใจรูปแบบพฤติกรรมผู้ใช้เชิงลึก
@@ -175,7 +175,7 @@ streamlit run metrics_dashboard.py --server.port 8502
 Dashboard จะอ่านข้อมูลจาก:
 
 - **หลัก**: `outputs/data_processing_stats.json` (จำเป็น)
-- **Pattern Analysis**: `outputs/train.json` (ใหม่! สำหรับการวิเคราะห์ pattern)
+- **Pattern Analysis**: `outputs/UBLDF.json` (สำหรับการวิเคราะห์ pattern)
 - **เสริม**: `outputs/compliance_audit_log.json` (ไม่จำเป็น)
 - **เสริม**: `outputs/ubif_validation_report.json` (ไม่จำเป็น)
 

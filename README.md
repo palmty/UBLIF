@@ -1,21 +1,19 @@
-# Hybrid Recommendation System
+# Data Processing Pipeline (Phase 1)
 
-## (Apriori + Custom XGBoost)
-
-A comprehensive recommendation system combining association rule mining (Apriori) with custom gradient boosting prediction for user interest prediction.
+A data processing pipeline for user behavior data, focused on UBIF standard validation, Thai legal compliance, data cleaning, interest labeling, sessionization, and producing a unified labeled dataset (UBLDF).
 
 ---
 
 ## 📋 Overview
 
-This project implements a hybrid recommendation system that:
+This project implements **Phase 1: Data Processing**, which:
 
-- **Validates** data according to UBIF standards (ISO 8601, W3C584, RFC 791/2460, IEEE 802.1AR, ISO/IEC 20324:2012)
-- **Complies** with Thai laws (PDPA 2562, Computer Crime Act 2550)
-- **Processes** user behavior data with sessionization and feature extraction
-- **Trains** using Apriori algorithm to find association rules
-- **Predicts** user interest using custom gradient boosting formula
-- **Evaluates** model performance with comprehensive metrics and visualizations
+- **Validates** data according to UBIF standards (ISO 8601, W3C584, RFC 791/2460, IEEE 802.1AR, ISO/IEC 20324)
+- **Complies** with Thai laws (PDPA 2562, Computer Crime Act 2550, Cybersecurity Act 2562, and others)
+- **Cleans** data (duplicates, test accounts, bot traffic)
+- **Labels** user interest (based on event types)
+- **Sessionizes** events (30-minute window) and extracts features
+- **Outputs** a single unified labeled dataset (`UBLDF.json`)
 
 ---
 
@@ -26,27 +24,10 @@ This project implements a hybrid recommendation system that:
 - ✅ UBIF standard validation
 - ✅ Legal compliance (PDPA anonymization, security checks)
 - ✅ Data cleaning (duplicates, test accounts, bots)
-- ✅ Interest labeling (31 event types)
+- ✅ Interest labeling (event types)
 - ✅ Session creation (30-minute window)
 - ✅ Feature extraction (click position, session depth, etc.)
-- ✅ Temporal train/test split (80:20)
-
-### Model Training (Phase 2)
-
-- ✅ Transaction matrix creation from sessions
-- ✅ Apriori algorithm (min_support=0.015, min_confidence=0.60)
-- ✅ Association rule generation
-- ✅ Custom prediction formula (2-tree ensemble)
-- ✅ Model artifact export
-
-### Evaluation (Phase 3)
-
-- ✅ Test set evaluation
-- ✅ Comprehensive metrics (Accuracy, Precision, Recall, F1, ROC-AUC)
-- ✅ Error analysis
-- ✅ Cold start detection
-- ✅ Visualizations (confusion matrix, ROC curve, etc.)
-- ✅ HTML report generation
+- ✅ Unified labeled dataset output (`UBLDF.json`)
 
 ---
 
@@ -56,45 +37,34 @@ This project implements a hybrid recommendation system that:
 ACGI/
 ├── config.yaml                   # Configuration file
 ├── output_raw.ndjson            # Input data (NDJSON format)
-├── main.py                      # Main execution script
+├── main.py                      # Main execution script (Phase 1)
+├── metrics_dashboard.py         # Streamlit metrics + pattern dashboard
+├── dashboard.py                 # Streamlit data processing dashboard
 ├── requirements.txt             # Python dependencies
 ├── README.md                    # This file
 │
 ├── src/                         # Source code
 │   ├── __init__.py
 │   ├── phase1_data_processing.py     # Phase 1 pipeline
-│   ├── phase2_apriori_training.py    # Phase 2 pipeline
-│   ├── phase3_evaluation.py          # Phase 3 pipeline
-│   ├── custom_predictor.py           # Custom prediction model
 │   │
 │   └── utils/                        # Utility modules
 │       ├── __init__.py
 │       ├── ubif_validator.py         # UBIF validation
 │       ├── legal_compliance.py       # PDPA/legal compliance
-│       ├── data_cleaner.py           # Data cleaning
+│       ├── data_cleaner.py           # Data cleaning + interest labeling
 │       └── sessionizer.py            # Session creation
 │
-├── outputs/                     # Output files
-│   ├── train.json                    # Training data (80%)
-│   ├── test.json                     # Test data (20%)
-│   ├── rules.json                    # Apriori rules
-│   ├── model_config.json             # Model configuration
-│   ├── train_statistics.json         # Training statistics
-│   ├── train_evaluation.json         # Training metrics
-│   ├── test_predictions.json         # Test predictions
-│   ├── evaluation_metrics.json       # Test metrics
-│   ├── evaluation_report.html        # HTML report
-│   ├── ubif_validation_report.json   # Validation report
-│   └── data_processing_stats.json    # Processing stats
+├── scripts/                     # Helper scripts
+│   └── extract_standards_rejected_raw.py
 │
-├── visualizations/              # Generated visualizations
-│   ├── confusion_matrix.png
-│   ├── roc_curve.png
-│   ├── feature_importance.png
-│   └── prediction_distribution.png
-│
-└── tests/                       # Test suite (optional)
-    └── ...
+└── outputs/                     # Output files
+    ├── UBLDF.json                    # Unified labeled dataset (sessionized + features)
+    ├── ubif_validation_report.json   # Validation report
+    ├── compliance_audit_log.json     # Compliance audit log
+    ├── rejected_records.json         # Rejected records (sample)
+    ├── data_processing_stats.json    # Processing stats
+    ├── standards_rejected_raw.json   # Raw records rejected by standards
+    └── legal_flagged_samples.json    # Legal-flagged samples
 ```
 
 ---
@@ -109,11 +79,7 @@ ACGI/
 
 ### Setup
 
-1. **Clone or navigate to the project directory:**
-
-```bash
-cd /Users/lab1/Documents/ACGI
-```
+1. **Navigate to the project directory.**
 
 2. **Create and activate virtual environment:**
 
@@ -133,64 +99,42 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-4. **Verify installation:**
-
-```bash
-python -c "import pandas, numpy, mlxtend, networkx, sklearn; print('✓ All dependencies installed')"
-```
-
 ---
 
 ## 📖 Usage
 
-### Quick Start - Run All Phases
-
-Run the complete pipeline (all 3 phases):
+### Run Phase 1
 
 ```bash
-python main.py --phase all
-```
-
-### Run Individual Phases
-
-**Phase 1: Data Processing**
-
-```bash
-python main.py --phase 1
-```
-
-**Phase 2: Training**
-
-```bash
-python main.py --phase 2
-```
-
-**Phase 3: Evaluation**
-
-```bash
-python main.py --phase 3
+python main.py
 ```
 
 ### Custom Paths
 
 ```bash
 python main.py \
-    --phase all \
     --config /path/to/config.yaml \
     --input /path/to/output_raw.ndjson \
-    --output /path/to/outputs \
-    --viz /path/to/visualizations
+    --output /path/to/outputs
 ```
 
 ### Command Line Options
 
-| Option     | Description                       | Default             |
-| ---------- | --------------------------------- | ------------------- |
-| `--phase`  | Which phase to run (all, 1, 2, 3) | `all`               |
-| `--config` | Path to config.yaml               | `config.yaml`       |
-| `--input`  | Path to input NDJSON file         | `output_raw.ndjson` |
-| `--output` | Output directory                  | `outputs/`          |
-| `--viz`    | Visualizations directory          | `visualizations/`   |
+| Option     | Description               | Default             |
+| ---------- | ------------------------- | ------------------- |
+| `--config` | Path to config.yaml       | `config.yaml`       |
+| `--input`  | Path to input NDJSON file | `output_raw.ndjson` |
+| `--output` | Output directory          | `outputs/`          |
+
+### Dashboards
+
+```bash
+# Metrics + pattern analysis dashboard
+streamlit run metrics_dashboard.py
+
+# Data processing dashboard
+streamlit run dashboard.py
+```
 
 ---
 
@@ -223,22 +167,15 @@ ubif_filters:
 
 ### Key Parameters
 
-| Parameter          | Default | Description                        |
-| ------------------ | ------- | ---------------------------------- |
-| `min_support`      | 0.015   | Minimum support for Apriori (1.5%) |
-| `min_confidence`   | 0.60    | Minimum confidence for rules (60%) |
-| `min_lift`         | 1.5     | Minimum lift for rules             |
-| `max_len`          | 5       | Maximum itemset length             |
-| `session_window`   | 30      | Session timeout (minutes)          |
-| `train_test_split` | 0.8     | Train/test split ratio             |
+| Parameter        | Default | Description               |
+| ---------------- | ------- | ------------------------- |
+| `session_window` | 30      | Session timeout (minutes) |
 
 ---
 
 ## 📊 Output Files
 
-### Phase 1 Outputs
-
-**train.json** - Training data (80%)
+**UBLDF.json** - Unified labeled dataset (sessionized records with features)
 
 ```json
 [
@@ -249,110 +186,14 @@ ubif_filters:
     "timestamp": 1420114230,
     "click_position": 3,
     "session_depth": 8,
-    "previous_products": ["12", "15"],
-    ...
+    "previous_products": ["12", "15"]
   }
 ]
 ```
 
-**test.json** - Test data (20%)
+**data_processing_stats.json** - Processing metrics (input/valid/rejected counts, output records, interest distribution, cleaning breakdown).
 
-- Same structure as train.json
-
-### Phase 2 Outputs
-
-**rules.json** - Association rules
-
-```json
-{
-  "metadata": {
-    "algorithm": "apriori",
-    "total_rules": 1200,
-    "total_products": 500
-  },
-  "rules": [...]
-}
-```
-
-**model_config.json** - Model configuration
-
-```json
-{
-  "version": "1.0",
-  "prediction": {
-    "method": "custom_gradient_boosting",
-    "weights": {
-      "rule_matching": 0.45,
-      "session_features": 0.55
-    }
-  }
-}
-```
-
-### Phase 3 Outputs
-
-**evaluation_metrics.json** - Test metrics
-
-```json
-{
-  "test_metrics": {
-    "accuracy": 0.85,
-    "precision": 0.8,
-    "recall": 0.78,
-    "f1_score": 0.79,
-    "roc_auc": 0.88
-  }
-}
-```
-
-**evaluation_report.html** - Interactive HTML report
-
-- Open in browser for formatted results
-
----
-
-## 📈 Performance Expectations
-
-### Target Metrics
-
-- ✅ **Accuracy**: ≥ 85%
-- ✅ **Precision**: ≥ 80%
-- ✅ **Recall**: ≥ 78%
-- ✅ **F1-Score**: ≥ 79%
-- ✅ **ROC-AUC**: ≥ 85%
-
-### Processing Times (10K records)
-
-- **Phase 1**: ~10 minutes
-- **Phase 2**: ~15 minutes
-- **Phase 3**: ~5 minutes
-- **Total**: ~30 minutes
-
----
-
-## 🔬 Model Architecture
-
-### Custom Prediction Formula
-
-The model combines two weighted trees:
-
-**Tree 1: Rule Matching (50%)**
-
-- Matches previous products to association rules
-- Uses confidence × lift for scoring
-
-**Tree 2: Session Features (55%)**
-
-- Session duration, click position
-- Previous products count
-
-**Final Prediction:**
-
-```python
-score = 0.45 * f1 + 0.55 * f2
-probability = sigmoid(score)
-prediction = 1 if probability > 0.5 else 0
-```
+**ubif_validation_report.json** / **compliance_audit_log.json** - Validation and compliance audit details.
 
 ---
 
@@ -363,7 +204,6 @@ prediction = 1 if probability > 0.5 else 0
 - ✅ Account anonymization (SHA256)
 - ✅ IP address masking
 - ✅ Consent logging
-- ✅ Data retention policies
 
 ### Computer Crime Act 2550
 
@@ -374,72 +214,17 @@ prediction = 1 if probability > 0.5 else 0
 
 ---
 
-## 🐛 Troubleshooting
-
-### Common Issues
-
-**1. File size too large error**
-
-```
-Solution: The system handles large files via streaming.
-Ensure sufficient disk space (>2GB free).
-```
-
-**2. Memory error during processing**
-
-```
-Solution: Process data in smaller batches by modifying
-the batch size in phase1_data_processing.py
-```
-
-**3. No rules generated**
-
-```
-Solution: Lower min_support or min_confidence in config.yaml
-min_support: 0.01 (1%)
-min_confidence: 0.50 (50%)
-```
-
-**4. Module import errors**
+## 🧪 Validate Output Files
 
 ```bash
-# Reinstall dependencies
-pip install --upgrade -r requirements.txt
+# View first UBLDF record
+python -c "import json; print(json.load(open('outputs/UBLDF.json'))[0])"
+
+# Validate JSON
+python -c "import json; json.load(open('outputs/data_processing_stats.json')); print('✓ Valid JSON')"
 ```
 
-**5. Visualization errors**
-
-```bash
-# Check matplotlib backend
-python -c "import matplotlib; print(matplotlib.get_backend())"
-# If issues, set backend in code or install GUI backend
-```
-
----
-
-## 🧪 Testing
-
-### Run Unit Tests
-
-```bash
-# Not yet implemented
-pytest tests/
-```
-
-### Validate Output Files
-
-```bash
-python -c "import json; json.load(open('outputs/rules.json')); print('✓ Valid JSON')"
-```
-
-### Check Data Quality
-
-```bash
-# View first record
-python -c "import json; print(json.load(open('outputs/train.json'))[0])"
-```
-
----
+## .\run_metrics_dashboard.bat รัน dashbord
 
 ## 📚 API Reference
 
@@ -456,43 +241,6 @@ pipeline = DataProcessingPipeline(
 pipeline.run_full_pipeline()
 ```
 
-### Phase 2: Phase2Pipeline
-
-```python
-from src.phase2_apriori_training import Phase2Pipeline
-
-pipeline = Phase2Pipeline(
-    config_path='config.yaml',
-    train_path='outputs/train.json',
-    output_dir='outputs/'
-)
-pipeline.run_full_pipeline()
-```
-
-### Phase 3: Phase3Pipeline
-
-```python
-from src.phase3_evaluation import Phase3Pipeline
-
-pipeline = Phase3Pipeline(
-    test_path='outputs/test.json',
-    output_dir='outputs/',
-    viz_dir='visualizations/'
-)
-pipeline.run_full_pipeline()
-```
-
----
-
-## 🤝 Contributing
-
-This is an internal ACGI project. For modifications:
-
-1. Create a new branch
-2. Make changes
-3. Test thoroughly
-4. Submit for review
-
 ---
 
 ## 📝 License
@@ -502,59 +250,4 @@ Internal ACGI Project - Proprietary
 
 ---
 
-## 👥 Team
-
-**ACGI Project Team**
-
-- Data Science Team
-- Engineering Team
-- Compliance Team
-
----
-
-## 📞 Support
-
-For issues or questions:
-
-- Check the troubleshooting section
-- Review output logs in terminal
-- Contact the ACGI technical team
-
----
-
-## 🔄 Version History
-
-### Version 1.0 (2025-12-23)
-
-- ✅ Initial release
-- ✅ Complete 3-phase pipeline
-- ✅ UBIF validation
-- ✅ Legal compliance (PDPA, Computer Crime Act)
-- ✅ Apriori + Custom XGBoost
-- ✅ Comprehensive evaluation
-- ✅ Visualization suite
-
----
-
-## 🎯 Future Enhancements
-
-- [ ] Real-time prediction API
-- [ ] Database integration
-- [ ] Model retraining pipeline
-- [ ] A/B testing framework
-- [ ] Dashboard for monitoring
-- [ ] Mobile app integration
-
----
-
-**Happy Recommending! 🚀**
-
-Windows (PowerShell) shortcuts:
-
-- Run all: `python main.py --phase all`
-
-Note: On Windows, prefer `python` (or `py -3.12`) instead of `python3`.
-
-## ทดสอบ python ablation_report.py --config config.yaml --input "C:\Users\admin\Desktop\Parinya\ป.เอก\projuct\ACGI\output_raw.ndjson" > outputs\ablation_full.txt
-
-## เพิ่มกฎให้ plaintext email / missing fields กลายเป็น legal issues ที่นับใน Legal_flagged ด้วย
+Windows (PowerShell) note: prefer `python` (or `py -3.12`) instead of `python3`.

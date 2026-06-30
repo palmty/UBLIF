@@ -13,13 +13,12 @@ Dashboard แสดงผลการประมวลผลข้อมูล 
 
 ### แผนภูมิและสถิติ
 
-1. **Processing Overview**: ภาพรวมการประมวลผล (Valid vs Invalid, Train/Test split)
-2. **Interest Distribution**: การแจกแจงของ interest labels ใน train/test sets
+1. **Processing Overview**: ภาพรวมการประมวลผล (Valid vs Invalid, UBLDF output)
+2. **Interest Distribution**: การแจกแจงของ interest labels ใน UBLDF
 3. **Processing Timeline**: เวลาที่ใช้ในการประมวลผลแต่ละขั้นตอน
-4. **Model Evaluation**: ผลการประเมินโมเดล (Confusion Matrix, Performance Metrics)
-5. **Session Statistics**: สถิติเซสชันผู้ใช้
-6. **Record Flow (Full Breakdown)**: Raw input, removed by duplicate/test-admin/bot/missing serviceId/stop-word, Passed Algorithm 1, Failed Algorithm 2 by rule, Entered/Flagged Algorithm 3 by law, Final output
-7. **Runtime Pipeline + Definitions**: แสดงลำดับ pipeline ที่รันจริงตาม `stream_clean_first` และนิยาม `valid/rejected/removed/flagged/parsed`
+4. **Session Statistics**: สถิติเซสชันผู้ใช้
+5. **Record Flow (Full Breakdown)**: Raw input, removed by duplicate/test-admin/bot/missing serviceId/stop-word, Passed Algorithm 1, Failed Algorithm 2 by rule, Entered/Flagged Algorithm 3 by law, Final output
+6. **Runtime Pipeline + Definitions**: แสดงลำดับ pipeline ที่รันจริงตาม `stream_clean_first` และนิยาม `valid/rejected/removed/flagged/parsed`
 
 ## 🚀 วิธีการรัน Dashboard
 
@@ -79,7 +78,7 @@ Dashboard จะอ่านข้อมูลจากไฟล์ดังน�
 ### ไฟล์เสริม (ไม่จำเป็น)
 
 - `outputs/compliance_audit_log.json` - รายงานการตรวจสอบความปลอดภัย
-- `outputs/evaluation_metrics.json` - ผลการประเมินโมเดล
+- `outputs/ubif_validation_report.json` - รายงานการตรวจสอบมาตรฐาน UBIF
 
 หากไม่พบไฟล์เสริม dashboard จะแสดงเฉพาะข้อมูลที่มี
 

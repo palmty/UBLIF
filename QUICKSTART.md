@@ -1,61 +1,41 @@
-# QUICK START GUIDE
+# QUICK START GUIDE (Phase 1)
 
 ## 🚀 Quick Start (5 minutes)
 
 ### Windows (PowerShell)
 
 ```powershell
-cd "C:\\path\\to\\ACGI"
+cd "C:\path\to\ACGI"
 
 # Create venv
 py -3.12 -m venv .venv-win
 
 # Activate venv
-.\\.venv-win\\Scripts\\Activate.ps1
+.\.venv-win\Scripts\Activate.ps1
 
 # Install dependencies
 python -m pip install -r requirements.txt
 
-# Run all phases
-python main.py --phase all
+# Run Phase 1
+python main.py
 ```
 
 ---
 
 ### macOS / Linux
 
-### 1. Setup Environment
-
 ```bash
-cd /Users/lab1/Documents/ACGI
+cd /path/to/ACGI
 
-# Make setup script executable
-chmod +x setup.sh
+# Create and activate venv
+python3 -m venv .venv
+source .venv/bin/activate
 
-# Run setup
-./setup.sh
-```
+# Install dependencies
+pip install -r requirements.txt
 
-### 2. Activate Virtual Environment
-
-```bash
-source venv/bin/activate
-```
-
-### 3. Run the Pipeline
-
-```bash
-# Run all phases (30-60 minutes for full dataset)
-python main.py --phase all
-```
-
-### 4. View Results
-
-```bash
-# Open HTML report in browser
-open outputs/evaluation_report.html
-
-# Or check terminal output for metrics
+# Run Phase 1
+python main.py
 ```
 
 ---
@@ -67,18 +47,27 @@ After successful execution, you should see:
 ```
 ✓ Phase 1 completed successfully!
   - Valid records: ~8,000
-  - Train set: 80%
-  - Test set: 20%
+  - UBLDF output records: ~8,000
+```
 
-✓ Phase 2 completed successfully!
-  - Association rules: ~1,200
-  - Graph nodes: ~500
-  - Training accuracy: ~87%
+Output files are written to `outputs/`:
 
-✓ Phase 3 completed successfully!
-  - Test accuracy: ~85%
-  - F1-Score: ~79%
-  - Visualizations: 4 charts
+- `UBLDF.json`
+- `data_processing_stats.json`
+- `ubif_validation_report.json`, `compliance_audit_log.json`
+
+---
+
+## 📈 Dashboards
+
+```powershell
+# Metrics + pattern analysis dashboard
+.\run_metrics_dashboard.bat
+# or
+streamlit run metrics_dashboard.py
+
+# Data processing dashboard
+streamlit run dashboard.py
 ```
 
 ---
@@ -88,93 +77,41 @@ After successful execution, you should see:
 ### Issue: "Module not found"
 
 ```bash
-# Solution: Reinstall dependencies
 pip install --upgrade -r requirements.txt
-```
-
-### Issue: "Permission denied"
-
-```bash
-# Solution: Make scripts executable
-chmod +x setup.sh
-chmod +x main.py
 ```
 
 ### Issue: "File too large"
 
-```
-# Solution: System handles large files automatically
-# Ensure you have >2GB free disk space
-```
+The system handles large files via streaming. Ensure >2GB free disk space.
 
 ---
 
 ## 📁 Check Your Setup
-
-Verify directory structure:
-
-```bash
-tree -L 2
-```
-
-Should show:
 
 ```
 ACGI/
 ├── config.yaml
 ├── output_raw.ndjson
 ├── main.py
+├── metrics_dashboard.py
+├── dashboard.py
 ├── README.md
-├── setup.sh
 ├── requirements.txt
 ├── src/
 │   ├── phase1_data_processing.py
-│   ├── phase2_apriori_training.py
-│   ├── phase3_evaluation.py
 │   └── utils/
-├── outputs/ (created after Phase 1)
-└── visualizations/ (created after Phase 3)
+└── outputs/ (created after Phase 1)
 ```
 
 ---
 
 ## 🎯 Next Steps
 
-1. **Review Results**: Check `outputs/evaluation_report.html`
-2. **Analyze Predictions**: Review `outputs/test_predictions.json`
-3. **View Visualizations**: Check `visualizations/` folder
-4. **Adjust Parameters**: Modify `config.yaml` if needed
-5. **Re-run**: Try different configurations
-
----
-
-## 💡 Tips
-
-- **First run**: Use a smaller dataset to test
-- **Monitor progress**: Watch terminal for progress bars
-- **Check logs**: Review output files for detailed info
-- **Adjust thresholds**: Lower min_support if no rules found
-- **Memory issues**: Process in smaller batches
-
----
-
-## 📞 Need Help?
-
-1. Check `README.md` for detailed documentation
-2. Review troubleshooting section
-3. Check output logs for error messages
-4. Contact ACGI technical team
+1. **Review metrics**: Check `outputs/data_processing_stats.json`
+2. **Inspect validation**: Review `outputs/ubif_validation_report.json`
+3. **Launch dashboard**: `streamlit run metrics_dashboard.py`
+4. **Adjust parameters**: Modify `config.yaml` if needed
 
 ---
 
 **Ready to start! 🚀**
-
-# ใช้ .\ ข้างหน้า
-
-.\run_metrics_dashboard.bat
-
-# หรือใช้เส้นทางเต็ม
-
-& ".\run_metrics_dashboard.bat"
-
-cd "C:\Users\admin\Desktop\Parinya\ป.เอก\projuct\ACGI"

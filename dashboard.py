@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Streamlit Dashboard for PHASE 1: DATA PROCESSING PIPELINE และ EVALUATION
+Streamlit Dashboard for PHASE 1: DATA PROCESSING PIPELINE
 แสดงเมตริก: Valid Processed Records, Invalid Processed Records, Rejection Rate, Compliance Rate
 """
 
@@ -56,14 +56,6 @@ def load_data():
         data['stream_clean_first'] = 'stream_clean_first: true' in cfg_text.lower()
     except FileNotFoundError:
         data['stream_clean_first'] = False
-    
-    # โหลด evaluation metrics
-    try:
-        with open('outputs/evaluation_metrics.json', 'r', encoding='utf-8') as f:
-            data['evaluation_metrics'] = json.load(f)
-    except FileNotFoundError:
-        st.warning("ไม่พบไฟล์ evaluation_metrics.json")
-        data['evaluation_metrics'] = {}
     
     return data
 
@@ -175,8 +167,7 @@ def calculate_metrics(data):
         'invalid_processed_records': invalid_processed_records,
         'rejection_rate': rejection_rate,
         'compliance_rate': compliance_rate,
-        'train_records': processing_stats.get('train_records', 0),
-        'test_records': processing_stats.get('test_records', 0),
+        'output_records': processing_stats.get('output_records', 0),
         'total_sessions': processing_stats.get('session_statistics', {}).get('total_sessions', 0),
         'pdpa_anonymized': compliance_stats.get('pdpa_anonymized', 0),
         'threats_detected': compliance_stats.get('threats_detected', 0),
@@ -310,19 +301,19 @@ def create_processing_overview(data, metrics):
         st.plotly_chart(fig_pie, use_container_width=True)
     
     with col2:
-        # Bar chart สำหรับ Train/Test split
+        # Bar chart สำหรับจำนวน records ใน UBLDF output
         fig_bar = go.Figure(data=[
             go.Bar(
-                x=['Training Set', 'Test Set'],
-                y=[metrics['train_records'], metrics['test_records']],
-                marker_color=['#4682B4', '#FF6347'],
-                text=[f"{metrics['train_records']:,}", f"{metrics['test_records']:,}"],
+                x=['UBLDF Output Records', 'Total Sessions'],
+                y=[metrics['output_records'], metrics['total_sessions']],
+                marker_color=['#4682B4', '#9370DB'],
+                text=[f"{metrics['output_records']:,}", f"{metrics['total_sessions']:,}"],
                 textposition='auto'
             )
         ])
         fig_bar.update_layout(
-            title="Train/Test Data Split",
-            yaxis_title="Number of Records",
+            title="UBLDF Output Overview",
+            yaxis_title="Count",
             font=dict(size=14)
         )
         st.plotly_chart(fig_bar, use_container_width=True)
@@ -330,45 +321,34 @@ def create_processing_overview(data, metrics):
 def create_interest_distribution(data):
     """สร้างกราฟแสดงการแจกแจงของ Interest"""
     st.subheader("🎯 Interest Distribution")
-    
+
     processing_stats = data['processing_stats']
-    train_interest = processing_stats.get('train_interest_distribution', {})
-    test_interest = processing_stats.get('test_interest_distribution', {})
-    
+    interest_dist = processing_stats.get('interest_distribution', {})
+
     # สร้าง DataFrame สำหรับการแสดงผล
     df_interest = pd.DataFrame({
-        'Dataset': ['Training', 'Training', 'Test', 'Test'],
-        'Interest Type': ['Interest', 'No Interest', 'Interest', 'No Interest'],
+        'Interest Type': ['Interest', 'No Interest'],
         'Count': [
-            train_interest.get('interest', 0),
-            train_interest.get('no_interest', 0),
-            test_interest.get('interest', 0),
-            test_interest.get('no_interest', 0)
+            interest_dist.get('interest', 0),
+            interest_dist.get('no_interest', 0)
         ]
     })
-    
+
     fig_interest = px.bar(
-        df_interest, 
-        x='Dataset', 
-        y='Count', 
+        df_interest,
+        x='Interest Type',
+        y='Count',
         color='Interest Type',
-        title='Interest Distribution in Train/Test Sets',
+        title='Interest Distribution (UBLDF)',
         color_discrete_map={'Interest': '#2E8B57', 'No Interest': '#DC143C'}
     )
     fig_interest.update_layout(font=dict(size=14))
     st.plotly_chart(fig_interest, use_container_width=True)
-    
+
     # แสดงเปอร์เซ็นต์
-    col1, col2 = st.columns(2)
-    with col1:
-        train_total = train_interest.get('interest', 0) + train_interest.get('no_interest', 0)
-        train_interest_rate = (train_interest.get('interest', 0) / train_total * 100) if train_total > 0 else 0
-        st.metric("🎯 Training Interest Rate", f"{train_interest_rate:.2f}%")
-    
-    with col2:
-        test_total = test_interest.get('interest', 0) + test_interest.get('no_interest', 0)
-        test_interest_rate = (test_interest.get('interest', 0) / test_total * 100) if test_total > 0 else 0
-        st.metric("🎯 Test Interest Rate", f"{test_interest_rate:.2f}%")
+    total = interest_dist.get('interest', 0) + interest_dist.get('no_interest', 0)
+    interest_rate = (interest_dist.get('interest', 0) / total * 100) if total > 0 else 0
+    st.metric("🎯 Overall Interest Rate", f"{interest_rate:.2f}%")
 
 def create_processing_timeline(data):
     """สร้างแผนภูมิแสดงเวลาการประมวลผลแต่ละขั้นตอน"""
@@ -384,8 +364,7 @@ def create_processing_timeline(data):
             'step_3_legal_compliance': 'Legal Compliance',
             'step_4_interest_labeling': 'Interest Labeling',
             'step_5_sessionization': 'Sessionization',
-            'step_6_temporal_split': 'Temporal Split',
-            'step_7_save_outputs': 'Saving Outputs'
+            'step_6_save_outputs': 'Saving Outputs'
         }
         
         steps = []
@@ -423,59 +402,6 @@ def create_processing_timeline(data):
             longest_step = steps[np.argmax(durations)]
             st.metric("🔍 Longest Step", longest_step)
 
-def create_evaluation_metrics(data):
-    """สร้างแผนภูมิแสดงผลการประเมิน"""
-    st.subheader("🎯 Model Evaluation Metrics")
-    
-    eval_metrics = data.get('evaluation_metrics', {})
-    test_metrics = eval_metrics.get('test_metrics', {})
-    
-    if test_metrics:
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            # Confusion Matrix
-            confusion_matrix = test_metrics.get('confusion_matrix', [[0, 0], [0, 0]])
-            tn, fp, fn, tp = confusion_matrix[0][0], confusion_matrix[0][1], confusion_matrix[1][0], confusion_matrix[1][1]
-            
-            fig_cm = go.Figure(data=go.Heatmap(
-                z=[[tn, fp], [fn, tp]],
-                x=['Predicted No', 'Predicted Yes'],
-                y=['Actual No', 'Actual Yes'],
-                text=[[f'TN: {tn}', f'FP: {fp}'], [f'FN: {fn}', f'TP: {tp}']],
-                texttemplate="%{text}",
-                colorscale='Blues'
-            ))
-            fig_cm.update_layout(title="Confusion Matrix", font=dict(size=14))
-            st.plotly_chart(fig_cm, use_container_width=True)
-        
-        with col2:
-            # Performance Metrics
-            metrics_names = ['Accuracy', 'Precision', 'Recall', 'F1-Score', 'ROC-AUC']
-            metrics_values = [
-                test_metrics.get('accuracy', 0),
-                test_metrics.get('precision', 0),
-                test_metrics.get('recall', 0),
-                test_metrics.get('f1_score', 0),
-                test_metrics.get('roc_auc', 0)
-            ]
-            
-            fig_metrics = go.Figure([go.Bar(
-                x=metrics_names,
-                y=metrics_values,
-                marker_color=['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FECA57'],
-                text=[f"{v:.3f}" for v in metrics_values],
-                textposition='auto'
-            )])
-            
-            fig_metrics.update_layout(
-                title="Model Performance Metrics",
-                yaxis_title="Score",
-                yaxis=dict(range=[0, 1]),
-                font=dict(size=14)
-            )
-            st.plotly_chart(fig_metrics, use_container_width=True)
-
 def create_session_statistics(data):
     """สร้างสถิติเซสชัน"""
     st.subheader("🔄 Session Statistics")
@@ -501,7 +427,7 @@ def main():
     
     # Header
     st.title("📊 ACGI Data Processing Dashboard")
-    st.markdown("### PHASE 1: DATA PROCESSING PIPELINE และ EVALUATION")
+    st.markdown("### PHASE 1: DATA PROCESSING PIPELINE")
     
     # โหลดข้อมูล
     with st.spinner("กำลังโหลดข้อมูล..."):
@@ -528,7 +454,6 @@ def main():
     show_overview = st.sidebar.checkbox("แสดงภาพรวมการประมวลผล", True)
     show_interest = st.sidebar.checkbox("แสดงการแจกแจง Interest", True)
     show_timeline = st.sidebar.checkbox("แสดงเวลาการประมวลผล", True)
-    show_evaluation = st.sidebar.checkbox("แสดงผลการประเมินโมเดล", True)
     show_sessions = st.sidebar.checkbox("แสดงสถิติเซสชัน", True)
     show_record_flow = st.sidebar.checkbox("แสดง Record Flow แบบละเอียด", True)
     show_pipeline_definitions = st.sidebar.checkbox("แสดงลำดับ Pipeline และนิยามคำ", True)
@@ -549,10 +474,6 @@ def main():
     if show_timeline:
         st.markdown("---")
         create_processing_timeline(data)
-    
-    if show_evaluation and 'evaluation_metrics' in data:
-        st.markdown("---")
-        create_evaluation_metrics(data)
     
     if show_sessions:
         st.markdown("---")

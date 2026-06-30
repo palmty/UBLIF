@@ -51,16 +51,26 @@ def load_data():
     
     # โหลดข้อมูลสำหรับ pattern recognition
     try:
-        # โหลดข้อมูล train sample สำหรับการวิเคราะห์ pattern
-        with open('outputs/train.json', 'r', encoding='utf-8') as f:
+        # โหลดข้อมูล UBLDF sample สำหรับการวิเคราะห์ pattern
+        with open('outputs/UBLDF.json', 'r', encoding='utf-8') as f:
             # อ่านเฉพาะ 10,000 records แรกเพื่อประสิทธิภาพ
-            train_data = json.load(f)
-            data['train_sample'] = train_data[:10000] if len(train_data) > 10000 else train_data
+            ubldf_data = json.load(f)
+            data['train_sample'] = ubldf_data[:10000] if len(ubldf_data) > 10000 else ubldf_data
     except FileNotFoundError:
-        st.warning("⚠️ ไม่พบไฟล์ train.json สำหรับการวิเคราะห์ pattern")
+        st.warning("⚠️ ไม่พบไฟล์ UBLDF.json สำหรับการวิเคราะห์ pattern")
         data['train_sample'] = []
-    
+
     return data
+
+def haversine_km(lat1, lon1, lat2, lon2):
+    """คำนวณระยะทาง (กิโลเมตร) ระหว่างพิกัด 2 จุดแบบ vectorized"""
+    R = 6371.0  # รัศมีโลก (กม.)
+    lat1r = np.radians(lat1)
+    lat2r = np.radians(lat2)
+    dlat = np.radians(lat2 - lat1)
+    dlon = np.radians(lon2 - lon1)
+    a = np.sin(dlat / 2) ** 2 + np.cos(lat1r) * np.cos(lat2r) * np.sin(dlon / 2) ** 2
+    return 2 * R * np.arcsin(np.sqrt(a))
 
 def analyze_patterns(train_data):
     """วิเคราะห์ patterns จากข้อมูล training"""
@@ -131,7 +141,78 @@ def analyze_patterns(train_data):
             'outlier_count': len(session_durations[(session_durations < q25 - 1.5 * iqr) | (session_durations > q75 + 1.5 * iqr)]),
             'total_sessions': len(session_durations)
         }
-    
+        patterns['session_duration_series'] = session_durations.dropna()
+
+    # 7. Returning vs New Behavior (พฤติกรรมการกลับมา / ความคุ้นเคย)
+    if 'viewed_category_before' in df.columns and 'interest' in df.columns:
+        patterns['returning_behavior'] = (
+            df.groupby('viewed_category_before')['interest'].agg(['count', 'mean']).reset_index()
+        )
+
+    if 'category_view_count' in df.columns and 'interest' in df.columns:
+        patterns['category_view_count_patterns'] = (
+            df.groupby('category_view_count')['interest'].agg(['count', 'mean']).reset_index()
+        )
+
+    # 8. Session Journey (จังหวะภายในเซสชัน)
+    if 'time_since_last_click' in df.columns:
+        patterns['time_since_last_click'] = df['time_since_last_click'].dropna()
+
+    if 'previous_products' in df.columns:
+        patterns['previous_products_count'] = df['previous_products'].apply(
+            lambda x: len(x) if isinstance(x, (list, tuple)) else 0
+        )
+
+    # 9. Hour x Day-of-week Heatmap (ความหนาแน่นกิจกรรม 2 มิติ)
+    if 'hour_of_day' in df.columns and 'day_of_week' in df.columns:
+        patterns['hour_day_heatmap'] = df.pivot_table(
+            index='day_of_week', columns='hour_of_day', values='interest',
+            aggfunc='count', fill_value=0
+        )
+
+    # 10. Category x Service Type Heatmap
+    if 'category' in df.columns and 'service_type' in df.columns:
+        svc = df['service_type'].replace('', 'unknown').fillna('unknown')
+        patterns['category_service_heatmap'] = pd.crosstab(df['category'], svc)
+
+    # 11. Geographic (แผนที่ผู้ใช้ + ระยะทางถึงบริการ)
+    if 'user_lat' in df.columns and 'user_lon' in df.columns:
+        geo = pd.DataFrame({
+            'user_lat': pd.to_numeric(df['user_lat'], errors='coerce'),
+            'user_lon': pd.to_numeric(df['user_lon'], errors='coerce'),
+        })
+        if 'interest' in df.columns:
+            geo['interest'] = df['interest'].values
+        geo = geo.dropna(subset=['user_lat', 'user_lon'])
+        geo = geo[geo['user_lat'].between(-90, 90) & geo['user_lon'].between(-180, 180)]
+        # ตัดพิกัด (0,0) ที่มักเป็นค่าว่าง
+        geo = geo[~((geo['user_lat'] == 0) & (geo['user_lon'] == 0))]
+        if len(geo) > 0:
+            patterns['geo_points'] = geo.sample(min(3000, len(geo)), random_state=42)
+
+        if 'location' in df.columns:
+            svc_lat = pd.to_numeric(
+                df['location'].apply(lambda x: x.get('lat') if isinstance(x, dict) else np.nan),
+                errors='coerce'
+            )
+            svc_lon = pd.to_numeric(
+                df['location'].apply(lambda x: x.get('lon') if isinstance(x, dict) else np.nan),
+                errors='coerce'
+            )
+            u_lat = pd.to_numeric(df['user_lat'], errors='coerce')
+            u_lon = pd.to_numeric(df['user_lon'], errors='coerce')
+            dist = haversine_km(u_lat, u_lon, svc_lat, svc_lon)
+            dist = dist.replace([np.inf, -np.inf], np.nan).dropna()
+            dist = dist[dist >= 0]
+            if len(dist) > 0:
+                patterns['user_service_distance'] = dist
+
+    # 12. Top Services (บริการยอดนิยม)
+    if 'service_name' in df.columns:
+        ts = df['service_name'].replace('', np.nan).dropna()
+        if len(ts) > 0:
+            patterns['top_services'] = ts.value_counts().head(15)
+
     return patterns
     
     return data
@@ -492,12 +573,12 @@ def create_pattern_analysis(patterns):
         st.warning("⚠️ ไม่สามารถโหลดข้อมูลสำหรับการวิเคราะห์ pattern ได้")
         return
     
-    st.markdown("## 🔍 Pattern Recognition Analysis")
-    st.markdown("### การวิเคราะห์รูปแบบจาก DATA PROCESSING")
+    st.markdown("## Pattern Analysis Dashboard")
+    st.markdown("### Behavior pattern analysis from data processing")
     
     # 1. Temporal Patterns
     if 'hourly_activity' in patterns:
-        st.markdown("#### 🕐 Temporal Patterns (รูปแบบตามเวลา)")
+        st.markdown("####  Temporal Patterns ")
         
         col1, col2 = st.columns(2)
         
@@ -751,6 +832,257 @@ def create_pattern_analysis(patterns):
                     height=400
                 )
                 st.plotly_chart(fig_cat_interest, use_container_width=True)
+
+    # 7. Returning vs New Behavior (พฤติกรรมการกลับมา / ความคุ้นเคย)
+    if 'returning_behavior' in patterns or 'category_view_count_patterns' in patterns:
+        st.markdown("#### 🔁 Returning vs New Behavior (ความคุ้นเคยกับหมวด)")
+
+        col1, col2 = st.columns(2)
+
+        with col1:
+            if 'returning_behavior' in patterns:
+                rb = patterns['returning_behavior']
+                labels = {0: 'New (ไม่เคยดู)', 1: 'Returning (เคยดูแล้ว)'}
+                fig_rb = go.Figure()
+                fig_rb.add_trace(go.Bar(
+                    x=[labels.get(int(v), str(v)) for v in rb['viewed_category_before']],
+                    y=rb['count'],
+                    name='Activity Count',
+                    marker_color='lightsteelblue',
+                    text=[f"interest {rate:.1%}" for rate in rb['mean']],
+                    textposition='auto'
+                ))
+                fig_rb.update_layout(
+                    title="New vs Returning: Count & Interest Rate",
+                    xaxis_title="พฤติกรรม",
+                    yaxis_title="Activity Count",
+                    height=400
+                )
+                st.plotly_chart(fig_rb, use_container_width=True)
+
+        with col2:
+            if 'category_view_count_patterns' in patterns:
+                cvc = patterns['category_view_count_patterns'].sort_values('category_view_count').head(20)
+                fig_cvc = go.Figure()
+                fig_cvc.add_trace(go.Bar(
+                    x=cvc['category_view_count'],
+                    y=cvc['count'],
+                    name='Count',
+                    marker_color='lightgray'
+                ))
+                fig_cvc.add_trace(go.Scatter(
+                    x=cvc['category_view_count'],
+                    y=cvc['mean'],
+                    mode='lines+markers',
+                    name='Interest Rate',
+                    line=dict(color='crimson', width=3),
+                    yaxis='y2'
+                ))
+                fig_cvc.update_layout(
+                    title="Category View Count vs Interest Rate",
+                    xaxis_title="จำนวนครั้งที่ดูหมวดนี้",
+                    yaxis_title="Count",
+                    yaxis2=dict(title="Interest Rate", overlaying='y', side='right'),
+                    height=400
+                )
+                st.plotly_chart(fig_cvc, use_container_width=True)
+
+    # 8. Weekend vs Weekday (วันหยุด vs วันทำงาน)
+    if 'weekend_vs_weekday' in patterns:
+        st.markdown("#### 📅 Weekend vs Weekday (วันหยุด vs วันทำงาน)")
+        ww = patterns['weekend_vs_weekday']
+        labels = {0: 'Weekday', 1: 'Weekend'}
+
+        col1, col2 = st.columns(2)
+        with col1:
+            fig_ww = go.Figure([go.Bar(
+                x=[labels.get(int(v), str(v)) for v in ww['is_weekend']],
+                y=ww['count'],
+                marker_color=['#4C78A8', '#F58518'],
+                text=[f"{c:,}" for c in ww['count']],
+                textposition='auto'
+            )])
+            fig_ww.update_layout(title="Activity Count", yaxis_title="Count", height=350)
+            st.plotly_chart(fig_ww, use_container_width=True)
+        with col2:
+            fig_wwr = go.Figure([go.Bar(
+                x=[labels.get(int(v), str(v)) for v in ww['is_weekend']],
+                y=ww['mean'],
+                marker_color=['#4C78A8', '#F58518'],
+                text=[f"{r:.1%}" for r in ww['mean']],
+                textposition='auto'
+            )])
+            fig_wwr.update_layout(title="Interest Rate", yaxis_title="Interest Rate", height=350)
+            st.plotly_chart(fig_wwr, use_container_width=True)
+
+    # 9. Session Journey (การเดินทางภายในเซสชัน)
+    has_journey = any(k in patterns for k in [
+        'session_depth_distribution', 'time_since_last_click',
+        'session_duration_series', 'previous_products_count'
+    ])
+    if has_journey:
+        st.markdown("#### 🛒 Session Journey (การเดินทางภายในเซสชัน)")
+
+        col1, col2 = st.columns(2)
+
+        with col1:
+            # Funnel ตาม session depth
+            if 'session_depth_distribution' in patterns:
+                sd = patterns['session_depth_distribution'].sort_values('session_depth')
+                sd = sd[sd['session_depth'] >= 0].head(12)
+                fig_funnel = go.Figure(go.Funnel(
+                    y=[f"Depth {int(d)}" for d in sd['session_depth']],
+                    x=sd['count'],
+                    textinfo="value+percent initial"
+                ))
+                fig_funnel.update_layout(title="Session Depth Funnel (จุด drop-off)", height=400)
+                st.plotly_chart(fig_funnel, use_container_width=True)
+
+        with col2:
+            # Time since last click distribution
+            if 'time_since_last_click' in patterns:
+                tsc = patterns['time_since_last_click']
+                upper = tsc.quantile(0.95) if len(tsc) > 0 else 0
+                tsc_trim = tsc[tsc <= upper] if upper > 0 else tsc
+                fig_tsc = go.Figure([go.Histogram(
+                    x=tsc_trim, nbinsx=40, marker_color='mediumpurple'
+                )])
+                fig_tsc.update_layout(
+                    title="Time Since Last Click (ตัด 5% บนสุด)",
+                    xaxis_title="วินาที", yaxis_title="Frequency", height=400
+                )
+                st.plotly_chart(fig_tsc, use_container_width=True)
+
+        col3, col4 = st.columns(2)
+
+        with col3:
+            # Session duration distribution
+            if 'session_duration_series' in patterns:
+                sds = patterns['session_duration_series']
+                upper = sds.quantile(0.95) if len(sds) > 0 else 0
+                sds_trim = sds[sds <= upper] if upper > 0 else sds
+                fig_sds = go.Figure([go.Histogram(
+                    x=sds_trim, nbinsx=40, marker_color='teal'
+                )])
+                fig_sds.update_layout(
+                    title="Session Duration (นาที, ตัด 5% บนสุด)",
+                    xaxis_title="นาที", yaxis_title="Frequency", height=400
+                )
+                st.plotly_chart(fig_sds, use_container_width=True)
+
+        with col4:
+            # Previous products count
+            if 'previous_products_count' in patterns:
+                ppc = patterns['previous_products_count'].value_counts().sort_index().head(15)
+                fig_ppc = go.Figure([go.Bar(
+                    x=ppc.index.astype(str), y=ppc.values, marker_color='goldenrod'
+                )])
+                fig_ppc.update_layout(
+                    title="จำนวนสินค้าที่ดูก่อนหน้า (Previous Products)",
+                    xaxis_title="จำนวนสินค้าก่อนหน้า", yaxis_title="Count", height=400
+                )
+                st.plotly_chart(fig_ppc, use_container_width=True)
+
+    # 10. 2D Heatmaps
+    if 'hour_day_heatmap' in patterns or 'category_service_heatmap' in patterns:
+        st.markdown("#### 🔥 Activity Heatmaps (ความหนาแน่น 2 มิติ)")
+
+        if 'hour_day_heatmap' in patterns:
+            hm = patterns['hour_day_heatmap']
+            day_names = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+            y_labels = [day_names[int(d)] if 0 <= int(d) < 7 else f'Day {int(d)}' for d in hm.index]
+            fig_hd = go.Figure(data=go.Heatmap(
+                z=hm.values,
+                x=[f"{int(h):02d}" for h in hm.columns],
+                y=y_labels,
+                colorscale='YlOrRd',
+                colorbar=dict(title="Count")
+            ))
+            fig_hd.update_layout(
+                title="Activity Heatmap: Hour × Day of Week",
+                xaxis_title="Hour of Day", yaxis_title="Day of Week", height=380
+            )
+            st.plotly_chart(fig_hd, use_container_width=True)
+
+        if 'category_service_heatmap' in patterns:
+            cs = patterns['category_service_heatmap']
+            # จำกัด service type ที่พบบ่อยสุด 15 คอลัมน์ เพื่อให้อ่านง่าย
+            top_cols = cs.sum(axis=0).sort_values(ascending=False).head(15).index
+            cs = cs[top_cols]
+            fig_cs = go.Figure(data=go.Heatmap(
+                z=cs.values,
+                x=list(cs.columns),
+                y=list(cs.index),
+                colorscale='Blues',
+                colorbar=dict(title="Count")
+            ))
+            fig_cs.update_layout(
+                title="Category × Service Type Heatmap",
+                xaxis_title="Service Type", yaxis_title="Category",
+                xaxis={'tickangle': -45}, height=420
+            )
+            st.plotly_chart(fig_cs, use_container_width=True)
+
+    # 11. Geographic Patterns (ภูมิศาสตร์)
+    if 'geo_points' in patterns or 'user_service_distance' in patterns:
+        st.markdown("#### 🗺️ Geographic Patterns (การกระจายเชิงพื้นที่)")
+
+        if 'geo_points' in patterns:
+            geo = patterns['geo_points']
+            color_arg = 'interest' if 'interest' in geo.columns else None
+            fig_map = px.density_mapbox(
+                geo, lat='user_lat', lon='user_lon', radius=8,
+                center=dict(lat=geo['user_lat'].mean(), lon=geo['user_lon'].mean()),
+                zoom=4, mapbox_style='open-street-map',
+                title="User Location Density (ความหนาแน่นผู้ใช้)"
+            )
+            fig_map.update_layout(height=500, margin=dict(l=0, r=0, t=40, b=0))
+            st.plotly_chart(fig_map, use_container_width=True)
+
+            if color_arg:
+                interested = geo[geo['interest'] == 1]
+                if len(interested) > 0:
+                    fig_scatter = px.scatter_mapbox(
+                        interested, lat='user_lat', lon='user_lon',
+                        center=dict(lat=interested['user_lat'].mean(), lon=interested['user_lon'].mean()),
+                        zoom=4, mapbox_style='open-street-map',
+                        title="ตำแหน่งผู้ใช้ที่สนใจ (interest = 1)",
+                        opacity=0.5
+                    )
+                    fig_scatter.update_layout(height=500, margin=dict(l=0, r=0, t=40, b=0))
+                    st.plotly_chart(fig_scatter, use_container_width=True)
+
+        if 'user_service_distance' in patterns:
+            dist = patterns['user_service_distance']
+            upper = dist.quantile(0.95) if len(dist) > 0 else 0
+            dist_trim = dist[dist <= upper] if upper > 0 else dist
+            fig_dist = go.Figure([go.Histogram(
+                x=dist_trim, nbinsx=40, marker_color='seagreen'
+            )])
+            fig_dist.update_layout(
+                title="ระยะทางจากผู้ใช้ถึงบริการ (กม., ตัด 5% บนสุด)",
+                xaxis_title="ระยะทาง (กม.)", yaxis_title="Frequency", height=400
+            )
+            st.plotly_chart(fig_dist, use_container_width=True)
+            st.caption(
+                f"ระยะทางเฉลี่ย {dist.mean():.1f} กม. | มัธยฐาน {dist.median():.1f} กม. | "
+                f"สูงสุด {dist.max():.1f} กม."
+            )
+
+    # 12. Top Services (บริการยอดนิยม)
+    if 'top_services' in patterns:
+        st.markdown("#### 🏆 Top Services (บริการที่ถูกคลิกมากที่สุด)")
+        ts = patterns['top_services'].sort_values(ascending=True)
+        fig_ts = go.Figure([go.Bar(
+            x=ts.values, y=ts.index, orientation='h', marker_color='indianred',
+            text=[f"{v:,}" for v in ts.values], textposition='auto'
+        )])
+        fig_ts.update_layout(
+            title="Top 15 Services by Activity",
+            xaxis_title="Activity Count", yaxis_title="Service Name",
+            height=500
+        )
+        st.plotly_chart(fig_ts, use_container_width=True)
 
 def main():
     """ฟังก์ชันหลัก"""

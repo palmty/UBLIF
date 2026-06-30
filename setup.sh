@@ -1,8 +1,8 @@
 #!/bin/bash
-# Quick Setup Script for Hybrid Recommendation System
+# Quick Setup Script for Data Processing Pipeline (Phase 1)
 
 echo "╔══════════════════════════════════════════════════════════════╗"
-echo "║   Hybrid Recommendation System - Quick Setup                 ║"
+echo "║   Data Processing Pipeline (Phase 1) - Quick Setup           ║"
 echo "╚══════════════════════════════════════════════════════════════╝"
 echo ""
 
@@ -32,14 +32,12 @@ pip install -r requirements.txt
 # Verify installation
 echo ""
 echo "Verifying installation..."
-python3 -c "import pandas, numpy, mlxtend, networkx, sklearn, matplotlib, seaborn, yaml; print('✓ All dependencies installed successfully')"
+python3 -c "import pandas, numpy, yaml, tqdm, streamlit, plotly; print('✓ All dependencies installed successfully')"
 
 # Create directories (if not exist)
 echo ""
 echo "Creating directories..."
 mkdir -p outputs
-mkdir -p visualizations
-mkdir -p tests
 
 echo ""
 echo "╔══════════════════════════════════════════════════════════════╗"
@@ -48,6 +46,7 @@ echo "╚═══════════════════════�
 echo ""
 echo "Next steps:"
 echo "  1. Activate virtual environment: source venv/bin/activate"
-echo "  2. Run the pipeline: python3 main.py --phase all"
-echo "  3. View results in outputs/evaluation_report.html"
+echo "  2. Run Phase 1: python3 main.py"
+echo "  3. View metrics in outputs/data_processing_stats.json"
+echo "  4. Launch dashboard: streamlit run metrics_dashboard.py"
 echo ""

@@ -13,10 +13,9 @@
 
 ### 📈 แผนภูมิและสถิติเพิ่มเติม
 
-- **Processing Overview**: Pie chart (Valid vs Invalid), Bar chart (Train/Test split)
-- **Interest Distribution**: การแจกแจง Interest ใน Train/Test sets
+- **Processing Overview**: Pie chart (Valid vs Invalid), Bar chart (UBLDF output)
+- **Interest Distribution**: การแจกแจง Interest ใน UBLDF
 - **Processing Timeline**: เวลาการประมวลผลแต่ละขั้นตอน
-- **Model Evaluation**: Confusion Matrix, Performance Metrics
 - **Session Statistics**: สถิติเซสชันและข้อมูล
 
 ## 🚀 วิธีรัน Dashboard
@@ -95,10 +94,8 @@ chmod +x run_dashboard.sh
 ### Interactive Charts
 
 - **Pie charts** สำหรับ Valid/Invalid ratio
-- **Bar charts** สำหรับ Train/Test split และ Interest distribution
+- **Bar charts** สำหรับ UBLDF output และ Interest distribution
 - **Timeline chart** สำหรับ processing time analysis
-- **Heatmap** สำหรับ Confusion Matrix
-- **Performance metrics** แสดงเป็น bar chart
 
 ### Responsive Design
 
@@ -117,7 +114,7 @@ chmod +x run_dashboard.sh
 
 1. **ทดสอบ Dashboard**: รัน `run_dashboard.bat` เพื่อดู dashboard
 2. **ปรับแต่ง**: แก้ไข `dashboard.py` ตามความต้องการ
-3. **เพิ่มเมตริก**: เพิ่มเมตริกอื่นๆ จาก Phase 2 และ 3
+3. **เพิ่มเมตริก**: เพิ่มเมตริกอื่นๆ ของ Phase 1 ตามต้องการ
 4. **Deploy**: ใช้ Streamlit Cloud หรือ server สำหรับ production
 
 ## 💡 Tips

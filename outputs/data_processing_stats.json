@@ -2,15 +2,10 @@
   "total_input_records": 43736,
   "valid_records": 43736,
   "rejected_records": 0,
-  "train_records": 34988,
-  "test_records": 8748,
-  "train_interest_distribution": {
-    "interest": 21142,
-    "no_interest": 13846
-  },
-  "test_interest_distribution": {
-    "interest": 4550,
-    "no_interest": 4198
+  "output_records": 43736,
+  "interest_distribution": {
+    "interest": 25692,
+    "no_interest": 18044
   },
   "session_statistics": {
     "total_records": 43736,
@@ -28,12 +23,11 @@
     "total_output": 43736
   },
   "step_durations_seconds": {
-    "step_1_data_cleaning": 0.888352,
-    "step_2_ubif_validation": 0.289609,
-    "step_3_legal_compliance": 1.511124,
-    "step_4_interest_labeling": 0.941376,
-    "step_5_sessionization": 21.26657,
-    "step_6_temporal_split": 0.072976
+    "step_1_data_cleaning": 1.097904,
+    "step_2_ubif_validation": 0.39261,
+    "step_3_legal_compliance": 2.679844,
+    "step_4_interest_labeling": 1.237416,
+    "step_5_sessionization": 26.946765
   },
-  "generated_at": "2026-05-15T17:50:10.810737"
+  "generated_at": "2026-06-30T14:15:23.056431"
 }

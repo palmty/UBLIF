@@ -36,9 +36,9 @@ class DataProcessingPipeline:
         
         # Initialize modules
         print("Initializing modules...")
+        self.data_cleaner = DataCleaner(config_path)
         self.ubif_validator = UBIFValidator(config_path)
         self.compliance_engine = ComplianceEngine(config_path)
-        self.data_cleaner = DataCleaner(config_path)
         self.interest_labeler = InterestLabeler(config_path)
         self.sessionizer = Sessionizer(window_minutes=30)
         self.feature_extractor = SessionFeatureExtractor()
@@ -311,99 +311,49 @@ class DataProcessingPipeline:
         print(f"  - Max session length: {session_stats['max_session_length']}")
         return featured_df
     
-    def step_6_temporal_split(self, df, 
-                             split_ratio: float = 0.8) -> tuple:
+    def step_6_save_outputs(self, df) -> None:
         """
-        Step 1.6: Temporal Train/Test Split
-        
+        Step 1.6: Save Output File (UBLDF)
+
         Args:
             df: Sessionized DataFrame with features
-            split_ratio: Train/test split ratio (default: 0.8)
-            
-        Returns:
-            (train_df, test_df)
         """
-        print("\n=== STEP 1.6: TEMPORAL SPLIT ===")
+        print("\n=== STEP 1.6: SAVING OUTPUTS ===")
 
         import pandas as pd
 
-        if df is None or len(df) == 0 or 'timestamp' not in df.columns:
-            print("⚠ No usable timestamp column; skipping temporal split.")
-            empty_df = pd.DataFrame()
-            return empty_df, empty_df
-        
-        # Sort by timestamp
-        df = df.sort_values('timestamp').reset_index(drop=True)
-        
-        # Calculate split index
-        split_idx = int(len(df) * split_ratio)
-        
-        train_df = df.iloc[:split_idx]
-        test_df = df.iloc[split_idx:]
-        
-        # Validate split
-        if not train_df.empty and not test_df.empty:
-            train_start = datetime.fromtimestamp(train_df.iloc[0]['timestamp'])
-            train_end = datetime.fromtimestamp(train_df.iloc[-1]['timestamp'])
-            test_start = datetime.fromtimestamp(test_df.iloc[0]['timestamp'])
-            test_end = datetime.fromtimestamp(test_df.iloc[-1]['timestamp'])
-            
-            print(f"✓ Train set: {len(train_df)} records")
-            print(f"  - Date range: {train_start} to {train_end}")
-            
-            print(f"✓ Test set: {len(test_df)} records")
-            print(f"  - Date range: {test_start} to {test_end}")
-            
-            # Check class balance
-            train_interest = (train_df['interest'] == 1).sum()
-            test_interest = (test_df['interest'] == 1).sum()
-            
-            print(f"  - Train interest rate: {train_interest / len(train_df):.2%}")
-            print(f"  - Test interest rate: {test_interest / len(test_df):.2%}")
-        
-        return train_df, test_df
-    
-    def step_7_save_outputs(self, train_df, test_df) -> None:
-        """
-        Step 1.7: Save Output Files
-        
-        Args:
-            train_df: Training DataFrame
-            test_df: Testing DataFrame
-        """
-        print("\n=== STEP 1.7: SAVING OUTPUTS ===")
-        
-        # Save train.json
-        train_path = os.path.join(self.output_dir, 'train.json')
-        train_df.to_json(train_path, orient='records', force_ascii=False, indent=2)
-        print(f"✓ Saved {train_path}")
-        
-        # Save test.json
-        test_path = os.path.join(self.output_dir, 'test.json')
-        test_df.to_json(test_path, orient='records', force_ascii=False, indent=2)
-        print(f"✓ Saved {test_path}")
-        
+        if df is None or len(df) == 0:
+            print("⚠ No records to save.")
+            df = pd.DataFrame()
+
+        # Sort by timestamp (if available) for stable ordering
+        if 'timestamp' in df.columns:
+            df = df.sort_values('timestamp').reset_index(drop=True)
+
+        # Save UBLDF.json (full sessionized dataset)
+        ubldf_path = os.path.join(self.output_dir, 'UBLDF.json')
+        df.to_json(ubldf_path, orient='records', force_ascii=False, indent=2)
+        print(f"✓ Saved {ubldf_path} ({len(df)} records)")
+
+        interest_interested = int((df['interest'] == 1).sum()) if 'interest' in df.columns else 0
+        interest_not = int((df['interest'] == 0).sum()) if 'interest' in df.columns else 0
+
         # Generate and save processing stats
         stats = {
             'total_input_records': self.ubif_validator.stats['total_processed'],
             'valid_records': self.ubif_validator.stats['valid'],
             'rejected_records': self.ubif_validator.stats['rejected'],
-            'train_records': len(train_df),
-            'test_records': len(test_df),
-            'train_interest_distribution': {
-                'interest': int((train_df['interest'] == 1).sum()),
-                'no_interest': int((train_df['interest'] == 0).sum())
-            },
-            'test_interest_distribution': {
-                'interest': int((test_df['interest'] == 1).sum()),
-                'no_interest': int((test_df['interest'] == 0).sum())
+            'output_records': len(df),
+            'interest_distribution': {
+                'interest': interest_interested,
+                'no_interest': interest_not
             },
             'session_statistics': self.sessionizer.get_stats(),
             'cleaning_statistics': self.data_cleaner.get_stats(),
             'step_durations_seconds': self.step_durations,
             'generated_at': datetime.now().isoformat()
         }
-        
+
         stats_path = os.path.join(self.output_dir, 'data_processing_stats.json')
         with open(stats_path, 'w', encoding='utf-8') as f:
             json.dump(stats, f, indent=2, ensure_ascii=False)
@@ -461,20 +411,13 @@ class DataProcessingPipeline:
         t2 = datetime.now()
         self.step_durations['step_5_sessionization'] = (t2 - t1).total_seconds()
         print(f"⏱ Step 5 time: {self.step_durations['step_5_sessionization']:.2f} s")
-        
-        # Step 6: Temporal Split
+
+        # Step 6: Save Outputs (UBLDF)
         t1 = datetime.now()
-        train_df, test_df = self.step_6_temporal_split(sessionized_df)
+        self.step_6_save_outputs(sessionized_df)
         t2 = datetime.now()
-        self.step_durations['step_6_temporal_split'] = (t2 - t1).total_seconds()
-        print(f"⏱ Step 6 time: {self.step_durations['step_6_temporal_split']:.2f} s")
-        
-        # Step 7: Save Outputs
-        t1 = datetime.now()
-        self.step_7_save_outputs(train_df, test_df)
-        t2 = datetime.now()
-        self.step_durations['step_7_save_outputs'] = (t2 - t1).total_seconds()
-        print(f"⏱ Step 7 time: {self.step_durations['step_7_save_outputs']:.2f} s")
+        self.step_durations['step_6_save_outputs'] = (t2 - t1).total_seconds()
+        print(f"⏱ Step 6 time: {self.step_durations['step_6_save_outputs']:.2f} s")
         
         end_time = datetime.now()
         duration = (end_time - start_time).total_seconds()

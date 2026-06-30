@@ -131,7 +131,7 @@ run_metrics_dashboard.bat
 
 ## 📊 ข้อมูลที่ใช้วิเคราะห์
 
-- **Source**: `outputs/train.json` (10,000 records แรก)
+- **Source**: `outputs/UBLDF.json` (10,000 records แรก)
 - **Fields**: timestamp, hour_of_day, day_of_week, event_type, category, service_type, session_depth, click_position, interest, etc.
 - **Processing**: Real-time analysis จากข้อมูลจริง
 
